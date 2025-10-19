@@ -11,6 +11,9 @@ class Player extends Model
     /** @use HasFactory<\Database\Factories\PlayerFactory> */
     use HasFactory;
 
+    /**
+     * @return BelongsTo<User, $this>
+     */
     public function user(): BelongsTo
     {
         return $this->belongsTo(User::class);
