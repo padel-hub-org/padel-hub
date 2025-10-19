@@ -1,6 +1,6 @@
 // https://aka.ms/devcontainer.json
 {
-	"name": "Existing Docker Compose (Extend)",
+	"name": "Padel Hub",
 	"dockerComposeFile": [
 		"../compose.yaml"
 	],
@@ -9,12 +9,17 @@
 	"customizations": {
 		"vscode": {
 			"extensions": [
-				// "laravel.vscode-laravel",
-				// "mikestead.dotenv",
-				// "amiralizadeh9480.laravel-extra-intellisense",
-				// "ryannaddy.laravel-artisan",
-				// "onecentlin.laravel5-snippets",
-				// "onecentlin.laravel-blade"
+				"laravel.vscode-laravel",
+				"mikestead.dotenv",
+				"bmewburn.vscode-intelephense-client",
+				"tombonnike.vscode-status-bar-format-toggle",
+				"esbenp.prettier-vscode",
+				"YoavBls.pretty-ts-errors",
+				"SanderRonde.phpstan-vscode",
+				"pflannery.vscode-versionlens",
+				"eamodio.gitlens",
+				"GitHub.copilot",
+				"GitHub.copilot-chat"
 			],
 			"settings": {}
 		}
