@@ -12,7 +12,11 @@
         "php": "^8.2",
         "inertiajs/inertia-laravel": "^2.0",
         "laravel/framework": "^12.0",
-        "laravel/tinker": "^2.10.1"
+        "laravel/tinker": "^2.10.1",
+        "laravel/wayfinder": "^0.1.12",
+        "spatie/enum": "^3.13",
+        "spatie/laravel-typescript-transformer": "^2.5",
+        "spatie/typescript-transformer": "^2.5"
     },
     "require-dev": {
         "barryvdh/laravel-debugbar": "^3.16",

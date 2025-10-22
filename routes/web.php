@@ -8,4 +8,4 @@ Route::get('/', function () {
     return Inertia::render('Home', ['name' => 'Developer']);
 });
 
-Route::resource('players', PlayerController::class);
+Route::resource('players', PlayerController::class)->except(["show"]);
