@@ -4,15 +4,19 @@
     "type": "module",
     "scripts": {
         "build": "vite build",
-        "dev": "vite"
+        "dev": "vite",
+        "svelte-check": "svelte-check"
     },
     "devDependencies": {
+        "@laravel/vite-plugin-wayfinder": "^0.1.7",
         "@sveltejs/vite-plugin-svelte": "^6.2.1",
         "laravel-vite-plugin": "^2.0.0",
+        "svelte-check": "^4.3.3",
         "vite": "^7.0.7"
     },
     "dependencies": {
         "@inertiajs/svelte": "^2.2.8",
-        "svelte": "^5.41.0"
+        "svelte": "^5.41.0",
+        "typescript": "^5.9.3"
     }
 }

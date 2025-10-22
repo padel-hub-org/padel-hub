@@ -11,7 +11,7 @@ class UpdatePlayerRequest extends FormRequest
      */
     public function authorize(): bool
     {
-        return false;
+        return true;
     }
 
     /**
@@ -22,6 +22,7 @@ class UpdatePlayerRequest extends FormRequest
     public function rules(): array
     {
         return [
+            "name" => ["string", "required", "max:255"]
             //
         ];
     }
