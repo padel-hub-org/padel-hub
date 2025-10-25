@@ -1,6 +1,8 @@
 {
   // Visit https://aka.ms/tsconfig to read more about this file
   "compilerOptions": {
+    "types": ["vite/client"],
+    "allowImportingTsExtensions": true,
     // File Layout
     // "rootDir": "./src",
     // "outDir": "./dist",
@@ -8,11 +10,12 @@
     // See also https://aka.ms/tsconfig/module
     "module": "nodenext",
     "target": "esnext",
-    "types": [],
     "paths": {
-        "@/*": ["resources/*"]
+        "@/*": ["resources/js/*"],
+        "$lib": ["./resources/js/lib"],
+        "$lib/*": ["./resources/js/lib/*"]
     },
-    "baseUrl": "./",
+    "baseUrl": ".",
     "include": "resources/**/*",
     // For nodejs:
     // "lib": ["esnext"],

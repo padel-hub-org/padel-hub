@@ -5,7 +5,7 @@ use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
 
 Route::get('/', function () {
-    return Inertia::render('Home', ['name' => 'Developer']);
+    return Inertia::render('home', ['name' => 'Developer']);
 });
 
 Route::resource('players', PlayerController::class)->except(["show"]);

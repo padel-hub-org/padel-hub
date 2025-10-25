@@ -1,6 +1,11 @@
 <script lang="ts">
-    import { Form, Link } from "@inertiajs/svelte";
-    import { create, destroy, edit } from "@/actions/App/Http/Controllers/PlayerController";
+    import { Button } from "$lib/components/ui/button/index.ts";
+    import { Link, router } from "@inertiajs/svelte";
+    import {
+        create,
+        destroy,
+        edit,
+    } from "@/actions/App/Http/Controllers/PlayerController";
     interface Props {
         players: App.Models.Player[];
     }
@@ -8,14 +13,33 @@
     let { players }: Props = $props();
 </script>
 
-<div>
-    <Link href={create()}>Create Player</Link>
+<div class="page">
+    <Button class="button" variant={"outline"} href={create().url}
+        >Create player</Button
+    >
     <ul>
         {#each players as player}
             <li>
-                <Link href={edit(player)}>{player.name}</Link>
+                <Button href={edit(player).url}>{player.name}</Button>
+                <Button
+                    class="cursor-pointer"
+                    onclick={() => {
+                        router.delete(destroy(player));
+                    }}>Remove player</Button
+                >
             </li>
-            <Link href={destroy(player)} as="button">Remove Player</Link>
         {/each}
     </ul>
 </div>
+
+<style>
+    .page :global(.button) {
+        margin: 1rem;
+    }
+
+    li {
+        margin: 1rem;
+        display: flex;
+        gap: 1rem;
+    }
+</style>
