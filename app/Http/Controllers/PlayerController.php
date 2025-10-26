@@ -16,8 +16,9 @@ class PlayerController extends Controller
      */
     public function index(): Response
     {
-        $players = Player::query()->orderBy("name")->get();
-        return Inertia::render('players/index', ["players" => $players]);
+        $players = Player::query()->orderBy('name')->get();
+
+        return Inertia::render('players/index', ['players' => $players]);
     }
 
     /**
@@ -34,7 +35,8 @@ class PlayerController extends Controller
     public function store(StorePlayerRequest $request): RedirectResponse
     {
         Player::create($request->validated());
-        return redirect()->route("players.index");
+
+        return redirect()->route('players.index');
     }
 
     /**
@@ -42,7 +44,7 @@ class PlayerController extends Controller
      */
     public function edit(Player $player): Response
     {
-        return Inertia::render('players/edit', ["player" => $player]);
+        return Inertia::render('players/edit', ['player' => $player]);
     }
 
     /**
@@ -51,7 +53,8 @@ class PlayerController extends Controller
     public function update(UpdatePlayerRequest $request, Player $player): RedirectResponse
     {
         $player->update($request->validated());
-        return redirect()->route("players.index");
+
+        return redirect()->route('players.index');
     }
 
     /**
@@ -60,6 +63,7 @@ class PlayerController extends Controller
     public function destroy(Player $player): RedirectResponse
     {
         $player->delete();
+
         return back();
     }
 }

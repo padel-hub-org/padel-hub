@@ -16,12 +16,6 @@ class User extends Authenticatable
 
     use Notifiable;
 
-    // public ?int $id = null;
-
-    public string $name;
-
-    public string $email;
-
     /**
      * The attributes that are mass assignable.
      *
@@ -53,7 +47,6 @@ class User extends Authenticatable
         return [
             'email_verified_at' => 'datetime',
             'password' => 'hashed',
-            'google_access_token' => 'encrypted',
         ];
     }
 
