@@ -1,5 +1,4 @@
 <script lang="ts">
-    import { inertia } from "@inertiajs/svelte";
     import { Button } from "$lib/components/ui/button";
     import { index } from "@/actions/App/Http/Controllers/PlayerController";
 
@@ -29,5 +28,4 @@
     .app {
         max-width: 600px;
     }
-    /* your styles go here */
 </style>

@@ -1,13 +1,14 @@
 <script lang="ts">
     import { Button } from "$lib/components/ui/button/index.ts";
-    import { Link, router } from "@inertiajs/svelte";
+    import { router } from "@inertiajs/svelte";
     import {
         create,
         destroy,
         edit,
     } from "@/actions/App/Http/Controllers/PlayerController";
+    import type { Player } from "@/types/Player";
     interface Props {
-        players: App.Models.Player[];
+        players: Player[];
     }
 
     let { players }: Props = $props();

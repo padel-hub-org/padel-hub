@@ -1,0 +1,37 @@
+name: Laravel
+
+on:
+  pull_request:
+    branches: ["main"]
+
+permissions:
+  contents: read
+
+jobs:
+  laravel-checks:
+    name: Larastan / Pint / npm / Tests
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: shivammathur/setup-php@v2
+        with:
+          php-version: "8.4"
+      - uses: actions/checkout@v4
+      - name: Install Dependencies
+        run: composer install -q --no-ansi --no-interaction --no-scripts --no-progress --prefer-dist
+      - name: Directory Permissions
+        run: chmod -R 777 storage bootstrap/cache
+      - name: Copy .env.testing to .env
+        run: cp .env.testing .env
+      - name: Larastan
+        run: ./vendor/bin/phpstan analyse
+      - name: Pint
+        run: ./vendor/bin/pint --test
+      - name: npm install
+        run: npm ci
+      - name: npm run build
+        run: npm run build
+      - name: svelte-check
+        run: npm run svelte-check
+      - name: Execute tests (Unit and Feature tests) via PHPUnit/Pest
+        run: php artisan test

@@ -1,6 +1,6 @@
 declare namespace App.Models {
 export type Player = {
-id: number;
+id: number | null;
 name: string;
 rating: number;
 incrementing: boolean;
@@ -11,6 +11,7 @@ timestamps: boolean;
 usesUniqueIds: boolean;
 };
 export type User = {
+id: number | null;
 name: string;
 email: string;
 incrementing: boolean;

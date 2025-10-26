@@ -19,7 +19,8 @@
 				"pflannery.vscode-versionlens",
 				"eamodio.gitlens",
 				"GitHub.copilot",
-				"GitHub.copilot-chat"
+				"GitHub.copilot-chat",
+				"svelte.svelte-vscode"
 			],
 			"settings": {}
 		}

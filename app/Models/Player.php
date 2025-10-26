@@ -11,9 +11,6 @@ class Player extends Model
 {
     /** @use HasFactory<\Database\Factories\PlayerFactory> */
     use HasFactory;
-    public int $id;
-    public string $name;
-    public int $rating;
 
     /**
      * The attributes that are mass assignable.
@@ -21,7 +18,7 @@ class Player extends Model
      * @var list<string>
      */
     protected $fillable = [
-        'name'
+        'name',
     ];
 
     /**
