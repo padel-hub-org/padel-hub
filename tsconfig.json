@@ -16,7 +16,7 @@
       "$lib": ["./resources/js/lib"],
       "$lib/*": ["./resources/js/lib/*"]
     },
-    "types": ["vite/client", "svelte"],
+    "types": ["vite/client", "svelte", "node"],
 
     // Other Outputs
     "sourceMap": true,
