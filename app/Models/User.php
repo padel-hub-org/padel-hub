@@ -4,6 +4,7 @@ namespace App\Models;
 
 // use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Relations\HasOne;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 
@@ -12,8 +13,13 @@ class User extends Authenticatable
 {
     /** @use HasFactory<\Database\Factories\UserFactory> */
     use HasFactory;
+
     use Notifiable;
+
+    // public ?int $id = null;
+
     public string $name;
+
     public string $email;
 
     /**
@@ -47,6 +53,17 @@ class User extends Authenticatable
         return [
             'email_verified_at' => 'datetime',
             'password' => 'hashed',
+            'google_access_token' => 'encrypted',
         ];
+    }
+
+    /**
+     * Get the player's profile associated with the user.
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\HasOne<Player, $this>
+     */
+    public function player(): HasOne
+    {
+        return $this->hasOne(Player::class);
     }
 }

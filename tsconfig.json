@@ -1,43 +1,40 @@
 {
   // Visit https://aka.ms/tsconfig to read more about this file
   "compilerOptions": {
-    "types": ["vite/client"],
-    "allowImportingTsExtensions": true,
     // File Layout
-    // "rootDir": "./src",
-    // "outDir": "./dist",
+    "baseUrl": ".",
+    // "rootDir": "./resources",
+    "outDir": "./public/dist",
+
     // Environment Settings
     // See also https://aka.ms/tsconfig/module
-    "module": "nodenext",
+    "module": "esnext",
+    "moduleResolution": "node",
     "target": "esnext",
     "paths": {
-        "@/*": ["resources/js/*"],
-        "$lib": ["./resources/js/lib"],
-        "$lib/*": ["./resources/js/lib/*"]
+      "@/*": ["resources/js/*"],
+      "$lib": ["./resources/js/lib"],
+      "$lib/*": ["./resources/js/lib/*"]
     },
-    "baseUrl": ".",
-    "include": "resources/**/*",
-    // For nodejs:
-    // "lib": ["esnext"],
-    // "types": ["node"],
-    // and npm install -D @types/node
+    "types": ["vite/client", "svelte"],
 
     // Other Outputs
     "sourceMap": true,
     "declaration": true,
     "declarationMap": true,
+    "allowImportingTsExtensions": true,
+    "emitDeclarationOnly": true,
 
     // Stricter Typechecking Options
     "noUncheckedIndexedAccess": true,
     "exactOptionalPropertyTypes": true,
 
     // Style Options
-    // "noImplicitReturns": true,
-    // "noImplicitOverride": true,
-    // "noUnusedLocals": true,
-    // "noUnusedParameters": true,
-    // "noFallthroughCasesInSwitch": true,
-    // "noPropertyAccessFromIndexSignature": true,
+    "noImplicitReturns": true,
+    "noImplicitOverride": true,
+    "noUnusedLocals": true,
+    "noUnusedParameters": true,
+    "noFallthroughCasesInSwitch": true,
 
     // Recommended Options
     "strict": true,
@@ -46,5 +43,6 @@
     "noUncheckedSideEffectImports": true,
     "moduleDetection": "force",
     "skipLibCheck": true
-  }
+  },
+  "include": ["resources/**/*", "resources/js/**/*.svelte"],
 }

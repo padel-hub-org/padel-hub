@@ -1,11 +1,19 @@
 <?php
 
+use App\Http\Controllers\AuthController;
+use App\Http\Controllers\HomeController;
 use App\Http\Controllers\PlayerController;
 use Illuminate\Support\Facades\Route;
-use Inertia\Inertia;
 
-Route::get('/', function () {
-    return Inertia::render('home', ['name' => 'Developer']);
+Route::name('home')->get('/', [HomeController::class, 'index']);
+Route::name('login')->get('/login', [AuthController::class, 'index']);
+
+Route::middleware('guest')->group(function () {
+    Route::get('/auth/google/redirect', [AuthController::class, 'redirectToGoogle']);
+    Route::get('/auth/google/callback', [AuthController::class, 'handleGoogleCallback']);
 });
 
-Route::resource('players', PlayerController::class)->except(["show"]);
+Route::middleware('auth')->group(function () {
+    Route::resource('players', PlayerController::class)->except(['show']);
+    Route::name('logout')->post('/logout', [AuthController::class, 'logout']);
+});
