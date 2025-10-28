@@ -14,10 +14,7 @@
         "laravel/framework": "^12.0",
         "laravel/socialite": "^5.23",
         "laravel/tinker": "^2.10.1",
-        "laravel/wayfinder": "^0.1.12",
-        "spatie/enum": "^3.13",
-        "spatie/laravel-typescript-transformer": "^2.5",
-        "spatie/typescript-transformer": "^2.5"
+        "laravel/wayfinder": "^0.1.12"
     },
     "require-dev": {
         "barryvdh/laravel-debugbar": "^3.16",
