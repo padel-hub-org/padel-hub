@@ -1,9 +1,9 @@
-import tailwindcss from '@tailwindcss/vite';
+import tailwindcss from "@tailwindcss/vite";
 import path from "path";
-import { defineConfig } from 'vite';
+import { defineConfig } from "vite";
 import { wayfinder } from "@laravel/vite-plugin-wayfinder";
-import laravel from 'laravel-vite-plugin';
-import { svelte } from '@sveltejs/vite-plugin-svelte';
+import laravel from "laravel-vite-plugin";
+import { svelte } from "@sveltejs/vite-plugin-svelte";
 
 export default defineConfig({
     resolve: {
@@ -14,13 +14,10 @@ export default defineConfig({
     plugins: [
         tailwindcss(),
         laravel({
-            input: [
-                'resources/css/app.css',
-                'resources/js/app.ts'
-            ],
-            refresh: true
+            input: ["resources/css/app.css", "resources/js/app.ts"],
+            refresh: true,
         }),
         svelte(),
-        wayfinder()
-    ]
+        wayfinder(),
+    ],
 });

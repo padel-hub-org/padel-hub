@@ -7,25 +7,30 @@ Organizers can create events, add players, and automatically generate balanced m
 ---
 
 ## 🚀 Features
-- Create and manage padel events  
-- Add and track players with rankings  
-- Auto-generate matches using a ranking algorithm  
-- Real-time ranking updates after each match  
-- Simple, intuitive organizer dashboard  
+
+- Create and manage padel events
+- Add and track players with rankings
+- Auto-generate matches using a ranking algorithm
+- Real-time ranking updates after each match
+- Simple, intuitive organizer dashboard
 
 ---
 
 ## 🧠 Ranking System
+
 Matches are generated based on player rankings that evolve dynamically with each result — factoring in wins, losses, and opponent difficulty for fair matchmaking.
 
 ---
 
 ## 🏗️ Tech Stack
-- **Backend:** Laravel  
-- **Frontend:** Svelte  
+
+- **Backend:** Laravel
+- **Frontend:** Svelte
 
 ---
+
 ## 🗄️ Database Structure
+
 - player
     - name
     - rating
@@ -45,11 +50,11 @@ Matches are generated based on player rankings that evolve dynamically with each
     - player_id
     - event_rating
     - disabled_at
-- game 
+- game
     - event_id
     - court
     - round
-- game_player 
+- game_player
     - game_id
     - player_id
     - previous_rating
@@ -58,4 +63,5 @@ Matches are generated based on player rankings that evolve dynamically with each
     - result
 
 ---
+
 **Padel Hub NO – Where Competition Meets Organization.**

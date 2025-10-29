@@ -1,33 +1,31 @@
 // https://aka.ms/devcontainer.json
 {
-	"name": "Padel Hub",
-	"dockerComposeFile": [
-		"../compose.yaml"
-	],
-	"service": "laravel.test",
-	"workspaceFolder": "/var/www/html",
-	"customizations": {
-		"vscode": {
-			"extensions": [
-				"laravel.vscode-laravel",
-				"mikestead.dotenv",
-				"bmewburn.vscode-intelephense-client",
-				"tombonnike.vscode-status-bar-format-toggle",
-				"esbenp.prettier-vscode",
-				"YoavBls.pretty-ts-errors",
-				"SanderRonde.phpstan-vscode",
-				"pflannery.vscode-versionlens",
-				"eamodio.gitlens",
-				"GitHub.copilot",
-				"GitHub.copilot-chat",
-				"svelte.svelte-vscode"
-			],
-			"settings": {}
-		}
-	},
-	"remoteUser": "sail",
-	"postCreateCommand": "chown -R 1000:1000 /var/www/html 2>/dev/null || true"
-	// "forwardPorts": [],
-	// "runServices": [],
-	// "shutdownAction": "none",
+    "name": "Padel Hub",
+    "dockerComposeFile": ["../compose.yaml"],
+    "service": "laravel.test",
+    "workspaceFolder": "/var/www/html",
+    "customizations": {
+        "vscode": {
+            "extensions": [
+                "laravel.vscode-laravel",
+                "mikestead.dotenv",
+                "bmewburn.vscode-intelephense-client",
+                "tombonnike.vscode-status-bar-format-toggle",
+                "esbenp.prettier-vscode",
+                "YoavBls.pretty-ts-errors",
+                "SanderRonde.phpstan-vscode",
+                "pflannery.vscode-versionlens",
+                "eamodio.gitlens",
+                "GitHub.copilot",
+                "GitHub.copilot-chat",
+                "svelte.svelte-vscode"
+            ],
+            "settings": {}
+        }
+    },
+    "remoteUser": "sail",
+    "postCreateCommand": "chown -R 1000:1000 /var/www/html 2>/dev/null || true"
+    // "forwardPorts": [],
+    // "runServices": [],
+    // "shutdownAction": "none",
 }
