@@ -2,8 +2,7 @@ import { createInertiaApp } from "@inertiajs/svelte";
 import { mount } from "svelte";
 import "../css/app.css";
 import Layout from "./layouts/app.svelte";
-import 'iconify-icon';
-
+import "iconify-icon";
 
 createInertiaApp({
     resolve: (name: string) => {
@@ -19,8 +18,8 @@ createInertiaApp({
     defaults: {
         visitOptions: () => {
             return {
-                viewTransition: true
-            }
-        }
-    }
+                viewTransition: true,
+            };
+        },
+    },
 });
