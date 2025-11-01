@@ -9,6 +9,7 @@ use Inertia\Response;
 use Laravel\Socialite\Facades\Socialite;
 use Laravel\Socialite\Two\User as SocialiteUser;
 use Symfony\Component\HttpFoundation\RedirectResponse;
+use Symfony\Component\HttpFoundation\Response as HttpFoundationResponse;
 
 class AuthController extends Controller
 {
@@ -21,9 +22,9 @@ class AuthController extends Controller
         return Inertia::render('auth/index');
     }
 
-    public function redirectToGoogle(): RedirectResponse
+    public function redirectToGoogle(): HttpFoundationResponse
     {
-        return Socialite::driver('google')->redirect();
+        return Inertia::location(Socialite::driver('google')->redirect()->getTargetUrl());
     }
 
     public function handleGoogleCallback(): RedirectResponse

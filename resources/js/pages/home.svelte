@@ -14,7 +14,7 @@
 </script>
 
 <div>
-    <h1>Hello {user?.name ?? "Guest"} from Svelte + Inertia!</h1>
+    <h1 class="mb-4">Welcome {user?.name ?? "Guest"}</h1>
 
     {#if user}
         <Button href="/players">Go to Players</Button>
