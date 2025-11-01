@@ -33,4 +33,17 @@ class Event extends Model
     {
         return $this->belongsToMany(Player::class)->withTimestamps();
     }
+
+    /**
+     * Get the attributes that should be cast.
+     *
+     * @return array<string, string>
+     */
+    protected function casts(): array
+    {
+        return [
+            'starts_at' => 'datetime',
+            'ended_at' => 'datetime',
+        ];
+    }
 }

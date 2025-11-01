@@ -6,6 +6,7 @@ use App\Enums\Result;
 use App\Models\Event;
 use App\Models\Game;
 use App\Models\Player;
+use Carbon\Carbon;
 use Illuminate\Database\Seeder;
 
 class EventSeeder extends Seeder
@@ -21,9 +22,15 @@ class EventSeeder extends Seeder
         foreach ($events as $event) {
             $playerCount = fake()->numberBetween($event->court_count * 4, 18);
             $eventPlayers = $players->shuffle()->take($playerCount);
-            $event->players()->attach($players, [
-                'event_rating' => fake()->numberBetween(0, 3000),
-            ]);
+
+            foreach ($eventPlayers as $player) {
+                $isDisabled = fake()->boolean(10);
+                $startsAt = Carbon::parse($event->starts_at);
+                $event->players()->attach($player, [
+                    'event_rating' => fake()->numberBetween(0, 3000),
+                    'disabled_at' => $isDisabled ? fake()->dateTimeBetween($startsAt, $startsAt->addMinutes(fake()->numberBetween(0, 90))) : null,
+                ]);
+            }
 
             $rounds = fake()->numberBetween(1, 10);
 
