@@ -2,6 +2,10 @@
 
 namespace Database\Seeders;
 
+use App\Enums\Result;
+use App\Models\Event;
+use App\Models\Game;
+use App\Models\Player;
 use Illuminate\Database\Seeder;
 
 class EventSeeder extends Seeder
@@ -11,6 +15,62 @@ class EventSeeder extends Seeder
      */
     public function run(): void
     {
-        //
+        $events = Event::factory()->count(10)->create();
+        $players = Player::factory()->count(25)->create();
+
+        foreach ($events as $event) {
+            $playerCount = fake()->numberBetween($event->court_count * 4, 18);
+            $eventPlayers = $players->shuffle()->take($playerCount);
+            $event->players()->attach($players, [
+                'event_rating' => fake()->numberBetween(0, 3000),
+            ]);
+
+            $rounds = fake()->numberBetween(1, 10);
+
+            for ($round = 0; $round < $rounds; $round++) {
+                $playersRandomOrder = $eventPlayers->shuffle();
+
+                for ($court = 0; $court < $event->court_count; $court++) {
+                    $gamePlayers = $playersRandomOrder->skip($court * 4)->take(4);
+
+                    /** @var Game $game */
+                    $game = Game::factory()->for($event)->create([
+                        'court' => $court,
+                        'round' => $round,
+                    ]);
+
+                    $teamAPoints = fake()->numberBetween(0, $event->game_points);
+                    $teamBPoints = $event->game_points - $teamAPoints;
+                    $teamAPlayers = $gamePlayers->take(2);
+                    $teamBPlayers = $gamePlayers->skip(2)->take(2);
+
+                    $teamAResult = Result::Tie;
+                    $teamBResult = Result::Tie;
+
+                    if ($teamAPoints > $teamBPoints) {
+                        $teamAResult = Result::Win;
+                        $teamBResult = Result::Loss;
+                    }
+
+                    if ($teamBPoints > $teamAPoints) {
+                        $teamAResult = Result::Loss;
+                        $teamBResult = Result::Win;
+                    }
+
+                    foreach ($gamePlayers as $gamePlayer) {
+                        $game->players()->attach($gamePlayer, [
+                            'previous_rating' => fake()->numberBetween(0, 3000),
+                            'points' => $teamAPlayers->contains($gamePlayer) ? $teamAPoints : $teamBPoints,
+                            'partner_id' => $teamAPlayers->contains($gamePlayer)
+                                 ? $teamAPlayers->where('id', '!=', $gamePlayer->id)->first()->id
+                                 : $teamBPlayers->where('id', '!=', $gamePlayer->id)->first()->id,
+                            'result' => $teamAPlayers->contains($gamePlayer) ? $teamAResult : $teamBResult,
+                        ]);
+
+                    }
+                }
+            }
+
+        }
     }
 }

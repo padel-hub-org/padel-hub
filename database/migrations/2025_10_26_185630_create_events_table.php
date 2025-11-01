@@ -16,6 +16,7 @@ return new class extends Migration
             $table->id();
             $table->dateTime('starts_at');
             $table->integer('court_count');
+            $table->integer('game_points');
             $table->dateTime('ended_at')->nullable();
             $table->timestamps();
         });

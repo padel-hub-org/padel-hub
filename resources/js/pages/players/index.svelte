@@ -1,6 +1,5 @@
 <script lang="ts">
     import { Button } from "$lib/components/ui/button/index.ts";
-    import { router } from "@inertiajs/svelte";
     import {
         create,
         destroy,
@@ -21,12 +20,9 @@
     <ul>
         {#each players as player}
             <li>
-                <Button href={edit(player).url}>{player.name}</Button>
-                <Button
-                    class="cursor-pointer"
-                    onclick={() => {
-                        router.delete(destroy(player));
-                    }}>Remove player</Button
+                <Button href={edit(player)}>{player.name}</Button>
+                <Button class="cursor-pointer" href={destroy(player)}
+                    >Remove player</Button
                 >
             </li>
         {/each}

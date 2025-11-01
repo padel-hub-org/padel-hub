@@ -29,9 +29,8 @@ return new class extends Migration
             $table->foreignIdFor(Player::class)->index();
             $table->foreignIdFor(Player::class, 'partner_id')->index();
             $table->integer('previous_rating');
-            $table->integer('points');
-            $table->enum(Result::class, Result::cases());
-            $table->timestamps();
+            $table->integer('points')->nullable();
+            $table->enum('result', Result::cases());
         });
     }
 

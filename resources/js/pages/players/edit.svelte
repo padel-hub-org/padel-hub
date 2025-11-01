@@ -12,7 +12,7 @@
 </script>
 
 {#if player.id}
-    <Form action={update(player.id)}>
+    <Form action={update(player)}>
         <input value={player.name} type="text" name="name" />
         <Button type="submit">Update Player</Button>
     </Form>
