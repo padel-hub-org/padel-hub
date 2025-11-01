@@ -1,48 +1,48 @@
 {
-  // Visit https://aka.ms/tsconfig to read more about this file
-  "compilerOptions": {
-    // File Layout
-    "baseUrl": ".",
-    // "rootDir": "./resources",
-    "outDir": "./public/dist",
+    // Visit https://aka.ms/tsconfig to read more about this file
+    "compilerOptions": {
+        // File Layout
+        "baseUrl": ".",
+        // "rootDir": "./resources",
+        "outDir": "./public/dist",
 
-    // Environment Settings
-    // See also https://aka.ms/tsconfig/module
-    "module": "esnext",
-    "moduleResolution": "node",
-    "target": "esnext",
-    "paths": {
-      "@/*": ["resources/js/*"],
-      "$lib": ["./resources/js/lib"],
-      "$lib/*": ["./resources/js/lib/*"]
+        // Environment Settings
+        // See also https://aka.ms/tsconfig/module
+        "module": "esnext",
+        "moduleResolution": "node",
+        "target": "esnext",
+        "paths": {
+            "@/*": ["resources/js/*"],
+            "$lib": ["./resources/js/lib"],
+            "$lib/*": ["./resources/js/lib/*"]
+        },
+        "types": ["vite/client", "svelte", "node"],
+
+        // Other Outputs
+        "sourceMap": true,
+        "declaration": true,
+        "declarationMap": true,
+        "allowImportingTsExtensions": true,
+        "emitDeclarationOnly": true,
+
+        // Stricter Typechecking Options
+        "noUncheckedIndexedAccess": true,
+        "exactOptionalPropertyTypes": true,
+
+        // Style Options
+        "noImplicitReturns": true,
+        "noImplicitOverride": true,
+        "noUnusedLocals": true,
+        "noUnusedParameters": true,
+        "noFallthroughCasesInSwitch": true,
+
+        // Recommended Options
+        "strict": true,
+        "verbatimModuleSyntax": true,
+        "isolatedModules": true,
+        "noUncheckedSideEffectImports": true,
+        "moduleDetection": "force",
+        "skipLibCheck": true
     },
-    "types": ["vite/client", "svelte", "node"],
-
-    // Other Outputs
-    "sourceMap": true,
-    "declaration": true,
-    "declarationMap": true,
-    "allowImportingTsExtensions": true,
-    "emitDeclarationOnly": true,
-
-    // Stricter Typechecking Options
-    "noUncheckedIndexedAccess": true,
-    "exactOptionalPropertyTypes": true,
-
-    // Style Options
-    "noImplicitReturns": true,
-    "noImplicitOverride": true,
-    "noUnusedLocals": true,
-    "noUnusedParameters": true,
-    "noFallthroughCasesInSwitch": true,
-
-    // Recommended Options
-    "strict": true,
-    "verbatimModuleSyntax": true,
-    "isolatedModules": true,
-    "noUncheckedSideEffectImports": true,
-    "moduleDetection": "force",
-    "skipLibCheck": true
-  },
-  "include": ["resources/**/*", "resources/js/**/*.svelte"],
+    "include": ["resources/**/*", "resources/js/**/*.svelte"]
 }

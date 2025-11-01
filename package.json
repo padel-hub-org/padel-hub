@@ -5,7 +5,9 @@
     "scripts": {
         "build": "vite build",
         "dev": "vite",
-        "svelte-check": "svelte-check"
+        "svelte-check": "svelte-check",
+        "pretty": "npx prettier . --write",
+        "pretty-check": "npx prettier . --check"
     },
     "devDependencies": {
         "@laravel/vite-plugin-wayfinder": "^0.1.7",
@@ -17,6 +19,7 @@
         "@types/node": "^24.9.1",
         "clsx": "^2.1.1",
         "laravel-vite-plugin": "^2.0.0",
+        "prettier": "3.6.2",
         "svelte-check": "^4.3.3",
         "tailwind-merge": "^3.3.1",
         "tailwind-variants": "^3.1.1",
