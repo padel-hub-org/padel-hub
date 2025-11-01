@@ -18,7 +18,8 @@
                 "eamodio.gitlens",
                 "GitHub.copilot",
                 "GitHub.copilot-chat",
-                "svelte.svelte-vscode"
+                "svelte.svelte-vscode",
+                "bradlc.vscode-tailwindcss"
             ],
             "settings": {}
         }

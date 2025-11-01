@@ -2,6 +2,7 @@ import { createInertiaApp } from "@inertiajs/svelte";
 import { mount } from "svelte";
 import "../css/app.css";
 import Layout from "./layouts/app.svelte";
+import "iconify-icon";
 
 createInertiaApp({
     resolve: (name: string) => {
@@ -13,5 +14,12 @@ createInertiaApp({
         if (!el) throw new Error("Inertia app target element not found");
 
         mount(App, { target: el, props });
+    },
+    defaults: {
+        visitOptions: () => {
+            return {
+                viewTransition: true,
+            };
+        },
     },
 });

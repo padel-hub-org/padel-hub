@@ -1,7 +1,7 @@
 import { queryParams, type RouteQueryOptions, type RouteDefinition } from './../../../../wayfinder'
 /**
 * @see \App\Http\Controllers\AuthController::index
-* @see app/Http/Controllers/AuthController.php:15
+* @see app/Http/Controllers/AuthController.php:16
 * @route '/login'
 */
 export const index = (options?: RouteQueryOptions): RouteDefinition<'get'> => ({
@@ -16,7 +16,7 @@ index.definition = {
 
 /**
 * @see \App\Http\Controllers\AuthController::index
-* @see app/Http/Controllers/AuthController.php:15
+* @see app/Http/Controllers/AuthController.php:16
 * @route '/login'
 */
 index.url = (options?: RouteQueryOptions) => {
@@ -25,7 +25,7 @@ index.url = (options?: RouteQueryOptions) => {
 
 /**
 * @see \App\Http\Controllers\AuthController::index
-* @see app/Http/Controllers/AuthController.php:15
+* @see app/Http/Controllers/AuthController.php:16
 * @route '/login'
 */
 index.get = (options?: RouteQueryOptions): RouteDefinition<'get'> => ({
@@ -35,7 +35,7 @@ index.get = (options?: RouteQueryOptions): RouteDefinition<'get'> => ({
 
 /**
 * @see \App\Http\Controllers\AuthController::index
-* @see app/Http/Controllers/AuthController.php:15
+* @see app/Http/Controllers/AuthController.php:16
 * @route '/login'
 */
 index.head = (options?: RouteQueryOptions): RouteDefinition<'head'> => ({
@@ -45,7 +45,7 @@ index.head = (options?: RouteQueryOptions): RouteDefinition<'head'> => ({
 
 /**
 * @see \App\Http\Controllers\AuthController::redirectToGoogle
-* @see app/Http/Controllers/AuthController.php:24
+* @see app/Http/Controllers/AuthController.php:25
 * @route '/auth/google/redirect'
 */
 export const redirectToGoogle = (options?: RouteQueryOptions): RouteDefinition<'get'> => ({
@@ -60,7 +60,7 @@ redirectToGoogle.definition = {
 
 /**
 * @see \App\Http\Controllers\AuthController::redirectToGoogle
-* @see app/Http/Controllers/AuthController.php:24
+* @see app/Http/Controllers/AuthController.php:25
 * @route '/auth/google/redirect'
 */
 redirectToGoogle.url = (options?: RouteQueryOptions) => {
@@ -69,7 +69,7 @@ redirectToGoogle.url = (options?: RouteQueryOptions) => {
 
 /**
 * @see \App\Http\Controllers\AuthController::redirectToGoogle
-* @see app/Http/Controllers/AuthController.php:24
+* @see app/Http/Controllers/AuthController.php:25
 * @route '/auth/google/redirect'
 */
 redirectToGoogle.get = (options?: RouteQueryOptions): RouteDefinition<'get'> => ({
@@ -79,7 +79,7 @@ redirectToGoogle.get = (options?: RouteQueryOptions): RouteDefinition<'get'> => 
 
 /**
 * @see \App\Http\Controllers\AuthController::redirectToGoogle
-* @see app/Http/Controllers/AuthController.php:24
+* @see app/Http/Controllers/AuthController.php:25
 * @route '/auth/google/redirect'
 */
 redirectToGoogle.head = (options?: RouteQueryOptions): RouteDefinition<'head'> => ({
@@ -89,7 +89,7 @@ redirectToGoogle.head = (options?: RouteQueryOptions): RouteDefinition<'head'> =
 
 /**
 * @see \App\Http\Controllers\AuthController::handleGoogleCallback
-* @see app/Http/Controllers/AuthController.php:29
+* @see app/Http/Controllers/AuthController.php:30
 * @route '/auth/google/callback'
 */
 export const handleGoogleCallback = (options?: RouteQueryOptions): RouteDefinition<'get'> => ({
@@ -104,7 +104,7 @@ handleGoogleCallback.definition = {
 
 /**
 * @see \App\Http\Controllers\AuthController::handleGoogleCallback
-* @see app/Http/Controllers/AuthController.php:29
+* @see app/Http/Controllers/AuthController.php:30
 * @route '/auth/google/callback'
 */
 handleGoogleCallback.url = (options?: RouteQueryOptions) => {
@@ -113,7 +113,7 @@ handleGoogleCallback.url = (options?: RouteQueryOptions) => {
 
 /**
 * @see \App\Http\Controllers\AuthController::handleGoogleCallback
-* @see app/Http/Controllers/AuthController.php:29
+* @see app/Http/Controllers/AuthController.php:30
 * @route '/auth/google/callback'
 */
 handleGoogleCallback.get = (options?: RouteQueryOptions): RouteDefinition<'get'> => ({
@@ -123,7 +123,7 @@ handleGoogleCallback.get = (options?: RouteQueryOptions): RouteDefinition<'get'>
 
 /**
 * @see \App\Http\Controllers\AuthController::handleGoogleCallback
-* @see app/Http/Controllers/AuthController.php:29
+* @see app/Http/Controllers/AuthController.php:30
 * @route '/auth/google/callback'
 */
 handleGoogleCallback.head = (options?: RouteQueryOptions): RouteDefinition<'head'> => ({
@@ -133,7 +133,7 @@ handleGoogleCallback.head = (options?: RouteQueryOptions): RouteDefinition<'head
 
 /**
 * @see \App\Http\Controllers\AuthController::logout
-* @see app/Http/Controllers/AuthController.php:48
+* @see app/Http/Controllers/AuthController.php:49
 * @route '/logout'
 */
 export const logout = (options?: RouteQueryOptions): RouteDefinition<'post'> => ({
@@ -148,7 +148,7 @@ logout.definition = {
 
 /**
 * @see \App\Http\Controllers\AuthController::logout
-* @see app/Http/Controllers/AuthController.php:48
+* @see app/Http/Controllers/AuthController.php:49
 * @route '/logout'
 */
 logout.url = (options?: RouteQueryOptions) => {
@@ -157,7 +157,7 @@ logout.url = (options?: RouteQueryOptions) => {
 
 /**
 * @see \App\Http\Controllers\AuthController::logout
-* @see app/Http/Controllers/AuthController.php:48
+* @see app/Http/Controllers/AuthController.php:49
 * @route '/logout'
 */
 logout.post = (options?: RouteQueryOptions): RouteDefinition<'post'> => ({
