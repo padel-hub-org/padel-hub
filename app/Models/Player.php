@@ -7,6 +7,32 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 
+/**
+ * @property int $id
+ * @property string $name
+ * @property int|null $user_id
+ * @property int $rating
+ * @property \Illuminate\Support\Carbon|null $created_at
+ * @property \Illuminate\Support\Carbon|null $updated_at
+ * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\Models\Event> $events
+ * @property-read int|null $events_count
+ * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\Models\Game> $games
+ * @property-read int|null $games_count
+ * @property-read \App\Models\User|null $user
+ *
+ * @method static \Database\Factories\PlayerFactory factory($count = null, $state = [])
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Player newModelQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Player newQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Player query()
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Player whereCreatedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Player whereId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Player whereName($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Player whereRating($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Player whereUpdatedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Player whereUserId($value)
+ *
+ * @mixin \Eloquent
+ */
 class Player extends Model
 {
     /** @use HasFactory<\Database\Factories\PlayerFactory> */
