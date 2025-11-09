@@ -60,6 +60,17 @@
         "larastan": [
             "vendor/bin/phpstan analyse"
         ],
+        "update-types": [
+            "@php artisan ide-helper:models -RW",
+            "@php artisan wayfinder:generate"
+        ],
+        "checks": [
+            "composer run larastan",
+            "composer run pint",
+            "npm run pretty",
+            "npm run svelte-check",
+            "composer run test"
+        ],
         "post-autoload-dump": [
             "Illuminate\\Foundation\\ComposerScripts::postAutoloadDump",
             "@php artisan package:discover --ansi"
