@@ -11,6 +11,10 @@
     let { player }: Props = $props();
 </script>
 
+<svelte:head>
+    <title>{player.name} | Padel Hub</title>
+</svelte:head>
+
 {#if player.id}
     <Form action={update(player)}>
         <input value={player.name} type="text" name="name" />

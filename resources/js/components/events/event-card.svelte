@@ -80,39 +80,4 @@
         opacity: 0.8;
         overflow: visible;
     }
-
-    /* .live-dot::before {
-        content: "";
-        position: absolute;
-        width: 2rem;
-        height: 2rem;
-        background: radial-gradient(circle, var(--success) 0%, transparent 80%);
-        animation: pulse 2s cubic-bezier(0.76, 0, 0.24, 1) infinite;
-    }
-
-    @keyframes pulse {
-        0% {
-            transform: scale(1);
-            opacity: 1;
-        }
-
-        50% {
-            transform: scale(1);
-            opacity: 1;
-        }
-
-        70% {
-            transform: scale(1.4);
-            opacity: 0.8;
-        }
-
-        90% {
-            transform: scale(1.6);
-            opacity: 0.7;
-        }
-        100% {
-            transform: scale(1);
-            opacity: 0;
-        }
-    } */
 </style>

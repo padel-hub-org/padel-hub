@@ -21,7 +21,6 @@
                     "text-secondary underline-offset-4 hover:underline",
                 bottomNav:
                     "hover:bg-accent hover:text-accent-foreground dark:hover:bg-accent/50",
-                fab: "bg-primary text-primary-foreground shadow-xs hover:bg-primary/90 p-6",
             },
             size: {
                 default: "h-9 px-4 py-2 has-[>svg]:px-3",

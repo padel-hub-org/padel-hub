@@ -9,6 +9,10 @@
     let { players }: Props = $props();
 </script>
 
+<svelte:head>
+    <title>Players | Padel Hub</title>
+</svelte:head>
+
 <div class="page">
     <Button class="button" variant={"outline"} href={create().url}
         >Create player</Button

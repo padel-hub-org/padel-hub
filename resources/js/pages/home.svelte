@@ -12,6 +12,10 @@
     let { user }: Props = $props();
 </script>
 
+<svelte:head>
+    <title>Padel Hub</title>
+</svelte:head>
+
 <div>
     <h1 class="mb-4">Welcome {user?.name ?? "Guest"}</h1>
 
