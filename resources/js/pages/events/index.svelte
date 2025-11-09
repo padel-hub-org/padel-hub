@@ -13,6 +13,10 @@
     const { events }: Props = $props();
 </script>
 
+<svelte:head>
+    <title>Events | Padel Hub</title>
+</svelte:head>
+
 <div class="page">
     <header>
         <h1>Events</h1>

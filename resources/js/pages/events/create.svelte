@@ -6,6 +6,7 @@
     import { Form, type InertiaFormProps } from "@inertiajs/svelte";
     import type { FormDataType } from "@inertiajs/core";
     import * as ButtonGroup from "@/lib/components/ui/button-group";
+    import EventPointsEdit from "@/components/events/event-points-edit.svelte";
 
     type FormFields = FormDataType<{
         court_count: number;
@@ -28,13 +29,24 @@
     }
 </script>
 
+<svelte:head>
+    <title>Create event | Padel Hub</title>
+</svelte:head>
+
 <Form action={store()}>
     {#snippet children({ errors, processing }: InertiaFormProps<FormFields>)}
         <div class="form">
             <h1>Create event</h1>
 
+            <input
+                type="hidden"
+                name="timezone"
+                value={Intl.DateTimeFormat().resolvedOptions().timeZone}
+            />
+
             <Field>
                 <Label>Starts at</Label>
+
                 <div class="flex gap-4">
                     <Input
                         type="date"
@@ -96,33 +108,8 @@
                 {/if}
             </Field>
 
-            <Field>
-                <Label>Points per game</Label>
-                <div class="flex gap-4">
-                    <Input
-                        type="number"
-                        step="1"
-                        name="game_points"
-                        bind:value={gamePoints}
-                        aria-invalid={!!errors.game_points}
-                    />
-
-                    <ButtonGroup.Root>
-                        <Button
-                            variant="outline"
-                            onclick={() => (gamePoints = 16)}>16</Button
-                        >
-                        <Button
-                            variant="outline"
-                            onclick={() => (gamePoints = 21)}>21</Button
-                        >
-                    </ButtonGroup.Root>
-                </div>
-
-                {#if errors.game_points}
-                    <Error>{errors.game_points}</Error>
-                {/if}
-            </Field>
+            <EventPointsEdit error={errors.game_points} {gamePoints}
+            ></EventPointsEdit>
 
             <Button type="submit" disabled={processing}>Create</Button>
         </div>

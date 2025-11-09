@@ -39,7 +39,8 @@ class EventController extends Controller
      */
     public function store(StoreEventRequest $request): RedirectResponse
     {
-        $startsAt = Carbon::parse("{$request->validated('starts_at_date')} {$request->validated('starts_at_time')}");
+
+        $startsAt = Carbon::parse("{$request->validated('starts_at_date')} {$request->validated('starts_at_time')}", $request->validated('timezone'))->setTimezone('UTC');
 
         $event = Event::query()->create([
             'court_count' => $request->validated('court_count'),
@@ -53,32 +54,38 @@ class EventController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(Event $event): void
+    public function show(Event $event): Response
     {
-        //
+        return Inertia::render('events/show', [
+            'event' => $event,
+        ]);
     }
 
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(Event $event): void
+    public function edit(Event $event): RedirectResponse
     {
-        //
+        return redirect()->route('events.show', ['event' => $event]);
     }
 
     /**
      * Update the specified resource in storage.
      */
-    public function update(UpdateEventRequest $request, Event $event): void
+    public function update(UpdateEventRequest $request, Event $event): RedirectResponse
     {
-        //
+        $event->update($request->validated());
+
+        return back();
     }
 
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(Event $event): void
+    public function destroy(Event $event): RedirectResponse
     {
-        //
+        $event->delete();
+
+        return redirect()->route('events.index');
     }
 }

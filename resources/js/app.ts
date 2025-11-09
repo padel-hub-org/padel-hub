@@ -23,6 +23,17 @@ dayjs.updateLocale("nb", {
         nextWeek: "dddd [at] LT",
         sameElse: "L",
     },
+    weekdays: [
+        "Sunday",
+        "Monday",
+        "Tuesday",
+        "Wednesday",
+        "Thursday",
+        "Friday",
+        "Saturday",
+    ],
+    weekdaysShort: ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"],
+    weekdaysMin: ["Su", "Mo", "Tu", "We", "Th", "Fr", "Sa"],
 });
 
 dayjs.updateLocale("en-gb", {
@@ -68,7 +79,8 @@ createInertiaApp({
         mount(App, { target: el, props });
     },
     defaults: {
-        visitOptions: () => {
+        visitOptions: (href, options) => {
+            console.log({ options });
             return {
                 viewTransition: true,
             };
