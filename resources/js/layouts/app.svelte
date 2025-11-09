@@ -1,11 +1,12 @@
 <script lang="ts">
     import { Button } from "$lib/components/ui/button";
-    import { index as players } from "@/actions/App/Http/Controllers/PlayerController";
-    import { index as home } from "@/actions/App/Http/Controllers/HomeController";
+    import { index as players } from "@/routes/players";
+    import { home } from "@/routes";
     import { logout } from "@/routes";
     import { page, router } from "@inertiajs/svelte";
     import { onDestroy } from "svelte";
     import { parentPath } from "@/lib/utils/url";
+    import { index as events } from "@/routes/events";
 
     let { children } = $props();
 
@@ -82,6 +83,17 @@
             <iconify-icon icon="mdi:home" width="2.5rem" height="2.5rem"
             ></iconify-icon>
         </Button>
+
+        <Button
+            class={{ active: $page.url === events().url }}
+            variant="bottomNav"
+            size="icon"
+            href={events()}
+        >
+            <iconify-icon icon="mdi:event-note" width="2rem" height="2rem"
+            ></iconify-icon>
+        </Button>
+
         <Button
             class={{ active: $page.url === players().url }}
             variant="bottomNav"
@@ -113,6 +125,8 @@
 
     .layout :global(header:has(.backButton)) {
         grid-template-columns: auto 1fr auto;
+        gap: 0.5rem;
+        padding-inline-start: 0.5rem;
     }
 
     header .brand {
@@ -125,6 +139,7 @@
 
     main {
         padding-inline: 1rem;
+        margin-bottom: 5rem;
     }
 
     .nav {

@@ -1,5 +1,5 @@
 <script lang="ts">
-    import { redirectToGoogle } from "@/actions/App/Http/Controllers/AuthController";
+    import { redirectToGoogle } from "@/routes";
 
     import { Button } from "@/lib/components/ui/button";
     import { logout } from "@/routes";
@@ -11,6 +11,10 @@
 
     let { user }: Props = $props();
 </script>
+
+<svelte:head>
+    <title>Padel Hub</title>
+</svelte:head>
 
 <div>
     <h1 class="mb-4">Welcome {user?.name ?? "Guest"}</h1>

@@ -24,6 +24,8 @@
         "declarationMap": true,
         "allowImportingTsExtensions": true,
         "emitDeclarationOnly": true,
+        "esModuleInterop": true,
+        "allowSyntheticDefaultImports": true,
 
         // Stricter Typechecking Options
         "noUncheckedIndexedAccess": true,

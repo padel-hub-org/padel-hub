@@ -11,7 +11,7 @@ class UpdateEventRequest extends FormRequest
      */
     public function authorize(): bool
     {
-        return false;
+        return true;
     }
 
     /**
@@ -22,7 +22,8 @@ class UpdateEventRequest extends FormRequest
     public function rules(): array
     {
         return [
-            //
+            'court_count' => ['integer', 'min:1', 'max:64'],
+            'game_points' => ['integer', 'min:1', 'max:255'],
         ];
     }
 }
