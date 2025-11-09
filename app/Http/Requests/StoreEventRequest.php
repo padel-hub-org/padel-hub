@@ -11,7 +11,7 @@ class StoreEventRequest extends FormRequest
      */
     public function authorize(): bool
     {
-        return false;
+        return true;
     }
 
     /**
@@ -22,7 +22,10 @@ class StoreEventRequest extends FormRequest
     public function rules(): array
     {
         return [
-            //
+            'starts_at_date' => ['required', 'date'],
+            'starts_at_time' => ['required', 'string'],
+            'court_count' => ['required', 'integer', 'min:1', 'max:16'],
+            'game_points' => ['required', 'integer', 'min:1', 'max:255'],
         ];
     }
 }

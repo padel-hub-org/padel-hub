@@ -5,31 +5,49 @@ namespace App\Http\Controllers;
 use App\Http\Requests\StoreEventRequest;
 use App\Http\Requests\UpdateEventRequest;
 use App\Models\Event;
+use Carbon\Carbon;
+use Illuminate\Http\RedirectResponse;
+use Inertia\Inertia;
+use Inertia\Response;
 
 class EventController extends Controller
 {
     /**
      * Display a listing of the resource.
      */
-    public function index(): void
+    public function index(): Response
     {
-        //
+        return Inertia::render('events/index', [
+            'events' => Inertia::scroll(fn () => Event::query()
+                ->latest('starts_at')
+                ->withCount('players')
+                ->paginate()
+            ),
+        ]);
     }
 
     /**
      * Show the form for creating a new resource.
      */
-    public function create(): void
+    public function create(): Response
     {
-        //
+        return Inertia::render('events/create');
     }
 
     /**
      * Store a newly created resource in storage.
      */
-    public function store(StoreEventRequest $request): void
+    public function store(StoreEventRequest $request): RedirectResponse
     {
-        //
+        $startsAt = Carbon::parse("{$request->validated('starts_at_date')} {$request->validated('starts_at_time')}");
+
+        $event = Event::query()->create([
+            'court_count' => $request->validated('court_count'),
+            'game_points' => $request->validated('game_points'),
+            'starts_at' => $startsAt,
+        ]);
+
+        return redirect()->route('events.show', $event);
     }
 
     /**

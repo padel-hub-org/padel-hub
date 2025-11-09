@@ -1,10 +1,6 @@
 <script lang="ts">
     import { Button } from "$lib/components/ui/button/index.ts";
-    import {
-        create,
-        destroy,
-        edit,
-    } from "@/actions/App/Http/Controllers/PlayerController";
+    import { create, destroy, edit } from "@/routes/players";
     import type { Player } from "@/types/Player";
     interface Props {
         players: Player[];

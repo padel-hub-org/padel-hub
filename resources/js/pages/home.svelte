@@ -1,5 +1,5 @@
 <script lang="ts">
-    import { redirectToGoogle } from "@/actions/App/Http/Controllers/AuthController";
+    import { redirectToGoogle } from "@/routes";
 
     import { Button } from "@/lib/components/ui/button";
     import { logout } from "@/routes";

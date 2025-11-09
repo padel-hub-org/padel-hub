@@ -1,6 +1,6 @@
 <script lang="ts">
     import { Form } from "@inertiajs/svelte";
-    import { update } from "@/actions/App/Http/Controllers/PlayerController";
+    import { update } from "@/routes/players";
     import { Button } from "$lib/components/ui/button/index.ts";
     import type { Player } from "@/types/Player";
 

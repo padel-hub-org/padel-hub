@@ -1,6 +1,6 @@
 <script lang="ts">
     import { Form } from "@inertiajs/svelte";
-    import { store } from "@/actions/App/Http/Controllers/PlayerController";
+    import { store } from "@/routes/players";
 </script>
 
 <Form action={store()}>
