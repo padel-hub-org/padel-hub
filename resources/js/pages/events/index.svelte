@@ -38,9 +38,6 @@
 </div>
 
 <style>
-    h1 {
-    }
-
     header {
         display: grid;
         grid-template-columns: 1fr auto;

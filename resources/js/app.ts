@@ -79,8 +79,7 @@ createInertiaApp({
         mount(App, { target: el, props });
     },
     defaults: {
-        visitOptions: (href, options) => {
-            console.log({ options });
+        visitOptions: () => {
             return {
                 viewTransition: true,
             };

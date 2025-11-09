@@ -14,5 +14,4 @@ export interface Event {
 
     games?: Game[];
     players?: Player[]; // Possibly change this to an intermediate type with pivot values
-
 }
