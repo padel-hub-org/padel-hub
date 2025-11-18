@@ -88,6 +88,50 @@ login.head = (options?: RouteQueryOptions): RouteDefinition<'head'> => ({
 })
 
 /**
+* @see \App\Http\Controllers\AuthController::redirectToGoogle
+* @see app/Http/Controllers/AuthController.php:25
+* @route '/auth/google/redirect'
+*/
+export const redirectToGoogle = (options?: RouteQueryOptions): RouteDefinition<'get'> => ({
+    url: redirectToGoogle.url(options),
+    method: 'get',
+})
+
+redirectToGoogle.definition = {
+    methods: ["get","head"],
+    url: '/auth/google/redirect',
+} satisfies RouteDefinition<["get","head"]>
+
+/**
+* @see \App\Http\Controllers\AuthController::redirectToGoogle
+* @see app/Http/Controllers/AuthController.php:25
+* @route '/auth/google/redirect'
+*/
+redirectToGoogle.url = (options?: RouteQueryOptions) => {
+    return redirectToGoogle.definition.url + queryParams(options)
+}
+
+/**
+* @see \App\Http\Controllers\AuthController::redirectToGoogle
+* @see app/Http/Controllers/AuthController.php:25
+* @route '/auth/google/redirect'
+*/
+redirectToGoogle.get = (options?: RouteQueryOptions): RouteDefinition<'get'> => ({
+    url: redirectToGoogle.url(options),
+    method: 'get',
+})
+
+/**
+* @see \App\Http\Controllers\AuthController::redirectToGoogle
+* @see app/Http/Controllers/AuthController.php:25
+* @route '/auth/google/redirect'
+*/
+redirectToGoogle.head = (options?: RouteQueryOptions): RouteDefinition<'head'> => ({
+    url: redirectToGoogle.url(options),
+    method: 'head',
+})
+
+/**
 * @see \App\Http\Controllers\AuthController::logout
 * @see app/Http/Controllers/AuthController.php:49
 * @route '/logout'

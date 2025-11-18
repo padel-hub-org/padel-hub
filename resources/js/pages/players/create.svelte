@@ -1,7 +1,11 @@
 <script lang="ts">
     import { Form } from "@inertiajs/svelte";
-    import { store } from "@/actions/App/Http/Controllers/PlayerController";
+    import { store } from "@/routes/players";
 </script>
+
+<svelte:head>
+    <title>Create player | Padel Hub</title>
+</svelte:head>
 
 <Form action={store()}>
     <input type="text" name="name" />
