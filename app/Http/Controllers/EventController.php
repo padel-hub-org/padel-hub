@@ -66,7 +66,7 @@ class EventController extends Controller
      */
     public function edit(Event $event): RedirectResponse
     {
-        return redirect()->route('events.show', ['event' => $event]);
+        return redirect()->route('events.show', $event);
     }
 
     /**
