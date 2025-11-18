@@ -22,6 +22,14 @@ class PlayerController extends Controller
     }
 
     /**
+     * Display the specified resource.
+     */
+    public function show(Player $player): Response
+    {
+        return Inertia::render('players/show', ['player' => $player]);
+    }
+
+    /**
      * Show the form for creating a new resource.
      */
     public function create(): Response
@@ -42,9 +50,9 @@ class PlayerController extends Controller
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(Player $player): Response
+    public function edit(Player $player): RedirectResponse
     {
-        return Inertia::render('players/edit', ['player' => $player]);
+        return redirect()->route('players.show', $player);
     }
 
     /**

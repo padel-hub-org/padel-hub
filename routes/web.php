@@ -15,7 +15,7 @@ Route::middleware('guest')->group(function () {
 });
 
 Route::middleware('auth')->group(function () {
-    Route::resource('players', PlayerController::class)->except(['show']);
+    Route::resource('players', PlayerController::class);
     Route::resource('events', EventController::class);
 
     Route::name('logout')->post('/logout', [AuthController::class, 'logout']);
