@@ -5,8 +5,10 @@ namespace App\Http\Controllers;
 use App\Http\Requests\StoreEventRequest;
 use App\Http\Requests\UpdateEventRequest;
 use App\Models\Event;
+use App\Models\Player;
 use Carbon\Carbon;
 use Illuminate\Http\RedirectResponse;
+use Illuminate\Http\Request;
 use Inertia\Inertia;
 use Inertia\Response;
 
@@ -57,8 +59,24 @@ class EventController extends Controller
     public function show(Event $event): Response
     {
         return Inertia::render('events/show', [
-            'event' => $event,
+            'event' => $event->load('players'),
         ]);
+    }
+
+    /**
+     * Set disabled_at on an EventPlayer resource.
+     */
+    public function setDisabled(Event $event, Player $player, Request $request): RedirectResponse
+    {
+        $validated = $request->validate([
+            'shouldDisable' => ['required', 'boolean'],
+        ]);
+
+        $event->players()->updateExistingPivot($player->id, [
+            'disabled_at' => $validated['shouldDisable'] ? now() : null,
+        ]);
+
+        return back();
     }
 
     /**
