@@ -21,7 +21,7 @@
     <header>
         <h1>Events</h1>
 
-        <Button class="create-event" href={create()}>
+        <Button class="create-event" href={create()} viewTransition>
             <iconify-icon icon="mdi:plus" width="2rem" height="2rem"
             ></iconify-icon>
             Create event

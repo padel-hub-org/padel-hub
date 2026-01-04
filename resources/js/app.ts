@@ -78,11 +78,4 @@ createInertiaApp({
 
         mount(App, { target: el, props });
     },
-    defaults: {
-        visitOptions: () => {
-            return {
-                viewTransition: true,
-            };
-        },
-    },
 });

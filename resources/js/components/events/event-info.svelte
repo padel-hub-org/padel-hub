@@ -15,13 +15,9 @@
     let editedPoints = $state(event.game_points);
 
     const changeCourts = (newCount: number) => {
-        router.patch(
-            update(event),
-            {
-                court_count: newCount,
-            },
-            { viewTransition: false }, // Does not work, send issue / PR to inertia to fix
-        );
+        router.patch(update(event), {
+            court_count: newCount,
+        });
     };
 
     const savePoints = () => {
@@ -32,7 +28,6 @@
                 game_points: editedPoints,
             },
             {
-                viewTransition: false,
                 onSuccess: () => (isEditingPoints = false),
             },
         );
