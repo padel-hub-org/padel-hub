@@ -1,59 +1,4 @@
-import { queryParams, type RouteQueryOptions, type RouteDefinition, applyUrlDefaults } from './../../../wayfinder'
-/**
-* @see \App\Http\Controllers\EventController::disabled
-* @see app/Http/Controllers/EventController.php:69
-* @route '/events/{event}/players/{player}/disabled'
-*/
-export const disabled = (args: { event: number | { id: number }, player: number | { id: number } } | [event: number | { id: number }, player: number | { id: number } ], options?: RouteQueryOptions): RouteDefinition<'put'> => ({
-    url: disabled.url(args, options),
-    method: 'put',
-})
-
-disabled.definition = {
-    methods: ["put"],
-    url: '/events/{event}/players/{player}/disabled',
-} satisfies RouteDefinition<["put"]>
-
-/**
-* @see \App\Http\Controllers\EventController::disabled
-* @see app/Http/Controllers/EventController.php:69
-* @route '/events/{event}/players/{player}/disabled'
-*/
-disabled.url = (args: { event: number | { id: number }, player: number | { id: number } } | [event: number | { id: number }, player: number | { id: number } ], options?: RouteQueryOptions) => {
-    if (Array.isArray(args)) {
-        args = {
-            event: args[0],
-            player: args[1],
-        }
-    }
-
-    args = applyUrlDefaults(args)
-
-    const parsedArgs = {
-        event: typeof args.event === 'object'
-        ? args.event.id
-        : args.event,
-        player: typeof args.player === 'object'
-        ? args.player.id
-        : args.player,
-    }
-
-    return disabled.definition.url
-            .replace('{event}', parsedArgs.event.toString())
-            .replace('{player}', parsedArgs.player.toString())
-            .replace(/\/+$/, '') + queryParams(options)
-}
-
-/**
-* @see \App\Http\Controllers\EventController::disabled
-* @see app/Http/Controllers/EventController.php:69
-* @route '/events/{event}/players/{player}/disabled'
-*/
-disabled.put = (args: { event: number | { id: number }, player: number | { id: number } } | [event: number | { id: number }, player: number | { id: number } ], options?: RouteQueryOptions): RouteDefinition<'put'> => ({
-    url: disabled.url(args, options),
-    method: 'put',
-})
-
+import { queryParams, type RouteQueryOptions, type RouteDefinition, applyUrlDefaults } from './../../../../wayfinder'
 /**
 * @see \App\Http\Controllers\EventPlayerController::index
 * @see app/Http/Controllers/EventPlayerController.php:18
@@ -480,15 +425,6 @@ destroy.delete = (args: { event: number | { id: number }, player: number | { id:
     method: 'delete',
 })
 
-const players = {
-    disabled: Object.assign(disabled, disabled),
-    index: Object.assign(index, index),
-    create: Object.assign(create, create),
-    store: Object.assign(store, store),
-    show: Object.assign(show, show),
-    edit: Object.assign(edit, edit),
-    update: Object.assign(update, update),
-    destroy: Object.assign(destroy, destroy),
-}
+const EventPlayerController = { index, create, store, show, edit, update, destroy }
 
-export default players
+export default EventPlayerController

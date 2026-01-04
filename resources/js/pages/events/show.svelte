@@ -17,7 +17,7 @@
 </svelte:head>
 
 <div>
-    <h1>{dayjs(event.starts_at).calendar()}</h1>
+    <h1>Event: {dayjs(event.starts_at).calendar()}</h1>
 
     <EventInfo {event}></EventInfo>
 

@@ -1,6 +1,7 @@
 <script lang="ts">
     import Button from "@/lib/components/ui/button/button.svelte";
     import { disabled } from "@/routes/events/players";
+    import { index as eventPlayers } from "@/routes/events/players";
     import type { Event } from "@/types/Event";
 
     interface Props {
@@ -14,7 +15,7 @@
 
 <div class="header">
     <h3>Players</h3>
-    <Button>Edit players</Button>
+    <Button href={eventPlayers(event.id)}>Edit players</Button>
 </div>
 
 <div class="players">
@@ -24,16 +25,15 @@
             {#if player.pivot.disabled_at !== null}
                 <Button
                     preserveScroll
-                    data={{ shouldDisable: false }}
+                    data={{ should_disable: false }}
                     href={disabled([event, player])}
-                    variant="secondary"
                 >
                     Enable
                 </Button>
             {:else}
                 <Button
                     preserveScroll
-                    data={{ shouldDisable: true }}
+                    data={{ should_disable: true }}
                     href={disabled([event, player])}
                     variant="destructive"
                 >
@@ -60,10 +60,16 @@
     .player {
         display: grid;
         grid-template-columns: 1fr auto;
+        gap: 1rem;
+        background-color: var(--card);
+        padding: 1rem;
+        border-radius: var(--radius);
+        align-items: center;
     }
 
     .players {
         display: grid;
         gap: 1rem;
+        margin-bottom: 5rem;
     }
 </style>
