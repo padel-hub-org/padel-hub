@@ -4,16 +4,15 @@
     import Input from "@/lib/components/ui/input/input.svelte";
     import { store } from "@/routes/events";
     import { Form, type InertiaFormProps } from "@inertiajs/svelte";
-    import type { FormDataType } from "@inertiajs/core";
     import * as ButtonGroup from "@/lib/components/ui/button-group";
     import EventPointsEdit from "@/components/events/event-points-edit.svelte";
 
-    type FormFields = FormDataType<{
+    type FormFields = {
         court_count: number;
         game_points: number;
         starts_at_date: string;
         starts_at_time: string;
-    }>;
+    };
 
     let courtCount = 3;
     let gamePoints = 16;

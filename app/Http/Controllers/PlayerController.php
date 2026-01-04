@@ -44,7 +44,7 @@ class PlayerController extends Controller
     {
         Player::create($request->validated());
 
-        Inertia::flash("toast", ["type" => "success", "message" => "Player created successfully."]);
+        Inertia::flash('toast', ['type' => 'success', 'message' => 'Player created successfully.']);
 
         return redirect()->route('players.index');
     }
@@ -64,7 +64,7 @@ class PlayerController extends Controller
     {
         $player->update($request->validated());
 
-        Inertia::flash("toast", ["type" => "success", "message" => "Player updated successfully."]);
+        Inertia::flash('toast', ['type' => 'success', 'message' => 'Player updated successfully.']);
 
         return redirect()->route('players.index');
     }
@@ -76,7 +76,7 @@ class PlayerController extends Controller
     {
         $player->delete();
 
-        Inertia::flash("toast", ["type" => "success", "message" => "Player deleted successfully."]);
+        Inertia::flash('toast', ['type' => 'success', 'message' => 'Player deleted successfully.']);
 
         return back();
     }

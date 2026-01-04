@@ -43,7 +43,7 @@ class AuthController extends Controller
 
         Auth::login($authUser, true);
 
-        Inertia::flash("toast", ["type" => "success", "message" => "Logged in successfully."]);
+        Inertia::flash('toast', ['type' => 'success', 'message' => 'Logged in successfully.']);
 
         return redirect()->intended('/');
     }
@@ -52,7 +52,7 @@ class AuthController extends Controller
     {
         Auth::logout();
 
-        Inertia::flash("toast", ["type" => "success", "message" => "Logged out successfully."]);
+        Inertia::flash('toast', ['type' => 'success', 'message' => 'Logged out successfully.']);
 
         return redirect()->route('home');
     }
