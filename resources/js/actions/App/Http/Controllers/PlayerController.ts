@@ -191,7 +191,7 @@ show.head = (args: { player: number | { id: number } } | [player: number | { id:
 
 /**
 * @see \App\Http\Controllers\PlayerController::edit
-* @see app/Http/Controllers/PlayerController.php:53
+* @see app/Http/Controllers/PlayerController.php:55
 * @route '/players/{player}/edit'
 */
 export const edit = (args: { player: number | { id: number } } | [player: number | { id: number } ] | number | { id: number }, options?: RouteQueryOptions): RouteDefinition<'get'> => ({
@@ -206,7 +206,7 @@ edit.definition = {
 
 /**
 * @see \App\Http\Controllers\PlayerController::edit
-* @see app/Http/Controllers/PlayerController.php:53
+* @see app/Http/Controllers/PlayerController.php:55
 * @route '/players/{player}/edit'
 */
 edit.url = (args: { player: number | { id: number } } | [player: number | { id: number } ] | number | { id: number }, options?: RouteQueryOptions) => {
@@ -239,7 +239,7 @@ edit.url = (args: { player: number | { id: number } } | [player: number | { id: 
 
 /**
 * @see \App\Http\Controllers\PlayerController::edit
-* @see app/Http/Controllers/PlayerController.php:53
+* @see app/Http/Controllers/PlayerController.php:55
 * @route '/players/{player}/edit'
 */
 edit.get = (args: { player: number | { id: number } } | [player: number | { id: number } ] | number | { id: number }, options?: RouteQueryOptions): RouteDefinition<'get'> => ({
@@ -249,7 +249,7 @@ edit.get = (args: { player: number | { id: number } } | [player: number | { id: 
 
 /**
 * @see \App\Http\Controllers\PlayerController::edit
-* @see app/Http/Controllers/PlayerController.php:53
+* @see app/Http/Controllers/PlayerController.php:55
 * @route '/players/{player}/edit'
 */
 edit.head = (args: { player: number | { id: number } } | [player: number | { id: number } ] | number | { id: number }, options?: RouteQueryOptions): RouteDefinition<'head'> => ({
@@ -259,7 +259,7 @@ edit.head = (args: { player: number | { id: number } } | [player: number | { id:
 
 /**
 * @see \App\Http\Controllers\PlayerController::update
-* @see app/Http/Controllers/PlayerController.php:61
+* @see app/Http/Controllers/PlayerController.php:63
 * @route '/players/{player}'
 */
 export const update = (args: { player: number | { id: number } } | [player: number | { id: number } ] | number | { id: number }, options?: RouteQueryOptions): RouteDefinition<'put'> => ({
@@ -274,7 +274,7 @@ update.definition = {
 
 /**
 * @see \App\Http\Controllers\PlayerController::update
-* @see app/Http/Controllers/PlayerController.php:61
+* @see app/Http/Controllers/PlayerController.php:63
 * @route '/players/{player}'
 */
 update.url = (args: { player: number | { id: number } } | [player: number | { id: number } ] | number | { id: number }, options?: RouteQueryOptions) => {
@@ -307,7 +307,7 @@ update.url = (args: { player: number | { id: number } } | [player: number | { id
 
 /**
 * @see \App\Http\Controllers\PlayerController::update
-* @see app/Http/Controllers/PlayerController.php:61
+* @see app/Http/Controllers/PlayerController.php:63
 * @route '/players/{player}'
 */
 update.put = (args: { player: number | { id: number } } | [player: number | { id: number } ] | number | { id: number }, options?: RouteQueryOptions): RouteDefinition<'put'> => ({
@@ -317,7 +317,7 @@ update.put = (args: { player: number | { id: number } } | [player: number | { id
 
 /**
 * @see \App\Http\Controllers\PlayerController::update
-* @see app/Http/Controllers/PlayerController.php:61
+* @see app/Http/Controllers/PlayerController.php:63
 * @route '/players/{player}'
 */
 update.patch = (args: { player: number | { id: number } } | [player: number | { id: number } ] | number | { id: number }, options?: RouteQueryOptions): RouteDefinition<'patch'> => ({
@@ -327,7 +327,7 @@ update.patch = (args: { player: number | { id: number } } | [player: number | { 
 
 /**
 * @see \App\Http\Controllers\PlayerController::destroy
-* @see app/Http/Controllers/PlayerController.php:71
+* @see app/Http/Controllers/PlayerController.php:75
 * @route '/players/{player}'
 */
 export const destroy = (args: { player: number | { id: number } } | [player: number | { id: number } ] | number | { id: number }, options?: RouteQueryOptions): RouteDefinition<'delete'> => ({
@@ -342,7 +342,7 @@ destroy.definition = {
 
 /**
 * @see \App\Http\Controllers\PlayerController::destroy
-* @see app/Http/Controllers/PlayerController.php:71
+* @see app/Http/Controllers/PlayerController.php:75
 * @route '/players/{player}'
 */
 destroy.url = (args: { player: number | { id: number } } | [player: number | { id: number } ] | number | { id: number }, options?: RouteQueryOptions) => {
@@ -375,7 +375,7 @@ destroy.url = (args: { player: number | { id: number } } | [player: number | { i
 
 /**
 * @see \App\Http\Controllers\PlayerController::destroy
-* @see app/Http/Controllers/PlayerController.php:71
+* @see app/Http/Controllers/PlayerController.php:75
 * @route '/players/{player}'
 */
 destroy.delete = (args: { player: number | { id: number } } | [player: number | { id: number } ] | number | { id: number }, options?: RouteQueryOptions): RouteDefinition<'delete'> => ({

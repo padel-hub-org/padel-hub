@@ -1,7 +1,7 @@
 import { queryParams, type RouteQueryOptions, type RouteDefinition, applyUrlDefaults } from './../../../wayfinder'
 /**
 * @see \App\Http\Controllers\EventController::disabled
-* @see app/Http/Controllers/EventController.php:69
+* @see app/Http/Controllers/EventController.php:71
 * @route '/events/{event}/players/{player}/disabled'
 */
 export const disabled = (args: { event: number | { id: number }, player: number | { id: number } } | [event: number | { id: number }, player: number | { id: number } ], options?: RouteQueryOptions): RouteDefinition<'put'> => ({
@@ -16,7 +16,7 @@ disabled.definition = {
 
 /**
 * @see \App\Http\Controllers\EventController::disabled
-* @see app/Http/Controllers/EventController.php:69
+* @see app/Http/Controllers/EventController.php:71
 * @route '/events/{event}/players/{player}/disabled'
 */
 disabled.url = (args: { event: number | { id: number }, player: number | { id: number } } | [event: number | { id: number }, player: number | { id: number } ], options?: RouteQueryOptions) => {
@@ -46,7 +46,7 @@ disabled.url = (args: { event: number | { id: number }, player: number | { id: n
 
 /**
 * @see \App\Http\Controllers\EventController::disabled
-* @see app/Http/Controllers/EventController.php:69
+* @see app/Http/Controllers/EventController.php:71
 * @route '/events/{event}/players/{player}/disabled'
 */
 disabled.put = (args: { event: number | { id: number }, player: number | { id: number } } | [event: number | { id: number }, player: number | { id: number } ], options?: RouteQueryOptions): RouteDefinition<'put'> => ({
