@@ -11,5 +11,5 @@
 <div>
     <h1>Welcome to the Authentication Page</h1>
 
-    <Button href={redirectToGoogle().url}>Log in with Google</Button>
+    <Button href={redirectToGoogle()}>Log in with Google</Button>
 </div>

@@ -11,7 +11,7 @@
     const { event }: Props = $props();
 </script>
 
-<Link href={show(event)}>
+<Link href={show(event)} viewTransition>
     <article class="event">
         <h2>{dayjs(event.starts_at).calendar()}</h2>
 

@@ -14,13 +14,17 @@
 </svelte:head>
 
 <div class="page">
-    <Button class="button" variant={"outline"} href={create().url}
-        >Create player</Button
+    <Button
+        class="button"
+        variant={"outline"}
+        href={create().url}
+        viewTransition>Create player</Button
     >
     <ul>
         {#each players as player}
             <li>
-                <Button href={show(player)}>{player.name}</Button>
+                <Button href={show(player)} viewTransition>{player.name}</Button
+                >
                 <Button class="cursor-pointer" href={destroy(player)}
                     >Remove player</Button
                 >

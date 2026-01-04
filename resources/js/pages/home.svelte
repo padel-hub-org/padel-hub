@@ -20,8 +20,8 @@
     <h1 class="mb-4">Welcome {user?.name ?? "Guest"}</h1>
 
     {#if user}
-        <Button href="/players">Go to Players</Button>
-        <Button href={logout()}>Log out</Button>
+        <Button href="/players" viewTransition>Go to Players</Button>
+        <Button href={logout()} viewTransition>Log out</Button>
     {:else}
         <Button href={redirectToGoogle()}>Log in with Google</Button>
     {/if}

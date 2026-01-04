@@ -12,7 +12,7 @@
     const { event }: Props = $props();
 
     const confirmDelete = () => {
-        router.delete(destroy(event));
+        router.delete(destroy(event), { viewTransition: true });
     };
 </script>
 
