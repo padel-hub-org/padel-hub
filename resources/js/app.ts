@@ -73,7 +73,7 @@ createInertiaApp({
         let page: any = pages[`./pages/${name}.svelte`];
         return { default: page.default, layout: page.layout || Layout };
     },
-    setup({ el, App, props }) {
+    setup({ el, App, props }: { el: Element; App: any; props: any }) {
         if (!el) throw new Error("Inertia app target element not found");
 
         mount(App, { target: el, props });

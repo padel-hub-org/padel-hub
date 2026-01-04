@@ -50,6 +50,8 @@ class EventController extends Controller
             'starts_at' => $startsAt,
         ]);
 
+        Inertia::flash('toast', ['type' => 'success', 'message' => 'Event created successfully.']);
+
         return redirect()->route('events.show', $event);
     }
 
@@ -93,6 +95,7 @@ class EventController extends Controller
     public function update(UpdateEventRequest $request, Event $event): RedirectResponse
     {
         $event->update($request->validated());
+        Inertia::flash('toast', ['type' => 'success', 'message' => 'Event updated successfully.']);
 
         return back();
     }
@@ -103,6 +106,8 @@ class EventController extends Controller
     public function destroy(Event $event): RedirectResponse
     {
         $event->delete();
+
+        Inertia::flash('toast', ['type' => 'success', 'message' => 'Event deleted successfully.']);
 
         return redirect()->route('events.index');
     }

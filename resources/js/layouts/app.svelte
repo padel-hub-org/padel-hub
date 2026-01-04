@@ -7,6 +7,7 @@
     import { onDestroy } from "svelte";
     import { parentPath } from "@/lib/utils/url";
     import { index as events } from "@/routes/events";
+    import Feedback from "@/components/feedback.svelte";
 
     let { children } = $props();
 
@@ -67,6 +68,8 @@
             </Button>
         {/if}
     </header>
+
+    <Feedback />
 
     <main>
         {@render children()}
