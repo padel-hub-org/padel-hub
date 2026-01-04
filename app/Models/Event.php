@@ -58,7 +58,7 @@ class Event extends Model
      */
     public function players(): BelongsToMany
     {
-        return $this->belongsToMany(Player::class)->withTimestamps();
+        return $this->belongsToMany(Player::class)->orderBy('name')->withTimestamps()->withPivot('disabled_at');
     }
 
     /**

@@ -1,6 +1,6 @@
 <script lang="ts">
     import { Button } from "$lib/components/ui/button/index.ts";
-    import { create, destroy, edit } from "@/routes/players";
+    import { create, destroy, show } from "@/routes/players";
     import type { Player } from "@/types/Player";
     interface Props {
         players: Player[];
@@ -20,7 +20,7 @@
     <ul>
         {#each players as player}
             <li>
-                <Button href={edit(player)}>{player.name}</Button>
+                <Button href={show(player)}>{player.name}</Button>
                 <Button class="cursor-pointer" href={destroy(player)}
                     >Remove player</Button
                 >
