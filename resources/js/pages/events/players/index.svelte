@@ -7,6 +7,7 @@
     import { InfiniteScroll } from "@inertiajs/svelte";
     import type { Event } from "@/types/Event";
     import dayjs from "dayjs";
+    import { slide } from "svelte/transition";
 
     interface Props {
         event: Event;
@@ -28,8 +29,8 @@
 
     <h2>Enrolled players</h2>
     <div class="players">
-        {#each eventPlayers as player}
-            <div class="player">
+        {#each eventPlayers as player (player.id)}
+            <div class="player" transition:slide>
                 <p>{player.name}</p>
                 <Button
                     preserveScroll
@@ -43,8 +44,8 @@
     <h2>Not enrolled players</h2>
     <InfiniteScroll data="events">
         <div class="players">
-            {#each players.data as player}
-                <div class="player">
+            {#each players.data as player (player.id)}
+                <div class="player" transition:slide={{ duration: 150 }}>
                     <p>{player.name}</p>
                     <Button
                         preserveScroll
@@ -66,6 +67,7 @@
         padding: 1rem;
         border-radius: var(--radius);
         align-items: center;
+        margin-bottom: 1rem;
     }
 
     h1 {
@@ -83,7 +85,7 @@
 
     .players {
         display: grid;
-        gap: 1rem;
+        /* gap: 1rem; */
         margin-bottom: 5rem;
     }
 </style>

@@ -32,7 +32,7 @@
     <title>Create event | Padel Hub</title>
 </svelte:head>
 
-<Form action={store()} visitOptions={{ viewTransition: true }}>
+<Form action={store()} options={{ viewTransition: true }}>
     {#snippet children({ errors, processing }: InertiaFormProps<FormFields>)}
         <div class="form">
             <h1>Create event</h1>

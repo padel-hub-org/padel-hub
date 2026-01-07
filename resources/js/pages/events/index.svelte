@@ -1,6 +1,7 @@
 <script lang="ts">
     import EventCard from "@/components/events/event-card.svelte";
     import { Button } from "@/lib/components/ui/button";
+    import { Spinner } from "@/lib/components/ui/spinner";
     import { create } from "@/routes/events";
     import type { Event } from "@/types/Event";
     import type { Pagination } from "@/types/Pagination";
@@ -34,6 +35,10 @@
                 <EventCard {event}></EventCard>
             {/each}
         </div>
+
+        <div slot="loading" class="loading">
+            <Spinner class="size-6" />
+        </div>
     </InfiniteScroll>
 </div>
 
@@ -49,5 +54,10 @@
         display: grid;
         gap: 1rem;
         margin-bottom: 5rem;
+    }
+
+    .loading {
+        display: grid;
+        justify-items: center;
     }
 </style>

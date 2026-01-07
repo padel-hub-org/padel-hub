@@ -42,6 +42,10 @@
             {/if}
         </div>
     {/each}
+
+    {#if players?.length === 0}
+        <p>No players have been added to this event yet.</p>
+    {/if}
 </div>
 
 <style>
@@ -53,7 +57,8 @@
     .header {
         display: grid;
         grid-template-columns: 1fr auto;
-        margin-bottom: 2rem;
+        align-items: end;
+        margin-bottom: 1rem;
         margin-top: 4rem;
     }
 

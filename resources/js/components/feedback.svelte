@@ -15,23 +15,50 @@
                 return "mdi:information";
         }
     };
+
+    let currentToast: { type: string; message: string } | null = $state(null);
+    let lastUrl = $state($page.url);
+
+    $effect(() => {
+        // Clear toast on navigation
+        if ($page.url !== lastUrl) {
+            currentToast = null;
+            lastUrl = $page.url;
+        }
+
+        // Set new toast if present
+        if ($page.flash?.toast) {
+            currentToast = $page.flash.toast;
+        }
+    });
 </script>
 
-{#if $page.flash?.toast}
-    <Alert.Root>
-        <Alert.Description class="flex items-center gap-2">
-            <iconify-icon
-                icon={getIconForType($page.flash.toast.type)}
-                class={`icon-${$page.flash.toast.type}`}
-                width="1.5rem"
-                height="1.5rem"
-            ></iconify-icon>
-            {$page.flash?.toast?.message}
-        </Alert.Description>
-    </Alert.Root>
+{#if currentToast}
+    <div class="feedback-alert">
+        <Alert.Root>
+            <Alert.Description class="flex items-center gap-2">
+                <iconify-icon
+                    icon={getIconForType(currentToast.type)}
+                    class={`icon-${currentToast.type}`}
+                    width="1.5rem"
+                    height="1.5rem"
+                ></iconify-icon>
+                {currentToast.message}
+            </Alert.Description>
+        </Alert.Root>
+    </div>
 {/if}
 
 <style>
+    .feedback-alert {
+        position: sticky;
+        top: 0.5rem;
+        z-index: 50;
+        width: auto;
+        margin-inline: 0.5rem;
+        view-transition-name: feedback-alert;
+    }
+
     .icon-success {
         color: var(--success);
     }

@@ -6,6 +6,7 @@ use App\Http\Requests\StorePlayerRequest;
 use App\Http\Requests\UpdatePlayerRequest;
 use App\Models\Player;
 use Illuminate\Http\RedirectResponse;
+use Illuminate\Http\Request;
 use Inertia\Inertia;
 use Inertia\Response;
 
@@ -14,11 +15,22 @@ class PlayerController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index(): Response
+    public function index(Request $request): Response
     {
-        $players = Player::query()->orderBy('name')->get();
+        $validated = $request->validate([
+            'search' => 'nullable|string|max:255',
+        ]);
 
-        return Inertia::render('players/index', ['players' => $players]);
+        $query = Player::query();
+
+        if (! empty($validated['search'])) {
+            $query->where('name', 'ilike', '%'.$validated['search'].'%');
+        }
+
+        return Inertia::render('players/index', [
+            'players' => Inertia::scroll(fn () => $query->orderBy('name')->paginate()),
+            'search' => $validated['search'] ?? '',
+        ]);
     }
 
     /**
