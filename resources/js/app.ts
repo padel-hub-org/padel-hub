@@ -1,4 +1,4 @@
-import { createInertiaApp, progress } from "@inertiajs/svelte";
+import { createInertiaApp } from "@inertiajs/svelte";
 import { mount } from "svelte";
 import "../css/app.css";
 import Layout from "./layouts/app.svelte";
