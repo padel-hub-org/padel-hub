@@ -68,6 +68,12 @@ function setDayjsLocaleFromBrowser() {
 setDayjsLocaleFromBrowser();
 
 createInertiaApp({
+    progress: {
+        delay: 250,
+        color: "var(--primary)",
+        includeCSS: true,
+        showSpinner: false,
+    },
     resolve: (name: string) => {
         const pages = import.meta.glob("./pages/**/*.svelte", { eager: true });
         let page: any = pages[`./pages/${name}.svelte`];

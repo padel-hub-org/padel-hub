@@ -95,7 +95,6 @@ class EventController extends Controller
     public function update(UpdateEventRequest $request, Event $event): RedirectResponse
     {
         $event->update($request->validated());
-        Inertia::flash('toast', ['type' => 'success', 'message' => 'Event updated successfully.']);
 
         return back();
     }
