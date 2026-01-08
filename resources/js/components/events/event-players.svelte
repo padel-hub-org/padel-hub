@@ -43,7 +43,7 @@
         </div>
     {/each}
 
-    {#if players?.length === 0}
+    {#if players?.length == 0}
         <p>No players have been added to this event yet.</p>
     {/if}
 </div>

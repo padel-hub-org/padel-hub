@@ -30,7 +30,7 @@
     <h2>Enrolled players</h2>
     <div class="players">
         {#each eventPlayers as player (player.id)}
-            <div class="player" transition:slide>
+            <div class="player" transition:slide={{ duration: 150 }}>
                 <p>{player.name}</p>
                 <Button
                     preserveScroll
@@ -85,7 +85,6 @@
 
     .players {
         display: grid;
-        /* gap: 1rem; */
         margin-bottom: 5rem;
     }
 </style>

@@ -16,7 +16,12 @@
         }
     };
 
-    let currentToast: { type: string; message: string } | null = $state(null);
+    interface Toast {
+        type: string;
+        message: string;
+    }
+
+    let currentToast: Toast | null = $state(null);
     let lastUrl = $state($page.url);
 
     $effect(() => {

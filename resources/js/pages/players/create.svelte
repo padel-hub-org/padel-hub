@@ -19,5 +19,5 @@
         <Input type="text" name="name" id="name" required />
     </Field>
 
-    <Button type="submit" class="mt-4" viewTransition>Create Player</Button>
+    <Button type="submit" class="mt-4">Create Player</Button>
 </Form>
