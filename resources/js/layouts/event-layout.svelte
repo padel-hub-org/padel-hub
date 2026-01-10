@@ -38,21 +38,55 @@
         }
     });
 
+    let currentTab = $state("settings");
+
     const onChangeTab = (value: string) => {
+        // A hack to avoid Tabs.Root updating currentTab before we navigate
+        //   which would break view transitions
+        currentTab = tab;
+
         const url = tabRoutes[value as keyof TabRoutes];
         if (url) {
             router.visit(url, { viewTransition: true });
         }
     };
+
+    // Keep currentTab in sync with tab
+    $effect(() => {
+        if (currentTab !== tab) {
+            currentTab = tab;
+        }
+    });
 </script>
 
 <div class="event-layout">
-    <Tabs.Root value={tab} onValueChange={onChangeTab}>
+    <Tabs.Root bind:value={currentTab} onValueChange={onChangeTab}>
         <div class="tab-list">
             <Tabs.List>
-                <Tabs.Trigger value="settings">Settings</Tabs.Trigger>
-                <Tabs.Trigger value="games">Games</Tabs.Trigger>
-                <Tabs.Trigger value="leaderboard">Leaderboard</Tabs.Trigger>
+                <Tabs.Trigger value="settings"
+                    ><p
+                        class="tab-text"
+                        style="view-transition-name: shad-tab-trigger-settings;"
+                    >
+                        Settings
+                    </p></Tabs.Trigger
+                >
+                <Tabs.Trigger value="games"
+                    ><p
+                        class="tab-text"
+                        style="view-transition-name: shad-tab-trigger-games;"
+                    >
+                        Games
+                    </p></Tabs.Trigger
+                >
+                <Tabs.Trigger value="leaderboard"
+                    ><p
+                        class="tab-text"
+                        style="view-transition-name: shad-tab-trigger-leaderboard; "
+                    >
+                        Leaderboard
+                    </p></Tabs.Trigger
+                >
             </Tabs.List>
         </div>
         <Tabs.Content value="settings">
@@ -69,12 +103,18 @@
 
 <style>
     .tab-list {
-        display: grid;
-        view-transition-name: tab-root;
-        justify-content: center;
         position: fixed;
-        bottom: 3.75rem;
-        left: 0;
+        display: grid;
         right: 0;
+        left: 0;
+        bottom: 3.75rem;
+        justify-content: center;
+        view-transition-name: tab-root;
+        view-transition-class: slide-up;
+    }
+
+    .tab-text {
+        z-index: 1;
+        view-transition-class: slide-up;
     }
 </style>
