@@ -20,10 +20,11 @@ class EventController extends Controller
     public function index(): Response
     {
         return Inertia::render('events/index', [
-            'events' => Inertia::scroll(fn () => Event::query()
-                ->latest('starts_at')
-                ->withCount('players')
-                ->paginate()
+            'events' => Inertia::scroll(
+                fn () => Event::query()
+                    ->latest('starts_at')
+                    ->withCount('players')
+                    ->paginate()
             ),
         ]);
     }
@@ -58,11 +59,9 @@ class EventController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(Event $event): Response
+    public function show(Event $event): RedirectResponse
     {
-        return Inertia::render('events/show', [
-            'event' => $event->load('players'),
-        ]);
+        return redirect()->route('events.settings.index', ['event' => $event]);
     }
 
     /**
@@ -86,7 +85,7 @@ class EventController extends Controller
      */
     public function edit(Event $event): RedirectResponse
     {
-        return redirect()->route('events.show', $event);
+        return redirect()->route('events.settings.index', $event);
     }
 
     /**

@@ -1,3 +1,10 @@
+<script lang="ts" module>
+    import App from "@/layouts/app.svelte";
+    import EventLayout from "@/layouts/event-layout.svelte";
+
+    export const layout = [App, EventLayout];
+</script>
+
 <script lang="ts">
     import EventDeleteDialog from "@/components/events/event-delete-dialog.svelte";
     import EventInfo from "@/components/events/event-info.svelte";

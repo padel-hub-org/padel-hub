@@ -17,7 +17,7 @@ class PlayerFactory extends Factory
     public function definition(): array
     {
         return [
-            'name' => fake()->name(),
+            'name' => fake()->firstName(),
             'rating' => fake()->numberBetween(0, 3000),
         ];
     }
