@@ -1,5 +1,5 @@
 import type { Event } from "./Event";
-import type { Player } from "./Player";
+import type { GamePlayer } from "./GamePlayer";
 
 export interface Game {
     id: number;
@@ -10,5 +10,5 @@ export interface Game {
     updated_at: string;
 
     event?: Event;
-    players?: Player[]; // Possibly change to intermediate type with pivot values
+    players?: GamePlayer[];
 }

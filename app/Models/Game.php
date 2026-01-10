@@ -49,6 +49,6 @@ class Game extends Model
      */
     public function players(): BelongsToMany
     {
-        return $this->belongsToMany(Player::class)->withTrashed();
+        return $this->belongsToMany(Player::class)->withTrashed()->withPivot('previous_rating', 'points', 'partner_id', 'result');
     }
 }
