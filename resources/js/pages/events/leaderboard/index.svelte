@@ -29,8 +29,6 @@
     {:else}
         <div class={["leaderboard", anyTied ? "with-ties" : ""]}>
             <div class="player header">
-                <p class="rank"></p>
-                <p class="name"></p>
                 <p class="rating">Today's rating</p>
                 <p class="games-won">Won</p>
                 <p class="games-lost">Lost</p>
@@ -63,5 +61,10 @@
         gap: 1rem;
         padding: 0.5rem 1rem;
         align-items: center;
+    }
+
+    .rating {
+        grid-column: span 3;
+        justify-self: end;
     }
 </style>
