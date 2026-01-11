@@ -27,6 +27,10 @@
 </svelte:head>
 <div class="page">
     <div class="games">
+        {#if Object.keys(gamesByRound).length === 0}
+            <p>No games yet</p>
+        {/if}
+
         {#each Object.entries(gamesByRound) as [round, games]}
             <div class="round">
                 <h3>Round {parseInt(round) + 1}</h3>

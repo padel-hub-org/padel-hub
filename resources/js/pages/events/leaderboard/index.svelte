@@ -24,21 +24,25 @@
 </svelte:head>
 
 <div class="page">
-    <div class={["leaderboard", anyTied ? "with-ties" : ""]}>
-        <div class="player header">
-            <p class="rank"></p>
-            <p class="name"></p>
-            <p class="rating">Today's rating</p>
-            <p class="games-won">Won</p>
-            <p class="games-lost">Lost</p>
-            {#if anyTied}
-                <p class="games-tied">Tied</p>
-            {/if}
+    {#if players.length === 0}
+        <p>No players in the leaderboard yet.</p>
+    {:else}
+        <div class={["leaderboard", anyTied ? "with-ties" : ""]}>
+            <div class="player header">
+                <p class="rank"></p>
+                <p class="name"></p>
+                <p class="rating">Today's rating</p>
+                <p class="games-won">Won</p>
+                <p class="games-lost">Lost</p>
+                {#if anyTied}
+                    <p class="games-tied">Tied</p>
+                {/if}
+            </div>
+            {#each players as player, index}
+                <PlayerLeaderboardCard {player} {index} {anyTied} />
+            {/each}
         </div>
-        {#each players as player, index}
-            <PlayerLeaderboardCard {player} {index} {anyTied} />
-        {/each}
-    </div>
+    {/if}
 </div>
 
 <style>
