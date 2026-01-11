@@ -60,9 +60,8 @@ class Event extends Model
     {
         return $this->belongsToMany(Player::class)
             ->withTrashed()
-            ->orderBy('name')
             ->withTimestamps()
-            ->withPivot('disabled_at');
+            ->withPivot('disabled_at', 'event_rating');
     }
 
     /**

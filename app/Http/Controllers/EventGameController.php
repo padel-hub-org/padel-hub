@@ -16,6 +16,7 @@ class EventGameController extends Controller
     public function index(Event $event): Response
     {
         return Inertia::render('events/games/index', [
+            'title' => 'Games',
             'gamesByRound' => $event->games()
                 ->with('players')
                 ->orderByDesc('round')

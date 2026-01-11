@@ -1,3 +1,9 @@
+<script lang="ts" module>
+    import App from "@/layouts/app.svelte";
+    import EventLayout from "@/layouts/event-layout.svelte";
+    export const layout = [App, EventLayout];
+</script>
+
 <script lang="ts">
     import { Button } from "@/lib/components/ui/button";
     import type { EventPlayer } from "@/types/EventPlayer";
@@ -6,7 +12,6 @@
     import { store, destroy } from "@/routes/events/players";
     import { InfiniteScroll } from "@inertiajs/svelte";
     import type { Event } from "@/types/Event";
-    import dayjs from "dayjs";
     import { slide } from "svelte/transition";
 
     interface Props {
@@ -23,10 +28,6 @@
 </svelte:head>
 
 <div class="page">
-    <header>
-        <h1>Event: {dayjs(event.starts_at).calendar()}</h1>
-    </header>
-
     <h2>Enrolled players</h2>
     <div class="players">
         {#each eventPlayers as player (player.id)}

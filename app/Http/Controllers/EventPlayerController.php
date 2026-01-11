@@ -18,8 +18,9 @@ class EventPlayerController extends Controller
     public function index(Event $event): Response
     {
         return Inertia::render('events/players/index', [
+            'title' => 'Players',
             'event' => $event,
-            'eventPlayers' => $event->players,
+            'eventPlayers' => $event->players()->orderBy('name')->get(),
             'players' => Inertia::scroll(
                 fn () => Player::query()->whereDoesntHave('events', function (Builder $builder) use ($event) {
                     $builder->where('events.id', $event->id);

@@ -3,6 +3,7 @@
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\EventController;
 use App\Http\Controllers\EventGameController;
+use App\Http\Controllers\EventLeaderboardController;
 use App\Http\Controllers\EventPlayerController;
 use App\Http\Controllers\EventSettingController;
 use App\Http\Controllers\HomeController;
@@ -24,6 +25,7 @@ Route::middleware('auth')->group(function () {
     Route::resource('events.players', EventPlayerController::class);
     Route::resource('events.settings', EventSettingController::class)->only('index');
     Route::resource('events.games', EventGameController::class);
+    Route::resource('events.leaderboard', EventLeaderboardController::class)->only('index');
 
     Route::name('logout')->post('/logout', [AuthController::class, 'logout']);
 });

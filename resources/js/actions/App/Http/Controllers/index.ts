@@ -5,6 +5,7 @@ import EventController from './EventController'
 import EventPlayerController from './EventPlayerController'
 import EventSettingController from './EventSettingController'
 import EventGameController from './EventGameController'
+import EventLeaderboardController from './EventLeaderboardController'
 
 const Controllers = {
     HomeController: Object.assign(HomeController, HomeController),
@@ -14,6 +15,7 @@ const Controllers = {
     EventPlayerController: Object.assign(EventPlayerController, EventPlayerController),
     EventSettingController: Object.assign(EventSettingController, EventSettingController),
     EventGameController: Object.assign(EventGameController, EventGameController),
+    EventLeaderboardController: Object.assign(EventLeaderboardController, EventLeaderboardController),
 }
 
 export default Controllers
