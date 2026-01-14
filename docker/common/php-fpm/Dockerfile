@@ -6,6 +6,8 @@ FROM php:8.4-fpm AS builder
 # Node.js and asset building are handled in the Nginx stage, not here.
 RUN apt-get update && apt-get install -y --no-install-recommends \
     curl \
+    nodejs \
+    npm \
     unzip \
     libpq-dev \
     libonig-dev \
@@ -30,6 +32,7 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
 # Set the working directory inside the container
 WORKDIR /var/www
 
+
 # Copy the entire Laravel application code into the container
 # -----------------------------------------------------------
 # In Laravel, `composer install` may trigger scripts
@@ -49,7 +52,10 @@ COPY . /var/www
 
 # Install Composer and dependencies
 RUN curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin --filename=composer \
-    && composer install --no-dev --optimize-autoloader --no-interaction --no-progress --prefer-dist
+    && COMPOSER_PROCESS_TIMEOUT=2000 composer install --no-dev --optimize-autoloader --no-interaction --no-progress --prefer-dist --no-plugins --no-scripts \
+    && composer run-script --no-dev post-autoload-dump
+
+RUN npm install && npm run build
 
 # Stage 2: Production environment
 FROM php:8.4-fpm AS production
@@ -70,7 +76,7 @@ RUN curl -o /usr/local/bin/php-fpm-healthcheck \
     && chmod +x /usr/local/bin/php-fpm-healthcheck
 
 # Copy the initialization script
-COPY ./docker/php-fpm/entrypoint.sh /usr/local/bin/entrypoint.sh
+COPY ./docker/production/php-fpm/entrypoint.sh /usr/local/bin/entrypoint.sh
 RUN chmod +x /usr/local/bin/entrypoint.sh
 
 # Copy the initial storage structure
