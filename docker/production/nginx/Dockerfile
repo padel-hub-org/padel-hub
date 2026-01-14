@@ -5,11 +5,6 @@ FROM debian AS builder
 # Install Node.js, PHP, and build tools
 RUN apt-get update && apt-get install -y --no-install-recommends \
     curl \
-    nodejs \
-    npm \
-    php-cli \
-    php-xml \
-    php-mbstring \
     && apt-get clean && rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
 
 # Set working directory
@@ -17,9 +12,6 @@ WORKDIR /var/www
 
 # Copy Laravel application code
 COPY . /var/www
-
-# Install Node.js dependencies and build assets
-RUN npm install && npm run build
 
 # Stage 2: Nginx production image
 FROM nginx:alpine
