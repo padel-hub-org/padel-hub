@@ -18,6 +18,7 @@ export default defineConfig({
             refresh: true,
         }),
         svelte(),
-        wayfinder(),
+        // Only run wayfinder during development, not in production builds
+        ...(process.env.NODE_ENV !== "production" ? [wayfinder()] : []),
     ],
 });
