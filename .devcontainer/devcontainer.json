@@ -19,7 +19,8 @@
                 "GitHub.copilot",
                 "GitHub.copilot-chat",
                 "svelte.svelte-vscode",
-                "bradlc.vscode-tailwindcss"
+                "bradlc.vscode-tailwindcss",
+                "ms-azuretools.vscode-containers"
             ],
             "settings": {}
         }
