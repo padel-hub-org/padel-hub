@@ -26,6 +26,11 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
     && docker-php-ext-enable redis \
     && apt-get autoremove -y && apt-get clean && rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
 
+# Install Node.js for building frontend assets
+RUN curl -fsSL https://deb.nodesource.com/setup_24.x | bash - \
+    && apt-get install -y nodejs \
+    && apt-get autoremove -y && apt-get clean && rm -rf /var/lib/apt/lists/*
+
 # Set the working directory inside the container
 WORKDIR /var/www
 
@@ -51,6 +56,9 @@ COPY . /var/www
 RUN curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin --filename=composer \
     && COMPOSER_PROCESS_TIMEOUT=2000 composer install --no-dev --optimize-autoloader --no-interaction --no-progress --prefer-dist --no-plugins --no-scripts \
     && composer run-script --no-dev post-autoload-dump
+
+# Build frontend assets
+RUN npm ci && npm run build
 
 # Stage 2: Production environment
 FROM php:8.4-fpm AS production
