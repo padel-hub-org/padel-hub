@@ -13,6 +13,13 @@ services:
       # The 'php-fpm' service mounts the same volume without ':ro' to allow write operations.
       # -----------------------------------------------------------
       - laravel-storage-production:/var/www/storage:ro
+      # Mount the 'laravel-public' volume to '/var/www/public' inside the container.
+      # -----------------------------------------------------------
+      # This volume contains the public assets and entry point (index.php) for the application.
+      # The ':ro' option mounts it as read-only in the 'web' service because Nginx only needs to serve these files.
+      # The 'php-fpm' service mounts the same volume without ':ro' to allow write operations during deployment.
+      # -----------------------------------------------------------
+      - laravel-public-production:/var/www/public:ro
     networks:
       - laravel-production
     ports:
@@ -38,6 +45,7 @@ services:
     restart: unless-stopped
     volumes:
       - laravel-storage-production:/var/www/storage # Mount the storage volume
+      - laravel-public-production:/var/www/public # Mount the public volume
     env_file:
       - stack.env
     networks:
@@ -94,3 +102,4 @@ networks:
 volumes:
   postgres-data-production:
   laravel-storage-production:
+  laravel-public-production:
