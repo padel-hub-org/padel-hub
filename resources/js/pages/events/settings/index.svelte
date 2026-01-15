@@ -14,6 +14,7 @@
 
     interface Props {
         event: Event;
+        title: string;
     }
 
     const { event }: Props = $props();
@@ -24,17 +25,9 @@
 </svelte:head>
 
 <div>
-    <h1>Event: {dayjs(event.starts_at).calendar()}</h1>
-
     <EventInfo {event}></EventInfo>
 
     <EventPlayers {event}></EventPlayers>
 
     <EventDeleteDialog {event}></EventDeleteDialog>
 </div>
-
-<style>
-    h1 {
-        margin-bottom: 1rem;
-    }
-</style>

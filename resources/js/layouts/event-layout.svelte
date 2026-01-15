@@ -6,9 +6,12 @@
     import type { Event } from "@/types/Event";
     import games from "@/routes/events/games";
     import type { Snippet } from "svelte";
+    import leaderboard from "@/routes/events/leaderboard";
+    import dayjs from "dayjs";
 
     export interface Props {
         event: Event;
+        title: string;
         children: Snippet;
     }
     interface TabRoutes {
@@ -16,13 +19,12 @@
         games: string;
         leaderboard: string;
     }
-    let { children, event }: Props = $props();
+    let { children, event, title }: Props = $props();
 
     const tabRoutes: TabRoutes = {
         settings: settings.index(event).url,
         games: games.index(event).url,
-        //TODO: change this when leaderboard gets implemented
-        leaderboard: settings.index(event).url,
+        leaderboard: leaderboard.index(event).url,
     };
 
     const tab = $derived.by(() => {
@@ -60,6 +62,11 @@
 </script>
 
 <div class="event-layout">
+    <header>
+        <h1>{title}</h1>
+        <p class="event-date">{dayjs(event.starts_at).calendar()}</p>
+    </header>
+
     <Tabs.Root bind:value={currentTab} onValueChange={onChangeTab}>
         <div class="tab-list">
             <Tabs.List>
@@ -102,6 +109,19 @@
 </div>
 
 <style>
+    header {
+        margin-bottom: 2rem;
+    }
+
+    h1 {
+        font-size: var(--font-size-heading-1);
+        font-weight: bold;
+    }
+
+    .event-date {
+        font-size: var(--font-size-large);
+    }
+
     .tab-list {
         position: fixed;
         display: grid;

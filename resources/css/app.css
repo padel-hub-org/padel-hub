@@ -38,6 +38,10 @@
     --sidebar-ring: oklch(0.704 0.04 256.788);
     --nav-background: oklch(from var(--primary) 0.98 0.01 h);
 
+    --gold-color: oklch(88.677% 0.18212 95.338);
+    --silver-color: oklch(83.146% 0.07426 250.597);
+    --bronze-color: oklch(78.11% 0.08099 46.025);
+
     --font-size-small: 0.875rem;
     --font-size-regular: 1rem;
     --font-size-large: 1.25rem;
@@ -77,6 +81,10 @@
     --sidebar-ring: oklch(0.551 0.027 264.364);
     --nav-background: oklch(from var(--primary) 0.1 0.25 h);
     --nav-background-secondary: oklch(from var(--primary) 0.35 0.04 h);
+
+    --gold-color: oklch(47.906% 0.04229 80.148);
+    --silver-color: oklch(47.685% 0.04598 249.966);
+    --bronze-color: oklch(37.207% 0.04884 45.768);
 }
 
 @theme inline {

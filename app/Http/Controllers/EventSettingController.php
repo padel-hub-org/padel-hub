@@ -14,6 +14,7 @@ class EventSettingController extends Controller
     public function index(Event $event): Response
     {
         return Inertia::render('events/settings/index', [
+            'title' => 'Settings',
             'event' => $event->load('players'),
         ]);
     }

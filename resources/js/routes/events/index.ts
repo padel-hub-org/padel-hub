@@ -2,6 +2,7 @@ import { queryParams, type RouteQueryOptions, type RouteDefinition, applyUrlDefa
 import players from './players'
 import settings from './settings'
 import games from './games'
+import leaderboard from './leaderboard'
 /**
 * @see \App\Http\Controllers\EventController::index
 * @see app/Http/Controllers/EventController.php:20
@@ -397,6 +398,7 @@ const events = {
     players: Object.assign(players, players),
     settings: Object.assign(settings, settings),
     games: Object.assign(games, games),
+    leaderboard: Object.assign(leaderboard, leaderboard),
 }
 
 export default events
