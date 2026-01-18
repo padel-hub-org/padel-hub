@@ -1,0 +1,13 @@
+.git
+.env.testing
+.idea
+.vscode
+node_modules
+vendor
+storage/framework/cache/data/*
+storage/framework/sessions/*
+storage/framework/views/*
+storage/logs/*
+tests
+phpunit.xml
+phpstan.neon
