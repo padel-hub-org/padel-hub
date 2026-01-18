@@ -150,7 +150,7 @@
 }
 
 :root {
-    --view-transition-duration: 150ms;
+    --view-transition-duration: 100ms;
     --view-transition-translate-distance: 2rem;
     --view-transition-scale: 1;
 }
@@ -198,11 +198,11 @@
 }
 
 ::view-transition-old(.slide-up):only-child {
-    animation: slide-up 300ms ease forwards reverse;
+    animation: slide-up 150ms ease forwards reverse;
 }
 
 ::view-transition-new(.slide-up):only-child {
-    animation: slide-up 300ms ease forwards;
+    animation: slide-up 150ms ease forwards;
 }
 
 @keyframes slide-up {
@@ -213,5 +213,22 @@
     to {
         transform: translateY(0);
         opacity: 1;
+    }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    ::view-transition-group(*),
+    ::view-transition-new(*),
+    ::view-transition-old(*) {
+        animation: none !important;
+        transform: none !important;
+    }
+
+    * {
+        view-transition-name: none !important;
+        transition-duration: 0ms !important;
+        transition-delay: 0ms !important;
+        animation-duration: 0ms !important;
+        animation-delay: 0ms !important;
     }
 }

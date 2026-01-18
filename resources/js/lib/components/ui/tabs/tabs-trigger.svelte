@@ -22,6 +22,7 @@
 
 <style>
     :global(.shad-tab-trigger) {
+        cursor: pointer;
         color: var(--foreground);
         view-transition-class: slide-up;
     }
