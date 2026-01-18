@@ -15,7 +15,7 @@
 
 <div class="header">
     <h3>Players</h3>
-    <Button href={eventPlayers(event.id)}>Edit players</Button>
+    <Button href={eventPlayers(event.id)} viewTransition>Edit players</Button>
 </div>
 
 <div class="players">
