@@ -69,15 +69,16 @@
         {/if}
     </header>
 
-    <Feedback />
-
     <main>
+        <Feedback />
         {@render children()}
     </main>
-</div>
 
-<div class="nav">
-    <nav class="">
+    <footer>
+        <p>Version 0.1</p>
+    </footer>
+
+    <nav class="nav">
         <Button
             class={{ active: $page.url === home().url }}
             variant="bottomNav"
@@ -117,6 +118,8 @@
     .layout {
         display: grid;
         gap: 1rem;
+        height: 100dvh;
+        grid-template-rows: auto 1fr auto;
     }
 
     header {
@@ -146,28 +149,27 @@
 
     main {
         padding-inline: 1rem;
-        margin-bottom: 5rem;
+        overflow-y: auto;
+        margin-bottom: 1rem;
+    }
+
+    footer {
+        padding-inline: 1rem;
+        font-size: var(--font-size-small);
+        color: var(--muted-foreground);
     }
 
     .nav {
-        display: grid;
-        justify-content: center;
-        position: fixed;
-        bottom: 0;
-        left: 0;
-        right: 0;
+        width: 100%;
         view-transition-name: bottom-nav;
-
-        & nav {
-            display: flex;
-            gap: 2rem;
-            width: 100dvw;
-            padding: 0.5rem;
-            max-width: 600px;
-            background-color: var(--nav-background);
-            justify-content: center;
-            box-shadow: 0 -1px 2px 0 var(--tw-shadow-color, rgb(0 0 0 / 0.05));
-        }
+        display: flex;
+        gap: 2rem;
+        width: 100dvw;
+        padding: 0.5rem;
+        max-width: 600px;
+        background-color: var(--nav-background);
+        justify-content: center;
+        box-shadow: 0 -1px 2px 0 var(--tw-shadow-color, rgb(0 0 0 / 0.05));
 
         & :global(.active) {
             color: var(--secondary);
