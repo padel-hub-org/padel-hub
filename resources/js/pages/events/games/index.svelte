@@ -8,6 +8,8 @@
     import GameCard from "@/components/games/GameCard.svelte";
     import type { Event } from "@/types/Event";
     import type { Game } from "@/types/Game";
+    import { Button } from "@/lib/components/ui/button";
+    import { store } from "@/routes/events/games";
 
     interface GamesByRound {
         [key: string]: Game[];
@@ -19,7 +21,7 @@
         title: string;
     }
 
-    const { gamesByRound }: Props = $props();
+    const { gamesByRound, event }: Props = $props();
 </script>
 
 <svelte:head>
@@ -40,11 +42,17 @@
             </div>
         {/each}
     </div>
+
+    <Button href={store(event.id)} viewTransition>
+        <iconify-icon icon="mdi:plus" width="2rem" height="2rem"></iconify-icon>
+        New round
+    </Button>
 </div>
 
 <style>
     .games {
         display: grid;
+        margin-bottom: 2rem;
     }
 
     h3 {
