@@ -60,8 +60,8 @@
         top: 0.5rem;
         z-index: 50;
         width: auto;
-        margin-inline: 0.5rem;
         view-transition-name: feedback-alert;
+        margin-bottom: 1rem;
     }
 
     .icon-success {
