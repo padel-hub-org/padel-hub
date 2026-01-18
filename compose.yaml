@@ -26,7 +26,8 @@ services:
             - redis
             - mailpit
     pgsql:
-        image: "postgres:17-alpine"
+        container_name: "sail-pgsql"
+        image: "postgres:18-alpine"
         ports:
             - "${FORWARD_DB_PORT:-5432}:5432"
         environment:

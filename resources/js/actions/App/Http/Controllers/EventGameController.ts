@@ -4,7 +4,7 @@ import { queryParams, type RouteQueryOptions, type RouteDefinition, applyUrlDefa
 * @see app/Http/Controllers/EventGameController.php:16
 * @route '/events/{event}/games'
 */
-export const index = (args: { event: number | { id: number } } | [event: number | { id: number } ] | number | { id: number }, options?: RouteQueryOptions): RouteDefinition<'get'> => ({
+export const index = (args: { event: string | number | { id: string | number } } | [event: string | number | { id: string | number } ] | string | number | { id: string | number }, options?: RouteQueryOptions): RouteDefinition<'get'> => ({
     url: index.url(args, options),
     method: 'get',
 })
@@ -19,7 +19,7 @@ index.definition = {
 * @see app/Http/Controllers/EventGameController.php:16
 * @route '/events/{event}/games'
 */
-index.url = (args: { event: number | { id: number } } | [event: number | { id: number } ] | number | { id: number }, options?: RouteQueryOptions) => {
+index.url = (args: { event: string | number | { id: string | number } } | [event: string | number | { id: string | number } ] | string | number | { id: string | number }, options?: RouteQueryOptions) => {
     if (typeof args === 'string' || typeof args === 'number') {
         args = { event: args }
     }
@@ -52,7 +52,7 @@ index.url = (args: { event: number | { id: number } } | [event: number | { id: n
 * @see app/Http/Controllers/EventGameController.php:16
 * @route '/events/{event}/games'
 */
-index.get = (args: { event: number | { id: number } } | [event: number | { id: number } ] | number | { id: number }, options?: RouteQueryOptions): RouteDefinition<'get'> => ({
+index.get = (args: { event: string | number | { id: string | number } } | [event: string | number | { id: string | number } ] | string | number | { id: string | number }, options?: RouteQueryOptions): RouteDefinition<'get'> => ({
     url: index.url(args, options),
     method: 'get',
 })
@@ -62,7 +62,7 @@ index.get = (args: { event: number | { id: number } } | [event: number | { id: n
 * @see app/Http/Controllers/EventGameController.php:16
 * @route '/events/{event}/games'
 */
-index.head = (args: { event: number | { id: number } } | [event: number | { id: number } ] | number | { id: number }, options?: RouteQueryOptions): RouteDefinition<'head'> => ({
+index.head = (args: { event: string | number | { id: string | number } } | [event: string | number | { id: string | number } ] | string | number | { id: string | number }, options?: RouteQueryOptions): RouteDefinition<'head'> => ({
     url: index.url(args, options),
     method: 'head',
 })
@@ -186,7 +186,7 @@ store.post = (args: { event: string | number } | [event: string | number ] | str
 * @see app/Http/Controllers/EventGameController.php:49
 * @route '/events/{event}/games/{game}'
 */
-export const show = (args: { event: string | number, game: number | { id: number } } | [event: string | number, game: number | { id: number } ], options?: RouteQueryOptions): RouteDefinition<'get'> => ({
+export const show = (args: { event: string | number, game: string | number | { id: string | number } } | [event: string | number, game: string | number | { id: string | number } ], options?: RouteQueryOptions): RouteDefinition<'get'> => ({
     url: show.url(args, options),
     method: 'get',
 })
@@ -201,7 +201,7 @@ show.definition = {
 * @see app/Http/Controllers/EventGameController.php:49
 * @route '/events/{event}/games/{game}'
 */
-show.url = (args: { event: string | number, game: number | { id: number } } | [event: string | number, game: number | { id: number } ], options?: RouteQueryOptions) => {
+show.url = (args: { event: string | number, game: string | number | { id: string | number } } | [event: string | number, game: string | number | { id: string | number } ], options?: RouteQueryOptions) => {
     if (Array.isArray(args)) {
         args = {
             event: args[0],
@@ -229,7 +229,7 @@ show.url = (args: { event: string | number, game: number | { id: number } } | [e
 * @see app/Http/Controllers/EventGameController.php:49
 * @route '/events/{event}/games/{game}'
 */
-show.get = (args: { event: string | number, game: number | { id: number } } | [event: string | number, game: number | { id: number } ], options?: RouteQueryOptions): RouteDefinition<'get'> => ({
+show.get = (args: { event: string | number, game: string | number | { id: string | number } } | [event: string | number, game: string | number | { id: string | number } ], options?: RouteQueryOptions): RouteDefinition<'get'> => ({
     url: show.url(args, options),
     method: 'get',
 })
@@ -239,7 +239,7 @@ show.get = (args: { event: string | number, game: number | { id: number } } | [e
 * @see app/Http/Controllers/EventGameController.php:49
 * @route '/events/{event}/games/{game}'
 */
-show.head = (args: { event: string | number, game: number | { id: number } } | [event: string | number, game: number | { id: number } ], options?: RouteQueryOptions): RouteDefinition<'head'> => ({
+show.head = (args: { event: string | number, game: string | number | { id: string | number } } | [event: string | number, game: string | number | { id: string | number } ], options?: RouteQueryOptions): RouteDefinition<'head'> => ({
     url: show.url(args, options),
     method: 'head',
 })
@@ -310,7 +310,7 @@ edit.head = (args: { event: string | number, game: string | number } | [event: s
 * @see app/Http/Controllers/EventGameController.php:57
 * @route '/events/{event}/games/{game}'
 */
-export const update = (args: { event: string | number, game: number | { id: number } } | [event: string | number, game: number | { id: number } ], options?: RouteQueryOptions): RouteDefinition<'put'> => ({
+export const update = (args: { event: string | number, game: string | number | { id: string | number } } | [event: string | number, game: string | number | { id: string | number } ], options?: RouteQueryOptions): RouteDefinition<'put'> => ({
     url: update.url(args, options),
     method: 'put',
 })
@@ -325,7 +325,7 @@ update.definition = {
 * @see app/Http/Controllers/EventGameController.php:57
 * @route '/events/{event}/games/{game}'
 */
-update.url = (args: { event: string | number, game: number | { id: number } } | [event: string | number, game: number | { id: number } ], options?: RouteQueryOptions) => {
+update.url = (args: { event: string | number, game: string | number | { id: string | number } } | [event: string | number, game: string | number | { id: string | number } ], options?: RouteQueryOptions) => {
     if (Array.isArray(args)) {
         args = {
             event: args[0],
@@ -353,7 +353,7 @@ update.url = (args: { event: string | number, game: number | { id: number } } | 
 * @see app/Http/Controllers/EventGameController.php:57
 * @route '/events/{event}/games/{game}'
 */
-update.put = (args: { event: string | number, game: number | { id: number } } | [event: string | number, game: number | { id: number } ], options?: RouteQueryOptions): RouteDefinition<'put'> => ({
+update.put = (args: { event: string | number, game: string | number | { id: string | number } } | [event: string | number, game: string | number | { id: string | number } ], options?: RouteQueryOptions): RouteDefinition<'put'> => ({
     url: update.url(args, options),
     method: 'put',
 })
@@ -363,7 +363,7 @@ update.put = (args: { event: string | number, game: number | { id: number } } | 
 * @see app/Http/Controllers/EventGameController.php:57
 * @route '/events/{event}/games/{game}'
 */
-update.patch = (args: { event: string | number, game: number | { id: number } } | [event: string | number, game: number | { id: number } ], options?: RouteQueryOptions): RouteDefinition<'patch'> => ({
+update.patch = (args: { event: string | number, game: string | number | { id: string | number } } | [event: string | number, game: string | number | { id: string | number } ], options?: RouteQueryOptions): RouteDefinition<'patch'> => ({
     url: update.url(args, options),
     method: 'patch',
 })

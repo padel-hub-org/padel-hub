@@ -126,7 +126,7 @@ store.post = (options?: RouteQueryOptions): RouteDefinition<'post'> => ({
 * @see app/Http/Controllers/EventController.php:62
 * @route '/events/{event}'
 */
-export const show = (args: { event: number | { id: number } } | [event: number | { id: number } ] | number | { id: number }, options?: RouteQueryOptions): RouteDefinition<'get'> => ({
+export const show = (args: { event: string | number | { id: string | number } } | [event: string | number | { id: string | number } ] | string | number | { id: string | number }, options?: RouteQueryOptions): RouteDefinition<'get'> => ({
     url: show.url(args, options),
     method: 'get',
 })
@@ -141,7 +141,7 @@ show.definition = {
 * @see app/Http/Controllers/EventController.php:62
 * @route '/events/{event}'
 */
-show.url = (args: { event: number | { id: number } } | [event: number | { id: number } ] | number | { id: number }, options?: RouteQueryOptions) => {
+show.url = (args: { event: string | number | { id: string | number } } | [event: string | number | { id: string | number } ] | string | number | { id: string | number }, options?: RouteQueryOptions) => {
     if (typeof args === 'string' || typeof args === 'number') {
         args = { event: args }
     }
@@ -174,7 +174,7 @@ show.url = (args: { event: number | { id: number } } | [event: number | { id: nu
 * @see app/Http/Controllers/EventController.php:62
 * @route '/events/{event}'
 */
-show.get = (args: { event: number | { id: number } } | [event: number | { id: number } ] | number | { id: number }, options?: RouteQueryOptions): RouteDefinition<'get'> => ({
+show.get = (args: { event: string | number | { id: string | number } } | [event: string | number | { id: string | number } ] | string | number | { id: string | number }, options?: RouteQueryOptions): RouteDefinition<'get'> => ({
     url: show.url(args, options),
     method: 'get',
 })
@@ -184,7 +184,7 @@ show.get = (args: { event: number | { id: number } } | [event: number | { id: nu
 * @see app/Http/Controllers/EventController.php:62
 * @route '/events/{event}'
 */
-show.head = (args: { event: number | { id: number } } | [event: number | { id: number } ] | number | { id: number }, options?: RouteQueryOptions): RouteDefinition<'head'> => ({
+show.head = (args: { event: string | number | { id: string | number } } | [event: string | number | { id: string | number } ] | string | number | { id: string | number }, options?: RouteQueryOptions): RouteDefinition<'head'> => ({
     url: show.url(args, options),
     method: 'head',
 })
@@ -194,7 +194,7 @@ show.head = (args: { event: number | { id: number } } | [event: number | { id: n
 * @see app/Http/Controllers/EventController.php:86
 * @route '/events/{event}/edit'
 */
-export const edit = (args: { event: number | { id: number } } | [event: number | { id: number } ] | number | { id: number }, options?: RouteQueryOptions): RouteDefinition<'get'> => ({
+export const edit = (args: { event: string | number | { id: string | number } } | [event: string | number | { id: string | number } ] | string | number | { id: string | number }, options?: RouteQueryOptions): RouteDefinition<'get'> => ({
     url: edit.url(args, options),
     method: 'get',
 })
@@ -209,7 +209,7 @@ edit.definition = {
 * @see app/Http/Controllers/EventController.php:86
 * @route '/events/{event}/edit'
 */
-edit.url = (args: { event: number | { id: number } } | [event: number | { id: number } ] | number | { id: number }, options?: RouteQueryOptions) => {
+edit.url = (args: { event: string | number | { id: string | number } } | [event: string | number | { id: string | number } ] | string | number | { id: string | number }, options?: RouteQueryOptions) => {
     if (typeof args === 'string' || typeof args === 'number') {
         args = { event: args }
     }
@@ -242,7 +242,7 @@ edit.url = (args: { event: number | { id: number } } | [event: number | { id: nu
 * @see app/Http/Controllers/EventController.php:86
 * @route '/events/{event}/edit'
 */
-edit.get = (args: { event: number | { id: number } } | [event: number | { id: number } ] | number | { id: number }, options?: RouteQueryOptions): RouteDefinition<'get'> => ({
+edit.get = (args: { event: string | number | { id: string | number } } | [event: string | number | { id: string | number } ] | string | number | { id: string | number }, options?: RouteQueryOptions): RouteDefinition<'get'> => ({
     url: edit.url(args, options),
     method: 'get',
 })
@@ -252,7 +252,7 @@ edit.get = (args: { event: number | { id: number } } | [event: number | { id: nu
 * @see app/Http/Controllers/EventController.php:86
 * @route '/events/{event}/edit'
 */
-edit.head = (args: { event: number | { id: number } } | [event: number | { id: number } ] | number | { id: number }, options?: RouteQueryOptions): RouteDefinition<'head'> => ({
+edit.head = (args: { event: string | number | { id: string | number } } | [event: string | number | { id: string | number } ] | string | number | { id: string | number }, options?: RouteQueryOptions): RouteDefinition<'head'> => ({
     url: edit.url(args, options),
     method: 'head',
 })
@@ -262,7 +262,7 @@ edit.head = (args: { event: number | { id: number } } | [event: number | { id: n
 * @see app/Http/Controllers/EventController.php:94
 * @route '/events/{event}'
 */
-export const update = (args: { event: number | { id: number } } | [event: number | { id: number } ] | number | { id: number }, options?: RouteQueryOptions): RouteDefinition<'put'> => ({
+export const update = (args: { event: string | number | { id: string | number } } | [event: string | number | { id: string | number } ] | string | number | { id: string | number }, options?: RouteQueryOptions): RouteDefinition<'put'> => ({
     url: update.url(args, options),
     method: 'put',
 })
@@ -277,7 +277,7 @@ update.definition = {
 * @see app/Http/Controllers/EventController.php:94
 * @route '/events/{event}'
 */
-update.url = (args: { event: number | { id: number } } | [event: number | { id: number } ] | number | { id: number }, options?: RouteQueryOptions) => {
+update.url = (args: { event: string | number | { id: string | number } } | [event: string | number | { id: string | number } ] | string | number | { id: string | number }, options?: RouteQueryOptions) => {
     if (typeof args === 'string' || typeof args === 'number') {
         args = { event: args }
     }
@@ -310,7 +310,7 @@ update.url = (args: { event: number | { id: number } } | [event: number | { id: 
 * @see app/Http/Controllers/EventController.php:94
 * @route '/events/{event}'
 */
-update.put = (args: { event: number | { id: number } } | [event: number | { id: number } ] | number | { id: number }, options?: RouteQueryOptions): RouteDefinition<'put'> => ({
+update.put = (args: { event: string | number | { id: string | number } } | [event: string | number | { id: string | number } ] | string | number | { id: string | number }, options?: RouteQueryOptions): RouteDefinition<'put'> => ({
     url: update.url(args, options),
     method: 'put',
 })
@@ -320,7 +320,7 @@ update.put = (args: { event: number | { id: number } } | [event: number | { id: 
 * @see app/Http/Controllers/EventController.php:94
 * @route '/events/{event}'
 */
-update.patch = (args: { event: number | { id: number } } | [event: number | { id: number } ] | number | { id: number }, options?: RouteQueryOptions): RouteDefinition<'patch'> => ({
+update.patch = (args: { event: string | number | { id: string | number } } | [event: string | number | { id: string | number } ] | string | number | { id: string | number }, options?: RouteQueryOptions): RouteDefinition<'patch'> => ({
     url: update.url(args, options),
     method: 'patch',
 })
@@ -330,7 +330,7 @@ update.patch = (args: { event: number | { id: number } } | [event: number | { id
 * @see app/Http/Controllers/EventController.php:104
 * @route '/events/{event}'
 */
-export const destroy = (args: { event: number | { id: number } } | [event: number | { id: number } ] | number | { id: number }, options?: RouteQueryOptions): RouteDefinition<'delete'> => ({
+export const destroy = (args: { event: string | number | { id: string | number } } | [event: string | number | { id: string | number } ] | string | number | { id: string | number }, options?: RouteQueryOptions): RouteDefinition<'delete'> => ({
     url: destroy.url(args, options),
     method: 'delete',
 })
@@ -345,7 +345,7 @@ destroy.definition = {
 * @see app/Http/Controllers/EventController.php:104
 * @route '/events/{event}'
 */
-destroy.url = (args: { event: number | { id: number } } | [event: number | { id: number } ] | number | { id: number }, options?: RouteQueryOptions) => {
+destroy.url = (args: { event: string | number | { id: string | number } } | [event: string | number | { id: string | number } ] | string | number | { id: string | number }, options?: RouteQueryOptions) => {
     if (typeof args === 'string' || typeof args === 'number') {
         args = { event: args }
     }
@@ -378,7 +378,7 @@ destroy.url = (args: { event: number | { id: number } } | [event: number | { id:
 * @see app/Http/Controllers/EventController.php:104
 * @route '/events/{event}'
 */
-destroy.delete = (args: { event: number | { id: number } } | [event: number | { id: number } ] | number | { id: number }, options?: RouteQueryOptions): RouteDefinition<'delete'> => ({
+destroy.delete = (args: { event: string | number | { id: string | number } } | [event: string | number | { id: string | number } ] | string | number | { id: string | number }, options?: RouteQueryOptions): RouteDefinition<'delete'> => ({
     url: destroy.url(args, options),
     method: 'delete',
 })
@@ -388,7 +388,7 @@ destroy.delete = (args: { event: number | { id: number } } | [event: number | { 
 * @see app/Http/Controllers/EventController.php:70
 * @route '/events/{event}/players/{player}/disabled'
 */
-export const setDisabled = (args: { event: number | { id: number }, player: number | { id: number } } | [event: number | { id: number }, player: number | { id: number } ], options?: RouteQueryOptions): RouteDefinition<'put'> => ({
+export const setDisabled = (args: { event: string | number | { id: string | number }, player: string | number | { id: string | number } } | [event: string | number | { id: string | number }, player: string | number | { id: string | number } ], options?: RouteQueryOptions): RouteDefinition<'put'> => ({
     url: setDisabled.url(args, options),
     method: 'put',
 })
@@ -403,7 +403,7 @@ setDisabled.definition = {
 * @see app/Http/Controllers/EventController.php:70
 * @route '/events/{event}/players/{player}/disabled'
 */
-setDisabled.url = (args: { event: number | { id: number }, player: number | { id: number } } | [event: number | { id: number }, player: number | { id: number } ], options?: RouteQueryOptions) => {
+setDisabled.url = (args: { event: string | number | { id: string | number }, player: string | number | { id: string | number } } | [event: string | number | { id: string | number }, player: string | number | { id: string | number } ], options?: RouteQueryOptions) => {
     if (Array.isArray(args)) {
         args = {
             event: args[0],
@@ -433,7 +433,7 @@ setDisabled.url = (args: { event: number | { id: number }, player: number | { id
 * @see app/Http/Controllers/EventController.php:70
 * @route '/events/{event}/players/{player}/disabled'
 */
-setDisabled.put = (args: { event: number | { id: number }, player: number | { id: number } } | [event: number | { id: number }, player: number | { id: number } ], options?: RouteQueryOptions): RouteDefinition<'put'> => ({
+setDisabled.put = (args: { event: string | number | { id: string | number }, player: string | number | { id: string | number } } | [event: string | number | { id: string | number }, player: string | number | { id: string | number } ], options?: RouteQueryOptions): RouteDefinition<'put'> => ({
     url: setDisabled.url(args, options),
     method: 'put',
 })
