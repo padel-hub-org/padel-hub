@@ -1,67 +1,21 @@
 services:
-  web:
-    container_name: padel-hub-prod-web
+  app:
+    container_name: padel-hub-prod-app
     build:
       context: .
-      dockerfile: ./docker/production/nginx/Dockerfile
-    restart: unless-stopped # Automatically restart unless the service is explicitly stopped
-    volumes:
-      # Mount the 'laravel-storage' volume to '/var/www/storage' inside the container.
-      # -----------------------------------------------------------
-      # This volume stores persistent data like uploaded files and cache.
-      # The ':ro' option mounts it as read-only in the 'web' service because Nginx only needs to read these files.
-      # The 'php-fpm' service mounts the same volume without ':ro' to allow write operations.
-      # -----------------------------------------------------------
-      - laravel-storage-production:/var/www/storage:ro
-      # Mount the 'laravel-public' volume to '/var/www/public' inside the container.
-      # -----------------------------------------------------------
-      # This volume contains the public assets and entry point (index.php) for the application.
-      # The ':ro' option mounts it as read-only in the 'web' service because Nginx only needs to serve these files.
-      # The 'php-fpm' service mounts the same volume without ':ro' to allow write operations during deployment.
-      # -----------------------------------------------------------
-      - laravel-public-production:/var/www/public:ro
-    networks:
-      - laravel-production
-    ports:
-      # Map port 80 inside the container to the port specified by 'NGINX_PORT' on the host machine.
-      # -----------------------------------------------------------
-      # This allows external access to the Nginx web server running inside the container.
-      # For example, if 'NGINX_PORT' is set to '8080', accessing 'http://localhost:8080' will reach the application.
-      # -----------------------------------------------------------
-      - "${NGINX_PORT:-8001}:80"
-    env_file:
-      - stack.env
-    # depends_on:
-    #   php-fpm:
-    #     condition: service_healthy # Wait for php-fpm health check
-
-  php-fpm:
-    container_name: padel-hub-prod-php-fpm
-    # For the php-fpm service, we will create a custom image to install the necessary PHP extensions and setup proper permissions.
-    build:
-      context: .
-      dockerfile: ./docker/production/php-fpm/Dockerfile
-      target: production # Use the 'production' stage in the Dockerfile
-    pull_policy: build
+      dockerfile: ./docker/production/Dockerfile
     restart: unless-stopped
+    ports:
+      - "${APP_PORT:-8001}:80"
+    environment:
+      - SERVER_NAME=${SERVER_NAME:-:80}
     volumes:
-      - laravel-storage-production:/var/www/storage # Mount the storage volume
-      - laravel-public-production:/var/www/public # Mount the public volume
-    env_file:
-      - stack.env
+      - laravel-storage-production:/app/storage
     networks:
       - laravel-production
-    # healthcheck:
-    #   test: ["CMD-SHELL", "php-fpm-healthcheck || exit 1"]
-    #   interval: 10s
-    #   timeout: 5s
-    #   retries: 3
-    # The 'depends_on' attribute with 'condition: service_healthy' ensures that
-    # this service will not start until the 'postgres' service passes its health check.
-    # This prevents the application from trying to connect to the database before it's ready.
-    # depends_on:
-    #   postgres:
-    #     condition: service_healthy
+    depends_on:
+      pgsql:
+        condition: service_started
 
   pgsql:
     container_name: padel-hub-prod-postgres
@@ -77,30 +31,10 @@ services:
       - postgres-data-production:/var/lib/postgresql
     networks:
       - laravel-production
-    env_file:
-      - stack.env
-    # Health check for PostgreSQL
-    # -----------------------------------------------------------
-    # Health checks allow Docker to determine if a service is operational.
-    # The 'pg_isready' command checks if PostgreSQL is ready to accept connections.
-    # This prevents dependent services from starting before the database is ready.
-    # -----------------------------------------------------------
-    # healthcheck:
-    #   test:
-    #     ["CMD", "pg_isready", "-U", "${DB_USERNAME}", "-d", "${DB_DATABASE}"]
-    #   interval: 10s
-    #   timeout: 5s
-    #   retries: 5
 
 networks:
-  # Attach the service to the 'laravel-production' network.
-  # -----------------------------------------------------------
-  # This custom network allows all services within it to communicate using their service names as hostnames.
-  # For example, 'php-fpm' can connect to 'postgres' by using 'postgres' as the hostname.
-  # -----------------------------------------------------------
   laravel-production:
 
 volumes:
   postgres-data-production:
   laravel-storage-production:
-  laravel-public-production:
