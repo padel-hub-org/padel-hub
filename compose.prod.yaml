@@ -42,6 +42,7 @@ services:
       context: .
       dockerfile: ./docker/production/php-fpm/Dockerfile
       target: production # Use the 'production' stage in the Dockerfile
+    pull_policy: build
     restart: unless-stopped
     volumes:
       - laravel-storage-production:/var/www/storage # Mount the storage volume

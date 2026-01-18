@@ -24,6 +24,7 @@ chmod -R 775 /var/www/bootstrap/cache
 # Optional: Cache Laravel configuration for better performance
 # Uncomment if you want to cache config in production
 php artisan optimize
+php artisan migrate --force
 
 
 echo "Laravel initialization complete. Starting PHP-FPM..."
