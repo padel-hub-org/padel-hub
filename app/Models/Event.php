@@ -17,6 +17,7 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
  * @property \Illuminate\Support\Carbon|null $updated_at
  * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\Models\Game> $games
  * @property-read int|null $games_count
+ * @property-read \App\Models\EventPlayer|null $pivot
  * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\Models\Player> $players
  * @property-read int|null $players_count
  *
@@ -54,11 +55,12 @@ class Event extends Model
     }
 
     /**
-     * @return BelongsToMany<Player, $this>
+     * @return BelongsToMany<Player, $this, EventPlayer>
      */
     public function players(): BelongsToMany
     {
         return $this->belongsToMany(Player::class)
+            ->using(EventPlayer::class)
             ->withTrashed()
             ->withTimestamps()
             ->withPivot('disabled_at', 'event_rating');
