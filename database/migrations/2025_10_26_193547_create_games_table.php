@@ -31,7 +31,7 @@ return new class extends Migration
             $table->integer('previous_player_rating');
             $table->integer('previous_event_rating');
             $table->integer('points')->nullable();
-            $table->enum('result', Result::cases())->nullable();
+            $table->enum('result', Result::cases());
         });
     }
 
