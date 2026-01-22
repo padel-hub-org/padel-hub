@@ -126,7 +126,7 @@ store.post = (options?: RouteQueryOptions): RouteDefinition<'post'> => ({
 * @see app/Http/Controllers/PlayerController.php:39
 * @route '/players/{player}'
 */
-export const show = (args: { player: string | number | { id: string | number } } | [player: string | number | { id: string | number } ] | string | number | { id: string | number }, options?: RouteQueryOptions): RouteDefinition<'get'> => ({
+export const show = (args: { player: number | { id: number } } | [player: number | { id: number } ] | number | { id: number }, options?: RouteQueryOptions): RouteDefinition<'get'> => ({
     url: show.url(args, options),
     method: 'get',
 })
@@ -141,7 +141,7 @@ show.definition = {
 * @see app/Http/Controllers/PlayerController.php:39
 * @route '/players/{player}'
 */
-show.url = (args: { player: string | number | { id: string | number } } | [player: string | number | { id: string | number } ] | string | number | { id: string | number }, options?: RouteQueryOptions) => {
+show.url = (args: { player: number | { id: number } } | [player: number | { id: number } ] | number | { id: number }, options?: RouteQueryOptions) => {
     if (typeof args === 'string' || typeof args === 'number') {
         args = { player: args }
     }
@@ -174,7 +174,7 @@ show.url = (args: { player: string | number | { id: string | number } } | [playe
 * @see app/Http/Controllers/PlayerController.php:39
 * @route '/players/{player}'
 */
-show.get = (args: { player: string | number | { id: string | number } } | [player: string | number | { id: string | number } ] | string | number | { id: string | number }, options?: RouteQueryOptions): RouteDefinition<'get'> => ({
+show.get = (args: { player: number | { id: number } } | [player: number | { id: number } ] | number | { id: number }, options?: RouteQueryOptions): RouteDefinition<'get'> => ({
     url: show.url(args, options),
     method: 'get',
 })
@@ -184,7 +184,7 @@ show.get = (args: { player: string | number | { id: string | number } } | [playe
 * @see app/Http/Controllers/PlayerController.php:39
 * @route '/players/{player}'
 */
-show.head = (args: { player: string | number | { id: string | number } } | [player: string | number | { id: string | number } ] | string | number | { id: string | number }, options?: RouteQueryOptions): RouteDefinition<'head'> => ({
+show.head = (args: { player: number | { id: number } } | [player: number | { id: number } ] | number | { id: number }, options?: RouteQueryOptions): RouteDefinition<'head'> => ({
     url: show.url(args, options),
     method: 'head',
 })
@@ -194,7 +194,7 @@ show.head = (args: { player: string | number | { id: string | number } } | [play
 * @see app/Http/Controllers/PlayerController.php:67
 * @route '/players/{player}/edit'
 */
-export const edit = (args: { player: string | number | { id: string | number } } | [player: string | number | { id: string | number } ] | string | number | { id: string | number }, options?: RouteQueryOptions): RouteDefinition<'get'> => ({
+export const edit = (args: { player: number | { id: number } } | [player: number | { id: number } ] | number | { id: number }, options?: RouteQueryOptions): RouteDefinition<'get'> => ({
     url: edit.url(args, options),
     method: 'get',
 })
@@ -209,7 +209,7 @@ edit.definition = {
 * @see app/Http/Controllers/PlayerController.php:67
 * @route '/players/{player}/edit'
 */
-edit.url = (args: { player: string | number | { id: string | number } } | [player: string | number | { id: string | number } ] | string | number | { id: string | number }, options?: RouteQueryOptions) => {
+edit.url = (args: { player: number | { id: number } } | [player: number | { id: number } ] | number | { id: number }, options?: RouteQueryOptions) => {
     if (typeof args === 'string' || typeof args === 'number') {
         args = { player: args }
     }
@@ -242,7 +242,7 @@ edit.url = (args: { player: string | number | { id: string | number } } | [playe
 * @see app/Http/Controllers/PlayerController.php:67
 * @route '/players/{player}/edit'
 */
-edit.get = (args: { player: string | number | { id: string | number } } | [player: string | number | { id: string | number } ] | string | number | { id: string | number }, options?: RouteQueryOptions): RouteDefinition<'get'> => ({
+edit.get = (args: { player: number | { id: number } } | [player: number | { id: number } ] | number | { id: number }, options?: RouteQueryOptions): RouteDefinition<'get'> => ({
     url: edit.url(args, options),
     method: 'get',
 })
@@ -252,7 +252,7 @@ edit.get = (args: { player: string | number | { id: string | number } } | [playe
 * @see app/Http/Controllers/PlayerController.php:67
 * @route '/players/{player}/edit'
 */
-edit.head = (args: { player: string | number | { id: string | number } } | [player: string | number | { id: string | number } ] | string | number | { id: string | number }, options?: RouteQueryOptions): RouteDefinition<'head'> => ({
+edit.head = (args: { player: number | { id: number } } | [player: number | { id: number } ] | number | { id: number }, options?: RouteQueryOptions): RouteDefinition<'head'> => ({
     url: edit.url(args, options),
     method: 'head',
 })
@@ -262,7 +262,7 @@ edit.head = (args: { player: string | number | { id: string | number } } | [play
 * @see app/Http/Controllers/PlayerController.php:75
 * @route '/players/{player}'
 */
-export const update = (args: { player: string | number | { id: string | number } } | [player: string | number | { id: string | number } ] | string | number | { id: string | number }, options?: RouteQueryOptions): RouteDefinition<'put'> => ({
+export const update = (args: { player: number | { id: number } } | [player: number | { id: number } ] | number | { id: number }, options?: RouteQueryOptions): RouteDefinition<'put'> => ({
     url: update.url(args, options),
     method: 'put',
 })
@@ -277,7 +277,7 @@ update.definition = {
 * @see app/Http/Controllers/PlayerController.php:75
 * @route '/players/{player}'
 */
-update.url = (args: { player: string | number | { id: string | number } } | [player: string | number | { id: string | number } ] | string | number | { id: string | number }, options?: RouteQueryOptions) => {
+update.url = (args: { player: number | { id: number } } | [player: number | { id: number } ] | number | { id: number }, options?: RouteQueryOptions) => {
     if (typeof args === 'string' || typeof args === 'number') {
         args = { player: args }
     }
@@ -310,7 +310,7 @@ update.url = (args: { player: string | number | { id: string | number } } | [pla
 * @see app/Http/Controllers/PlayerController.php:75
 * @route '/players/{player}'
 */
-update.put = (args: { player: string | number | { id: string | number } } | [player: string | number | { id: string | number } ] | string | number | { id: string | number }, options?: RouteQueryOptions): RouteDefinition<'put'> => ({
+update.put = (args: { player: number | { id: number } } | [player: number | { id: number } ] | number | { id: number }, options?: RouteQueryOptions): RouteDefinition<'put'> => ({
     url: update.url(args, options),
     method: 'put',
 })
@@ -320,7 +320,7 @@ update.put = (args: { player: string | number | { id: string | number } } | [pla
 * @see app/Http/Controllers/PlayerController.php:75
 * @route '/players/{player}'
 */
-update.patch = (args: { player: string | number | { id: string | number } } | [player: string | number | { id: string | number } ] | string | number | { id: string | number }, options?: RouteQueryOptions): RouteDefinition<'patch'> => ({
+update.patch = (args: { player: number | { id: number } } | [player: number | { id: number } ] | number | { id: number }, options?: RouteQueryOptions): RouteDefinition<'patch'> => ({
     url: update.url(args, options),
     method: 'patch',
 })
@@ -330,7 +330,7 @@ update.patch = (args: { player: string | number | { id: string | number } } | [p
 * @see app/Http/Controllers/PlayerController.php:87
 * @route '/players/{player}'
 */
-export const destroy = (args: { player: string | number | { id: string | number } } | [player: string | number | { id: string | number } ] | string | number | { id: string | number }, options?: RouteQueryOptions): RouteDefinition<'delete'> => ({
+export const destroy = (args: { player: number | { id: number } } | [player: number | { id: number } ] | number | { id: number }, options?: RouteQueryOptions): RouteDefinition<'delete'> => ({
     url: destroy.url(args, options),
     method: 'delete',
 })
@@ -345,7 +345,7 @@ destroy.definition = {
 * @see app/Http/Controllers/PlayerController.php:87
 * @route '/players/{player}'
 */
-destroy.url = (args: { player: string | number | { id: string | number } } | [player: string | number | { id: string | number } ] | string | number | { id: string | number }, options?: RouteQueryOptions) => {
+destroy.url = (args: { player: number | { id: number } } | [player: number | { id: number } ] | number | { id: number }, options?: RouteQueryOptions) => {
     if (typeof args === 'string' || typeof args === 'number') {
         args = { player: args }
     }
@@ -378,7 +378,7 @@ destroy.url = (args: { player: string | number | { id: string | number } } | [pl
 * @see app/Http/Controllers/PlayerController.php:87
 * @route '/players/{player}'
 */
-destroy.delete = (args: { player: string | number | { id: string | number } } | [player: string | number | { id: string | number } ] | string | number | { id: string | number }, options?: RouteQueryOptions): RouteDefinition<'delete'> => ({
+destroy.delete = (args: { player: number | { id: number } } | [player: number | { id: number } ] | number | { id: number }, options?: RouteQueryOptions): RouteDefinition<'delete'> => ({
     url: destroy.url(args, options),
     method: 'delete',
 })

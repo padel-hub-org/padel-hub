@@ -64,7 +64,8 @@ class EventSeeder extends Seeder
 
                     foreach ($gamePlayers as $gamePlayer) {
                         $game->players()->attach($gamePlayer, [
-                            'previous_rating' => fake()->numberBetween(0, 3000),
+                            'previous_player_rating' => fake()->numberBetween(0, 3000),
+                            'previous_event_rating' => fake()->numberBetween(0, 3000),
                             'points' => $teamAPlayers->contains($gamePlayer) ? $teamAPoints : $teamBPoints,
                             'partner_id' => $teamAPlayers->contains($gamePlayer)
                                  ? $teamAPlayers->where('id', '!=', $gamePlayer->id)->first()->id

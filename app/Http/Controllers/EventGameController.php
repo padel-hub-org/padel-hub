@@ -4,7 +4,10 @@ namespace App\Http\Controllers;
 
 use App\Models\Event;
 use App\Models\Game;
+use App\Services\RoundService;
+use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 use Inertia\Inertia;
 use Inertia\Response;
 
@@ -38,9 +41,30 @@ class EventGameController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function store(Request $request): void
+    public function store(Event $event): RedirectResponse
     {
-        //
+        $roundService = RoundService::event($event);
+
+        $playersCount = $roundService->getAvailablePlayersCount();
+
+        if ($playersCount < 4) {
+            Inertia::flash('toast', ['type' => 'error', 'message' => 'Not enough players to generate round.']);
+
+            return back();
+        }
+
+        DB::beginTransaction();
+
+        try {
+            $roundService->generateNewRound();
+        } catch (\Exception $e) {
+            DB::rollBack();
+            throw $e;
+        }
+
+        DB::commit();
+
+        return back();
     }
 
     /**

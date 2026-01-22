@@ -6,6 +6,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 
 /**
  * @property int $id
@@ -15,6 +16,9 @@ use Illuminate\Database\Eloquent\Relations\BelongsToMany;
  * @property \Illuminate\Support\Carbon|null $created_at
  * @property \Illuminate\Support\Carbon|null $updated_at
  * @property-read \App\Models\Event|null $event
+ * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\Models\GamePlayer> $gamePlayers
+ * @property-read int|null $game_players_count
+ * @property-read \App\Models\GamePlayer|null $pivot
  * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\Models\Player> $players
  * @property-read int|null $players_count
  *
@@ -37,6 +41,16 @@ class Game extends Model
     use HasFactory;
 
     /**
+     * The attributes that are mass assignable.
+     *
+     * @var list<string>
+     */
+    protected $fillable = [
+        'court',
+        'round',
+    ];
+
+    /**
      * @return BelongsTo<Event, $this>
      */
     public function event(): BelongsTo
@@ -45,10 +59,21 @@ class Game extends Model
     }
 
     /**
-     * @return BelongsToMany<Player, $this>
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany<GamePlayer, $this>
+     */
+    public function gamePlayers(): HasMany
+    {
+        return $this->hasMany(GamePlayer::class);
+    }
+
+    /**
+     * @return BelongsToMany<Player, $this, GamePlayer>
      */
     public function players(): BelongsToMany
     {
-        return $this->belongsToMany(Player::class)->withTrashed()->withPivot('previous_rating', 'points', 'partner_id', 'result');
+        return $this->belongsToMany(Player::class)
+            ->using(GamePlayer::class)
+            ->withTrashed()
+            ->withPivot('previous_player_rating', 'previous_event_rating', 'points', 'partner_id', 'result');
     }
 }
