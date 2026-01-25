@@ -1,33 +1,102 @@
 // https://aka.ms/devcontainer.json
 {
-    "name": "Padel Hub",
-    "dockerComposeFile": ["../compose.yaml"],
-    "service": "laravel.test",
-    "workspaceFolder": "/var/www/html",
-    "customizations": {
-        "vscode": {
-            "extensions": [
-                "laravel.vscode-laravel",
-                "mikestead.dotenv",
-                "bmewburn.vscode-intelephense-client",
-                "tombonnike.vscode-status-bar-format-toggle",
-                "esbenp.prettier-vscode",
-                "YoavBls.pretty-ts-errors",
-                "SanderRonde.phpstan-vscode",
-                "pflannery.vscode-versionlens",
-                "eamodio.gitlens",
-                "GitHub.copilot",
-                "GitHub.copilot-chat",
-                "svelte.svelte-vscode",
-                "bradlc.vscode-tailwindcss",
-                "ms-azuretools.vscode-containers"
-            ],
-            "settings": {}
-        }
-    },
-    "remoteUser": "sail",
-    "postCreateCommand": "chown -R 1000:1000 /var/www/html 2>/dev/null || true"
-    // "forwardPorts": [],
-    // "runServices": [],
-    // "shutdownAction": "none",
+  "name": "Padel Hub",
+  "dockerComposeFile": ["../compose.yaml"],
+  "service": "laravel.test",
+  "workspaceFolder": "/var/www/html",
+  "customizations": {
+    "vscode": {
+      "extensions": [
+        "laravel.vscode-laravel",
+        "mikestead.dotenv",
+        "bmewburn.vscode-intelephense-client",
+        "tombonnike.vscode-status-bar-format-toggle",
+        "esbenp.prettier-vscode",
+        "YoavBls.pretty-ts-errors",
+        "SanderRonde.phpstan-vscode",
+        "pflannery.vscode-versionlens",
+        "eamodio.gitlens",
+        "GitHub.copilot",
+        "GitHub.copilot-chat",
+        "svelte.svelte-vscode",
+        "bradlc.vscode-tailwindcss",
+        "ms-azuretools.vscode-containers",
+      ],
+      "settings": {}
+    }
+  },
+  "remoteUser": "sail",
+  "postCreateCommand": "chown -R 1000:1000 /var/www/html 2>/dev/null || true",
+  "containerEnv": {
+    "APP_NAME": "Padel Hub",
+    "APP_ENV": "local",
+    "APP_KEY": "${{ secrets.LARAVEL_APP_KEY }}", // Set as Codespaces secret
+    "APP_DEBUG": "true",
+    "APP_URL": "${{ secrets.LARAVEL_APP_URL }}", // Set as Codespaces secret
+
+    "APP_LOCALE": "en",
+    "APP_FALLBACK_LOCALE": "en",
+    "APP_FAKER_LOCALE": "en_US",
+
+    "APP_MAINTENANCE_DRIVER": "file",
+    // "APP_MAINTENANCE_STORE": "database",
+
+    "PHP_CLI_SERVER_WORKERS": "4",
+
+    "BCRYPT_ROUNDS": "12",
+
+    "LOG_CHANNEL": "stack",
+    "LOG_STACK": "single",
+    "LOG_DEPRECATIONS_CHANNEL": "null",
+    "LOG_LEVEL": "debug",
+
+    "DB_CONNECTION": "pgsql",
+    "DB_HOST": "pgsql",
+    "DB_PORT": "5432",
+    "DB_DATABASE": "padel_hub",
+    "DB_USERNAME": "sail",
+    "DB_PASSWORD": "${{ secrets.LARAVEL_DB_PASSWORD }}", // Set as Codespaces secret
+
+    "SESSION_DRIVER": "database",
+    "SESSION_LIFETIME": "120",
+    "SESSION_ENCRYPT": "false",
+    "SESSION_PATH": "/",
+    "SESSION_DOMAIN": "null",
+
+    "BROADCAST_CONNECTION": "log",
+    "FILESYSTEM_DISK": "local",
+    "QUEUE_CONNECTION": "database",
+
+    "CACHE_STORE": "database",
+    // "CACHE_PREFIX": "",
+
+    "MEMCACHED_HOST": "127.0.0.1",
+
+    "REDIS_CLIENT": "phpredis",
+    "REDIS_HOST": "127.0.0.1",
+    "REDIS_PASSWORD": "null",
+    "REDIS_PORT": "6379",
+
+    "MAIL_MAILER": "smtp",
+    "MAIL_SCHEME": "null",
+    "MAIL_HOST": "mailpit",
+    "MAIL_PORT": "1025",
+    "MAIL_USERNAME": "null",
+    "MAIL_PASSWORD": "null",
+    "MAIL_FROM_ADDRESS": "hello@example.com",
+    "MAIL_FROM_NAME": "Padel Hub",
+    "MAIL_ENCRYPTION": "null",
+
+    "GOOGLE_CLIENT_ID": "651453708559-f9gmegeh3ggm8tbahevml94mtgsgqlq7.apps.googleusercontent.com",
+    "GOOGLE_CLIENT_SECRET": "${{ secrets.LARAVEL_GOOGLE_CLIENT_SECRET }}", // Set as Codespaces secret
+    "GOOGLE_REDIRECT_URI": "${{ secrets.LARAVEL_APP_URL }}/auth/google/callback", // Set as Codespaces secret
+
+    "VITE_APP_NAME": "Padel Hub",
+
+    "WWWGROUP": "1000",
+    "WWWUSER": "1000"
+  }
+  // "forwardPorts": [],
+  // "runServices": [],
+  // "shutdownAction": "none",
 }
