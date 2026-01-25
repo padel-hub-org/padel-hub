@@ -17,6 +17,22 @@ services:
       pgsql:
         condition: service_started
 
+  nightwatch-agent:
+    image: laravelphp/nightwatch-agent:latest
+    environment:
+      - NIGHTWATCH_TOKEN=${NIGHTWATCH_TOKEN}
+      - NIGHTWATCH_REQUEST_SAMPLE_RATE=${NIGHTWATCH_REQUEST_SAMPLE_RATE:-0.4}
+      - NIGHTWATCH_IGNORE_CACHE_EVENTS=true
+    healthcheck:
+      test: php nightwatch-status
+      interval: 30s
+      timeout: 5s
+      retries: 3
+      start_period: 5s
+    restart: unless-stopped
+    networks:
+      - laravel-production
+
   pgsql:
     container_name: padel-hub-prod-postgres
     image: postgres:18
