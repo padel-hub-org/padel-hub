@@ -2,11 +2,12 @@
 
 namespace App\Http\Controllers;
 
+use App\Enums\Result;
+use App\Http\Requests\UpdateGameRequest;
 use App\Models\Event;
 use App\Models\Game;
 use App\Services\RoundService;
 use Illuminate\Http\RedirectResponse;
-use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Inertia\Inertia;
 use Inertia\Response;
@@ -79,8 +80,36 @@ class EventGameController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, Game $game): void
+    public function update(UpdateGameRequest $request, Event $event, Game $game): RedirectResponse
     {
-        //
+        $data = $request->validated();
+
+        $selectedPlayers = $data['players'];
+        $points = $data['points'];
+        $otherPoints = $game->event->game_points - $points;
+
+        $selectedResult = match ($points <=> $otherPoints) {
+            1 => Result::Win,
+            0 => Result::Tie,
+            -1 => Result::Loss,
+        };
+
+        $otherResult = match ($selectedResult) {
+            Result::Win => Result::Loss,
+            Result::Loss => Result::Win,
+            Result::Tie => Result::Tie,
+        };
+
+        $otherPlayers = $game->players()->whereNotIn('player_id', $selectedPlayers)->get();
+
+        foreach ($selectedPlayers as $playerId) {
+            $game->players()->updateExistingPivot($playerId, ['points' => $points, 'result' => $selectedResult]);
+        }
+
+        foreach ($otherPlayers as $player) {
+            $game->players()->updateExistingPivot($player->id, ['points' => $otherPoints, 'result' => $otherResult]);
+        }
+
+        return back();
     }
 }

@@ -41,7 +41,7 @@ class EventSeeder extends Seeder
                     /** @var Game $game */
                     $game = Game::factory()->for($event)->create([
                         'court' => $court,
-                        'round' => $round,
+                        'round' => $round + 1,
                     ]);
 
                     $teamAPoints = fake()->numberBetween(0, $event->game_points);

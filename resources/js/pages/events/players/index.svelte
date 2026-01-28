@@ -71,12 +71,6 @@
         margin-bottom: 1rem;
     }
 
-    h1 {
-        margin-bottom: 1rem;
-        font-size: var(--font-size-heading-1);
-        font-weight: bold;
-    }
-
     h2 {
         grid-area: title;
         font-size: var(--font-size-large);
