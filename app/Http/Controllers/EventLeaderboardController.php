@@ -42,6 +42,7 @@ class EventLeaderboardController extends Controller
 
         return Inertia::render('events/leaderboard/index', [
             'title' => 'Leaderboard',
+            'backUrl' => route('events.index'),
             'event' => $event,
             'players' => $players,
             'anyTied' => $anyTied,

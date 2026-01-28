@@ -38,7 +38,7 @@ class PlayerController extends Controller
      */
     public function show(Player $player): Response
     {
-        return Inertia::render('players/show', ['player' => $player]);
+        return Inertia::render('players/show', ['player' => $player, 'backUrl' => route('players.index')]);
     }
 
     /**
@@ -46,7 +46,7 @@ class PlayerController extends Controller
      */
     public function create(): Response
     {
-        return Inertia::render('players/create');
+        return Inertia::render('players/create', ['backUrl' => route('players.index')]);
     }
 
     /**

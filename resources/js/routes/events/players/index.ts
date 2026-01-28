@@ -186,7 +186,7 @@ create.head = (args: { event: string | number } | [event: string | number ] | st
 
 /**
 * @see \App\Http\Controllers\EventPlayerController::store
-* @see app/Http/Controllers/EventPlayerController.php:35
+* @see app/Http/Controllers/EventPlayerController.php:36
 * @route '/events/{event}/players'
 */
 export const store = (args: { event: number | { id: number } } | [event: number | { id: number } ] | number | { id: number }, options?: RouteQueryOptions): RouteDefinition<'post'> => ({
@@ -201,7 +201,7 @@ store.definition = {
 
 /**
 * @see \App\Http\Controllers\EventPlayerController::store
-* @see app/Http/Controllers/EventPlayerController.php:35
+* @see app/Http/Controllers/EventPlayerController.php:36
 * @route '/events/{event}/players'
 */
 store.url = (args: { event: number | { id: number } } | [event: number | { id: number } ] | number | { id: number }, options?: RouteQueryOptions) => {
@@ -234,7 +234,7 @@ store.url = (args: { event: number | { id: number } } | [event: number | { id: n
 
 /**
 * @see \App\Http\Controllers\EventPlayerController::store
-* @see app/Http/Controllers/EventPlayerController.php:35
+* @see app/Http/Controllers/EventPlayerController.php:36
 * @route '/events/{event}/players'
 */
 store.post = (args: { event: number | { id: number } } | [event: number | { id: number } ] | number | { id: number }, options?: RouteQueryOptions): RouteDefinition<'post'> => ({
@@ -427,7 +427,7 @@ update.patch = (args: { event: string | number, player: string | number } | [eve
 
 /**
 * @see \App\Http\Controllers\EventPlayerController::destroy
-* @see app/Http/Controllers/EventPlayerController.php:51
+* @see app/Http/Controllers/EventPlayerController.php:52
 * @route '/events/{event}/players/{player}'
 */
 export const destroy = (args: { event: number | { id: number }, player: number | { id: number } } | [event: number | { id: number }, player: number | { id: number } ], options?: RouteQueryOptions): RouteDefinition<'delete'> => ({
@@ -442,7 +442,7 @@ destroy.definition = {
 
 /**
 * @see \App\Http\Controllers\EventPlayerController::destroy
-* @see app/Http/Controllers/EventPlayerController.php:51
+* @see app/Http/Controllers/EventPlayerController.php:52
 * @route '/events/{event}/players/{player}'
 */
 destroy.url = (args: { event: number | { id: number }, player: number | { id: number } } | [event: number | { id: number }, player: number | { id: number } ], options?: RouteQueryOptions) => {
@@ -472,7 +472,7 @@ destroy.url = (args: { event: number | { id: number }, player: number | { id: nu
 
 /**
 * @see \App\Http\Controllers\EventPlayerController::destroy
-* @see app/Http/Controllers/EventPlayerController.php:51
+* @see app/Http/Controllers/EventPlayerController.php:52
 * @route '/events/{event}/players/{player}'
 */
 destroy.delete = (args: { event: number | { id: number }, player: number | { id: number } } | [event: number | { id: number }, player: number | { id: number } ], options?: RouteQueryOptions): RouteDefinition<'delete'> => ({

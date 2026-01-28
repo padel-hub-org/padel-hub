@@ -23,14 +23,20 @@
         viewTransition
         preserveScroll
     >
-        <iconify-icon icon="mdi:account-edit" width="1.5rem" height="1.5rem"
+        <iconify-icon
+            icon="material-symbols:person-edit-rounded"
+            width="1.5rem"
+            height="1.5rem"
         ></iconify-icon>
     </Button>
 
     <AlertDialog.Root>
         <AlertDialog.Trigger>
             <Button class="cursor-pointer" size="icon" variant="destructive">
-                <iconify-icon icon="mdi:delete" width="1.5rem" height="1.5rem"
+                <iconify-icon
+                    icon="material-symbols:delete-rounded"
+                    width="1.5rem"
+                    height="1.5rem"
                 ></iconify-icon>
             </Button>
         </AlertDialog.Trigger>

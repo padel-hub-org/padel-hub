@@ -19,6 +19,7 @@ class EventPlayerController extends Controller
     {
         return Inertia::render('events/players/index', [
             'title' => 'Players',
+            'backUrl' => route('events.settings.index', ['event' => $event->id]),
             'event' => $event,
             'eventPlayers' => $event->players()->orderBy('name')->get(),
             'players' => Inertia::scroll(

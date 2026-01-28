@@ -23,13 +23,16 @@
         <h1>Events</h1>
 
         <Button class="create-event" href={create()} viewTransition>
-            <iconify-icon icon="mdi:plus" width="2rem" height="2rem"
+            <iconify-icon
+                icon="material-symbols:calendar-add-on-rounded"
+                width="1.25rem"
+                height="1.25rem"
             ></iconify-icon>
-            Create event
+            New event
         </Button>
     </header>
 
-    <InfiniteScroll data="events">
+    <InfiniteScroll data="events" only={["events"]}>
         <div class="events">
             {#each events.data as event}
                 <EventCard {event}></EventCard>
@@ -53,7 +56,6 @@
     .events {
         display: grid;
         gap: 1rem;
-        margin-bottom: 5rem;
     }
 
     .loading {

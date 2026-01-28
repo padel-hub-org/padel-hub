@@ -5,7 +5,6 @@
     import { logout } from "@/routes";
     import { page, router } from "@inertiajs/svelte";
     import { onDestroy } from "svelte";
-    import { parentPath } from "@/lib/utils/url";
     import { index as events } from "@/routes/events";
     import Feedback from "@/components/feedback.svelte";
 
@@ -34,13 +33,13 @@
 
 <div class="layout">
     <header class="shadow-xs">
-        {#if $page.url !== home().url}
+        {#if $page.props.backUrl}
             <Button
                 class="backButton"
                 variant="ghost"
                 size="icon"
                 onclick={() =>
-                    router.visit(parentPath($page.url), {
+                    router.visit($page.props.backUrl, {
                         replace: true,
                         viewTransition: true,
                     })}
@@ -69,47 +68,76 @@
         {/if}
     </header>
 
-    <main>
-        <Feedback />
-        {@render children()}
-    </main>
+    <div class="content">
+        <main>
+            <Feedback />
+            {@render children()}
+        </main>
 
-    <footer>
-        <p>Version 0.1</p>
-    </footer>
+        <footer>
+            <p>Version 0.2</p>
+        </footer>
+    </div>
 
     <nav class="nav">
         <Button
-            class={{ active: $page.url === home().url }}
+            class={{
+                active: $page.url === home().url,
+                navButton: true,
+            }}
             variant="bottomNav"
             size="icon"
             href={home()}
             viewTransition
         >
-            <iconify-icon icon="mdi:home" width="2.5rem" height="2.5rem"
+            <iconify-icon
+                icon={$page.url === home().url
+                    ? "material-symbols:home-rounded"
+                    : "material-symbols:home-outline-rounded"}
+                width="1.5rem"
+                height="1.5rem"
             ></iconify-icon>
+            Home
         </Button>
 
         <Button
-            class={{ active: $page.url === events().url }}
+            class={{
+                active: $page.url.startsWith(events().url),
+                navButton: true,
+            }}
             variant="bottomNav"
             size="icon"
             href={events()}
             viewTransition
         >
-            <iconify-icon icon="mdi:event-note" width="2rem" height="2rem"
+            <iconify-icon
+                icon={$page.url.startsWith(events().url)
+                    ? "material-symbols:event-note-rounded"
+                    : "material-symbols:event-note-outline"}
+                width="1.5rem"
+                height="1.5rem"
             ></iconify-icon>
+            Events
         </Button>
 
         <Button
-            class={{ active: $page.url === players().url }}
+            class={{
+                active: $page.url.startsWith(players().url),
+                navButton: true,
+            }}
             variant="bottomNav"
             size="icon"
             href={players()}
             viewTransition
         >
-            <iconify-icon icon="mdi:account-group" width="2rem" height="2rem"
+            <iconify-icon
+                icon={$page.url.startsWith(players().url)
+                    ? "material-symbols:group-rounded"
+                    : "material-symbols:group-outline-rounded"}
+                width="1.5rem"
+                height="1.5rem"
             ></iconify-icon>
+            Players
         </Button>
     </nav>
 </div>
@@ -117,7 +145,6 @@
 <style>
     .layout {
         display: grid;
-        gap: 1rem;
         height: 100dvh;
         grid-template-rows: auto 1fr auto;
     }
@@ -129,7 +156,7 @@
         min-height: 3.5rem;
         padding-inline: 1rem 0.5rem;
         align-items: center;
-        background-color: var(--nav-background);
+        background-color: var(--top-nav-background);
         view-transition-name: header;
     }
 
@@ -147,16 +174,19 @@
         min-height: 1.5rem;
     }
 
-    main {
+    .content {
+        display: grid;
+        grid-template-rows: 1fr auto;
         padding-inline: 1rem;
         overflow-y: auto;
-        margin-bottom: 1rem;
+        padding-bottom: 1rem;
     }
 
     footer {
-        padding-inline: 1rem;
         font-size: var(--font-size-small);
         color: var(--muted-foreground);
+        margin-top: 3rem;
+        align-self: end;
     }
 
     .nav {
@@ -165,27 +195,21 @@
         display: flex;
         gap: 2rem;
         width: 100dvw;
-        padding: 0.5rem;
+        padding: 0.75rem 1rem;
         max-width: 600px;
-        background-color: var(--nav-background);
-        justify-content: center;
-        box-shadow: 0 -1px 2px 0 var(--tw-shadow-color, rgb(0 0 0 / 0.05));
+        background-color: var(--bottom-nav-background);
+        justify-content: space-around;
+
+        & :global(.navButton) {
+            flex-direction: column;
+            gap: 0.25rem;
+            color: var(--muted-foreground);
+            width: auto;
+            height: auto;
+        }
 
         & :global(.active) {
             color: var(--secondary);
-            position: relative;
-        }
-
-        & :global(.active)::after {
-            content: "";
-            display: block;
-            position: absolute;
-            bottom: -0.25rem;
-            view-transition-name: nav-active-indicator;
-            width: 100%;
-            height: 2px;
-            background-color: var(--secondary);
-            border-radius: 2px;
         }
     }
 </style>

@@ -29,13 +29,13 @@
 </script>
 
 <svelte:head>
-    <title>Create event | Padel Hub</title>
+    <title>New event | Padel Hub</title>
 </svelte:head>
 
 <Form action={store()} options={{ viewTransition: true }}>
     {#snippet children({ errors, processing }: InertiaFormProps<FormFields>)}
         <div class="form">
-            <h1>Create event</h1>
+            <h1>New event</h1>
 
             <input
                 type="hidden"
