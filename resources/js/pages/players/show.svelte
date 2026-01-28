@@ -1,5 +1,5 @@
 <script lang="ts">
-    import { Form } from "@inertiajs/svelte";
+    import { Form, type InertiaFormProps } from "@inertiajs/svelte";
     import { update } from "@/routes/players";
     import { Button } from "$lib/components/ui/button/index.ts";
     import type { Player } from "@/types/Player";
@@ -24,17 +24,23 @@
     action={update(player)}
     options={{ viewTransition: true, preserveState: true }}
 >
-    <Field class="mb-2">
-        <Label for="name">Name</Label>
-        <Input
-            type="text"
-            name="name"
-            id="name"
-            required
-            value={player.name}
-            autocomplete="off"
-        />
-    </Field>
+    {#snippet children({ errors }: InertiaFormProps<{}>)}
+        <Field class="mb-2">
+            <Label for="name">Name</Label>
+            <Input
+                type="text"
+                name="name"
+                id="name"
+                required
+                value={player.name}
+                autocomplete="off"
+            />
 
-    <Button type="submit">Update Player</Button>
+            {#if errors.name}
+                <p class="text-destructive text-sm mt-1">{errors.name}</p>
+            {/if}
+        </Field>
+
+        <Button type="submit">Update Player</Button>
+    {/snippet}
 </Form>
