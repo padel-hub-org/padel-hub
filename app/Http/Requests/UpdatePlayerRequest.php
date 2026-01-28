@@ -22,8 +22,7 @@ class UpdatePlayerRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'name' => ['string', 'required', 'max:255'],
-            //
+            'name' => ['string', 'required', 'max:255', 'unique:players,name,'.$this->route('player')->id],
         ];
     }
 }
