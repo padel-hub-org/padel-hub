@@ -26,9 +26,10 @@
         color: var(--foreground);
         view-transition-class: slide-up;
     }
+
     :global(.shad-tab-trigger[data-state="active"]) {
         position: relative;
-        color: oklch(from var(--primary) 0.9 c h);
+        color: var(--nav-background-secondary-active-text);
         font-weight: bold;
         z-index: 0;
     }
@@ -38,7 +39,7 @@
         content: "";
         display: block;
         inset: 0;
-        background-color: var(--card);
+        background-color: var(--nav-background-secondary-active);
         border-radius: 0.375rem;
         z-index: -1;
         view-transition-name: shad-tab-trigger-active;

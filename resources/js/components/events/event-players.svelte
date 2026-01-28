@@ -59,7 +59,6 @@
         grid-template-columns: 1fr auto;
         align-items: end;
         margin-bottom: 1rem;
-        margin-top: 4rem;
     }
 
     .player {
@@ -75,6 +74,6 @@
     .players {
         display: grid;
         gap: 1rem;
-        margin-bottom: 5rem;
+        margin-bottom: 4rem;
     }
 </style>

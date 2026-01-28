@@ -15,6 +15,7 @@ class EventSettingController extends Controller
     {
         return Inertia::render('events/settings/index', [
             'title' => 'Settings',
+            'backUrl' => route('events.index'),
             'event' => $event->load('players'),
         ]);
     }

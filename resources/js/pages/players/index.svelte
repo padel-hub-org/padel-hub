@@ -34,7 +34,11 @@
         <h1>Players</h1>
 
         <Button class="button" href={create()} viewTransition>
-            <iconify-icon icon="mdi:plus" width="2rem" height="2rem">
+            <iconify-icon
+                icon="material-symbols:person-add-rounded"
+                width="1.25rem"
+                height="1.25rem"
+            >
             </iconify-icon>
             Add player
         </Button>

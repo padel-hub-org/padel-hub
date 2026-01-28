@@ -49,7 +49,7 @@
 
         const url = tabRoutes[value as keyof TabRoutes];
         if (url) {
-            router.visit(url, { viewTransition: true });
+            router.visit(url, { viewTransition: true, replace: true });
         }
     };
 
@@ -127,7 +127,7 @@
         display: grid;
         right: 0;
         left: 0;
-        bottom: 3.75rem;
+        bottom: 4.75rem;
         justify-content: center;
         view-transition-name: tab-root;
         view-transition-class: slide-up;

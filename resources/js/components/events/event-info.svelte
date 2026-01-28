@@ -59,7 +59,8 @@
             <EventPointsEdit error={undefined} bind:gamePoints={editedPoints}
             ></EventPointsEdit>
             <Button class="save-button" onclick={() => savePoints()}>
-                <iconify-icon icon="mdi:content-save"></iconify-icon>
+                <iconify-icon icon="material-symbols:save-rounded"
+                ></iconify-icon>
                 Save
             </Button>
         {:else}
@@ -85,7 +86,10 @@
         display: grid;
         gap: 1rem;
         container-type: inline;
-        margin-bottom: 1rem;
+        margin-bottom: 2rem;
+        background-color: var(--card);
+        padding: 1rem;
+        border-radius: var(--radius);
     }
 
     .event-courts {

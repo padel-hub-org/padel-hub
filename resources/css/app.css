@@ -5,14 +5,15 @@
 @custom-variant dark (&:is(.dark *));
 
 :root {
+    --behind-background: #fff;
     --radius: 0.625rem;
-    --background: oklch(1 0 0);
+    --background: oklch(0.95 0.01 264.2);
     --foreground: oklch(0.119 0.0437 285.36);
     --card: oklch(1 0 0);
-    --card-foreground: oklch(0.129 0.042 264.695);
+    --card-foreground: oklch( 0.129 0.042 0);
     --popover: oklch(1 0 0);
     --popover-foreground: oklch(0.129 0.042 264.695);
-    --primary: oklch(0.3706 0.2318 264.2);
+    --primary: oklch(0.5 0.25 264.2);
     --primary-foreground: oklch(0.934 0 0);
     --secondary: oklch(0.7349 0.1726 45.09);
     --secondary-foreground: oklch(0.119 0.0437 285.36);
@@ -36,7 +37,13 @@
     --sidebar-accent-foreground: oklch(0.208 0.042 265.755);
     --sidebar-border: oklch(0.929 0.013 255.508);
     --sidebar-ring: oklch(0.704 0.04 256.788);
-    --nav-background: oklch(from var(--primary) 0.98 0.01 h);
+
+    --top-nav-background: var(--background);
+    --bottom-nav-background: var(--card);
+
+    --nav-background-secondary: oklch(0.96 0 0);
+    --nav-background-secondary-active: oklch(1 0 0);
+    --nav-background-secondary-active-text: var(--primary);
 
     --gold-color: oklch(88.677% 0.18212 95.338);
     --silver-color: oklch(83.146% 0.07426 250.597);
@@ -49,13 +56,14 @@
 }
 
 .dark {
-    --background: oklch(0.129 0.042 264.695);
-    --foreground: oklch(0.93 0.02 247.858);
-    --card: oklch(0.208 0.042 265.755);
+    --behind-background: #000;
+    --background: oklch(from var(--primary) 0.3 0.1 h);
+    --foreground: oklch(from var(--primary) 0.9 0.02 h);
+    --card: oklch(from var(--primary) 0.25 0.05 h);
     --card-foreground: oklch(0.984 0.003 247.858);
     --popover: oklch(0.208 0.042 265.755);
     --popover-foreground: oklch(0.984 0.003 247.858);
-    --primary: oklch(0.729 0.313 264.2);
+    --primary: oklch(0.55 0.313 264.2);
     --primary-foreground: oklch(0.95 0.001 265.755);
     --secondary: oklch(0.9 0.2 49.16);
     --secondary-foreground: oklch(0.3 0.1 49.16);
@@ -79,8 +87,13 @@
     --sidebar-accent-foreground: oklch(0.984 0.003 247.858);
     --sidebar-border: oklch(1 0 0 / 10%);
     --sidebar-ring: oklch(0.551 0.027 264.364);
-    --nav-background: oklch(from var(--primary) 0.1 0.25 h);
+    
+    --top-nav-background: var(--background);
+    --bottom-nav-background: var(--card);
+
     --nav-background-secondary: oklch(from var(--primary) 0.35 0.04 h);
+    --nav-background-secondary-active: var(--card);
+    --nav-background-secondary-active-text: oklch(from var(--primary) 0.85 c h);
 
     --gold-color: oklch(47.906% 0.04229 80.148);
     --silver-color: oklch(47.685% 0.04598 249.966);
@@ -133,11 +146,13 @@
         display: grid;
         justify-items: center;
         min-height: 100dvh;
+        /* background-color: var(--behind-background); */
         background-color: var(--background);
         color: var(--foreground);
         font-size: var(--font-size-regular);
+        margin-bottom: 0 !important; /* To override laravel debugbars margin bottom*/
     }
-
+    
     #app {
         width: 100%;
         max-width: 600px;
