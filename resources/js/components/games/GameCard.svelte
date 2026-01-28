@@ -1,12 +1,18 @@
 <script lang="ts">
     import type { Game } from "@/types/Game";
     import { slide } from "svelte/transition";
+    import * as Card from "$lib/components/ui/card/index.js";
+    import RegisterResultDialog from "./RegisterResultDialog.svelte";
+    import type { Event } from "@/types/Event";
 
     interface Props {
         game: Game;
+        event: Event;
     }
 
-    const { game }: Props = $props();
+    const { game, event }: Props = $props();
+
+    let dialogOpen = $state(false);
 
     const team1 = $derived.by(() => {
         const player1 = game.players?.[0];
@@ -36,38 +42,56 @@
 </script>
 
 <div class="game" transition:slide={{ duration: 150 }}>
-    {#each team1 as player, i (player.id)}
-        <p class={["team0", `player${i}`]}>{player.name}</p>
-    {/each}
+    <Card.Root onclick={() => (dialogOpen = true)}>
+        <Card.Content>
+            <div class="game-content">
+                {#each team1 as player, i (player.id)}
+                    <p class={["team0", `player${i}`]}>{player.name}</p>
+                {/each}
 
-    <div class="score">
-        <p>{team1[0]?.pivot.points}</p>
-        <p>-</p>
-        <p>{team2[0]?.pivot.points}</p>
-    </div>
+                <div class="score">
+                    <p>{team1[0]?.pivot.points}</p>
+                    <p>-</p>
+                    <p>{team2[0]?.pivot.points}</p>
+                </div>
 
-    {#each team2 as player, i (player.id)}
-        <p class={["team1", `player${i}`]}>{player.name}</p>
-    {/each}
+                {#each team2 as player, i (player.id)}
+                    <p class={["team1", `player${i}`]}>{player.name}</p>
+                {/each}
+            </div>
+        </Card.Content>
+
+        <RegisterResultDialog
+            bind:isOpen={dialogOpen}
+            maxPoints={event.game_points}
+            eventId={event.id}
+            gameId={game.id}
+            teams={[team1, team2]}
+        />
+    </Card.Root>
 </div>
 
 <style>
     .game {
+        margin-bottom: 1rem;
+    }
+
+    .game-content {
         display: grid;
+        width: 100%;
         grid-template-columns: 1fr auto 1fr;
         grid-template-areas:
             "team0Player0 score team1Player0"
             "team0Player1 score team1Player1";
         gap: 1rem;
         background-color: var(--card);
-        padding: 1rem;
         border-radius: var(--radius);
-        margin-bottom: 1rem;
     }
 
     .team0 {
         overflow: hidden;
         width: 100%;
+        justify-self: start;
     }
 
     .team0.player0 {

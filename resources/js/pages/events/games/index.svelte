@@ -35,16 +35,17 @@
 
         {#each Object.entries(gamesByRound) as [round, games]}
             <div class="round">
-                <h3>Round {parseInt(round) + 1}</h3>
+                <h3>Round {parseInt(round)}</h3>
                 {#each games as game (game.id)}
-                    <GameCard {game} />
+                    <GameCard {game} {event} />
                 {/each}
             </div>
         {/each}
     </div>
 
     <Button href={store(event.id)} viewTransition>
-        <iconify-icon icon="mdi:plus" width="2rem" height="2rem"></iconify-icon>
+        <iconify-icon icon="mdi:plus" width="1.5rem" height="1.5rem"
+        ></iconify-icon>
         New round
     </Button>
 </div>
