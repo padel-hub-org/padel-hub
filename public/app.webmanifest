@@ -1,0 +1,29 @@
+{
+    "name": "Padel Hub",
+    "short_name": "Padel Hub",
+    "icons": [
+        {
+            "src": "/android-chrome-192x192.png",
+            "sizes": "192x192",
+            "type": "image/png"
+        },
+        {
+            "src": "/android-chrome-512x512.png",
+            "sizes": "512x512",
+            "type": "image/png"
+        }
+    ],
+    "screenshots": [
+        {
+            "src": "/screenshot-1.png",
+            "sizes": "520x1120",
+            "type": "image/png",
+            "label": "List of games",
+            "form_factor": "narrow"
+        }
+    ],
+    "start_url": "/",
+    "display": "standalone",
+    "theme_color": "#134aee",
+    "background_color": "#ffffff"
+}
