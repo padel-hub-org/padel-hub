@@ -63,7 +63,7 @@ class Event extends Model
             ->using(EventPlayer::class)
             ->withTrashed()
             ->withTimestamps()
-            ->withPivot('disabled_at', 'event_rating');
+            ->withPivot('disabled_at', 'event_rating', 'start_rating');
     }
 
     /**

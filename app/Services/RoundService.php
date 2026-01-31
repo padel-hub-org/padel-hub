@@ -30,7 +30,6 @@ class RoundService
             ->count();
 
         $this->courtCount = min($this->event->court_count, floor($this->playersCount / 4));
-
     }
 
     public static function event(Event $event): self
@@ -41,6 +40,49 @@ class RoundService
     public function getAvailablePlayersCount(): int
     {
         return $this->playersCount;
+    }
+
+    /**
+     * @param  Collection<int, Player>  $players
+     */
+    public function calculateEventRatings(Collection $players): void
+    {
+        $k = 300;
+        $individualContributionWeight = 0.5;
+        $outcomeWeight = 0.5;
+        $marginWeight = 1 - $outcomeWeight;
+
+        foreach ($players as $player) {
+            $gamePlayers = $player->gamePlayers()->whereRelation('game', 'event_id', $this->event->id)->get();
+
+            $sumOfPersonalPr = 0;
+
+            // TODO: try to reduce number of queries done in this forloop particularly
+            // regarding the attributes in gameplayer.
+            foreach ($gamePlayers as $gamePlayer) {
+                $teamScoreResult = $gamePlayer->result->value() * $outcomeWeight;
+
+                $playerPoints = $gamePlayer->points;
+                $opponentPoints = $gamePlayer->opponent_points;
+                $teamScoreResult += (
+                    ($playerPoints - $opponentPoints) / ($playerPoints + $opponentPoints)
+                ) * $marginWeight;
+
+                $averageOpponentRating = $gamePlayer->average_opponent_rating;
+
+                $teamPr = ($averageOpponentRating + $k * $teamScoreResult);
+
+                $teamAvg = ($player->pivot->start_rating + $gamePlayer->partner_rating) / 2;
+
+                $sumOfPersonalPr += ($teamPr + $individualContributionWeight * ($player->pivot->start_rating - $teamAvg));
+            }
+
+            $playerPr = (int) round($sumOfPersonalPr / $gamePlayers->count());
+
+            $this->event->players()->updateExistingPivot($player->id, [
+                'event_rating' => $playerPr,
+            ]);
+        }
     }
 
     public function generateNewRound(): void
@@ -110,7 +152,6 @@ class RoundService
                     'previous_player_rating' => $team2['player2']->rating,
                 ],
             ]);
-
         }
     }
 
