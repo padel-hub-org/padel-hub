@@ -4,6 +4,7 @@
     import { update } from "@/routes/events/games";
     import type { GamePlayer } from "@/types/GamePlayer";
     import { router } from "@inertiajs/svelte";
+    import { slide } from "svelte/transition";
 
     interface Props {
         eventId: number;
@@ -57,34 +58,39 @@
 
         <div class="register-score">
             {#if selectedPoints === null}
-                <div class="point-list">
+                <div class="point-list" transition:slide={{ duration: 100 }}>
                     {#each { length: maxPoints + 1 }, points}
-                        <Button onclick={() => (selectedPoints = points)}>
+                        <Button
+                            variant="outline"
+                            onclick={() => (selectedPoints = points)}
+                        >
                             {points}
                         </Button>
                     {/each}
                 </div>
             {:else}
-                <Button
-                    class="selected-points"
-                    variant="outline"
-                    onclick={() => (selectedPoints = null)}
-                    >{selectedPoints}</Button
-                >
+                <div class="selected" transition:slide={{ duration: 100 }}>
+                    <Button
+                        class="selected-points"
+                        variant="outline"
+                        onclick={() => (selectedPoints = null)}
+                        >{selectedPoints}</Button
+                    >
 
-                <p class="text-center">Select team</p>
-                <div class="teams">
-                    {#each teams as team}
-                        <Button
-                            class="team-button"
-                            variant="outline"
-                            onclick={() => registerScore(team)}
-                        >
-                            {#each team as player}
-                                <p>{player.name}</p>
-                            {/each}
-                        </Button>
-                    {/each}
+                    <p class="text-center">Select team</p>
+                    <div class="teams">
+                        {#each teams as team}
+                            <Button
+                                class="team-button"
+                                variant="outline"
+                                onclick={() => registerScore(team)}
+                            >
+                                {#each team as player}
+                                    <p>{player.name}</p>
+                                {/each}
+                            </Button>
+                        {/each}
+                    </div>
                 </div>
             {/if}
         </div>
@@ -93,8 +99,6 @@
 
 <style>
     .register-score {
-        display: grid;
-        gap: 1rem;
         padding: 0.5rem 0;
     }
 
@@ -104,8 +108,14 @@
         gap: 0.5rem;
     }
 
+    .selected {
+        display: grid;
+        justify-items: center;
+        gap: 1rem;
+    }
+
     .register-score :global(.selected-points) {
-        font-size: var(--font-size-large);
+        font-size: var(--font-size-heading-1);
         padding-inline: 2rem;
         width: fit-content;
         justify-self: center;
@@ -114,6 +124,7 @@
     .teams {
         display: grid;
         grid-template-columns: 1fr 1fr;
+        width: 100%;
         gap: 1rem;
     }
 
