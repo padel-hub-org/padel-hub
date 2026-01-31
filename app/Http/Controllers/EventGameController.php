@@ -85,10 +85,10 @@ class EventGameController extends Controller
         $data = $request->validated();
 
         $selectedPlayers = $data['players'];
-        $points = $data['points'];
-        $otherPoints = $game->event->game_points - $points;
+        $selectedPoints = $data['points'];
+        $otherPoints = $game->event->game_points - $selectedPoints;
 
-        $selectedResult = match ($points <=> $otherPoints) {
+        $selectedResult = match ($selectedPoints <=> $otherPoints) {
             1 => Result::Win,
             0 => Result::Tie,
             -1 => Result::Loss,
@@ -103,12 +103,16 @@ class EventGameController extends Controller
         $otherPlayers = $game->players()->whereNotIn('player_id', $selectedPlayers)->get();
 
         foreach ($selectedPlayers as $playerId) {
-            $game->players()->updateExistingPivot($playerId, ['points' => $points, 'result' => $selectedResult]);
+            $game->players()->updateExistingPivot($playerId, ['points' => $selectedPoints, 'result' => $selectedResult]);
         }
 
         foreach ($otherPlayers as $player) {
             $game->players()->updateExistingPivot($player->id, ['points' => $otherPoints, 'result' => $otherResult]);
         }
+
+        // TODO: try to optimize this so we do not fetch players again
+        $players = $event->players()->whereRelation('games', 'games.id', $game->id)->get();
+        RoundService::event($event)->calculateEventRatings($players);
 
         return back();
     }

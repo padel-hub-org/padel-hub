@@ -13,6 +13,7 @@ use Illuminate\Database\Eloquent\Relations\Pivot;
  * @property string|null $disabled_at
  * @property \Illuminate\Support\Carbon|null $created_at
  * @property \Illuminate\Support\Carbon|null $updated_at
+ * @property int $start_rating
  * @property-read \App\Models\Event|null $event
  * @property-read \App\Models\Player|null $player
  *
@@ -25,6 +26,7 @@ use Illuminate\Database\Eloquent\Relations\Pivot;
  * @method static \Illuminate\Database\Eloquent\Builder<static>|EventPlayer whereEventRating($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|EventPlayer whereId($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|EventPlayer wherePlayerId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|EventPlayer whereStartRating($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|EventPlayer whereUpdatedAt($value)
  *
  * @mixin \Eloquent

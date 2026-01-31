@@ -41,7 +41,7 @@ class EventPlayerController extends Controller
 
         $playerRating = Player::query()->find($validated['player_id'])->rating;
 
-        $event->players()->attach($validated['player_id'], ['event_rating' => $playerRating]);
+        $event->players()->attach($validated['player_id'], ['event_rating' => $playerRating, 'start_rating' => $playerRating]);
 
         return back();
     }

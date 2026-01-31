@@ -23,9 +23,11 @@ class EventSeeder extends Seeder
             $eventPlayers = $players->shuffle()->take($playerCount);
 
             foreach ($eventPlayers as $player) {
+                $rating = fake()->numberBetween(0, 3000);
                 $isDisabled = fake()->boolean(10);
                 $event->players()->attach($player, [
-                    'event_rating' => fake()->numberBetween(0, 3000),
+                    'event_rating' => $rating,
+                    'start_rating' => $rating,
                     'disabled_at' => $isDisabled ? fake()->dateTimeBetween($event->starts_at, $event->starts_at->addMinutes(fake()->numberBetween(0, 90))) : null,
                 ]);
             }
@@ -68,15 +70,13 @@ class EventSeeder extends Seeder
                             'previous_event_rating' => fake()->numberBetween(0, 3000),
                             'points' => $teamAPlayers->contains($gamePlayer) ? $teamAPoints : $teamBPoints,
                             'partner_id' => $teamAPlayers->contains($gamePlayer)
-                                 ? $teamAPlayers->where('id', '!=', $gamePlayer->id)->first()->id
-                                 : $teamBPlayers->where('id', '!=', $gamePlayer->id)->first()->id,
+                                ? $teamAPlayers->where('id', '!=', $gamePlayer->id)->first()->id
+                                : $teamBPlayers->where('id', '!=', $gamePlayer->id)->first()->id,
                             'result' => $teamAPlayers->contains($gamePlayer) ? $teamAResult : $teamBResult,
                         ]);
-
                     }
                 }
             }
-
         }
     }
 }
