@@ -3,7 +3,6 @@
 namespace App\Models;
 
 use App\Enums\Result;
-use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\Pivot;
 
@@ -43,55 +42,6 @@ class GamePlayer extends Pivot
         return [
             'result' => Result::class,
         ];
-    }
-
-    /**
-     * @return Attribute<int|null, never>
-     */
-    protected function opponentPoints(): Attribute
-    {
-        return Attribute::make(get: function (): ?int {
-            return $this->game
-                ->gamePlayers()
-                ->where('player_id', '!=', $this->player_id)
-                ->where('player_id', '!=', $this->partner_id)
-                ->first()
-                ?->points;
-        });
-    }
-
-    /**
-     * @return Attribute<int, never>
-     */
-    protected function averageOpponentRating(): Attribute
-    {
-        return Attribute::make(get: function (): int {
-            $opponentPlayerIds = $this->game
-                ->gamePlayers()
-                ->where('player_id', '!=', $this->player_id)
-                ->where('player_id', '!=', $this->partner_id)
-                ->pluck('player_id');
-
-            return (int) round(
-                EventPlayer::query()
-                    ->where('event_id', $this->game->event_id)
-                    ->whereIn('player_id', $opponentPlayerIds)
-                    ->avg('start_rating')
-            );
-        });
-    }
-
-    /**
-     * @return Attribute<int|null, never>
-     */
-    protected function partnerRating(): Attribute
-    {
-        return Attribute::make(get: function (): ?int {
-            return EventPlayer::query()
-                ->where('event_id', $this->game->event_id)
-                ->where('player_id', $this->partner_id)
-                ->value('start_rating');
-        });
     }
 
     /**
