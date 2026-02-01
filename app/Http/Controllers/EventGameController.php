@@ -6,6 +6,7 @@ use App\Enums\Result;
 use App\Http\Requests\UpdateGameRequest;
 use App\Models\Event;
 use App\Models\Game;
+use App\Services\RatingService;
 use App\Services\RoundService;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Support\Facades\DB;
@@ -112,7 +113,7 @@ class EventGameController extends Controller
 
         // TODO: try to optimize this so we do not fetch players again
         $players = $event->players()->whereRelation('games', 'games.id', $game->id)->get();
-        RoundService::event($event)->calculateEventRatings($players);
+        RatingService::event($event)->calculateEventRatings($players);
 
         return back();
     }
