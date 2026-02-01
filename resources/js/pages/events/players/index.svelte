@@ -10,17 +10,49 @@
     import type { Pagination } from "@/types/Pagination";
     import type { Player } from "@/types/Player";
     import { store, destroy } from "@/routes/events/players";
-    import { InfiniteScroll } from "@inertiajs/svelte";
+    import { Form, InfiniteScroll, router } from "@inertiajs/svelte";
     import type { Event } from "@/types/Event";
-    import { slide } from "svelte/transition";
+    import { fade } from "svelte/transition";
+    import { Spinner } from "@/lib/components/ui/spinner";
+    import { Field } from "@/lib/components/ui/field";
+    import { Input } from "@/lib/components/ui/input";
 
     interface Props {
         event: Event;
         eventPlayers: EventPlayer[];
         players: Pagination<Player>;
+        search: string;
     }
 
-    const { event, eventPlayers, players }: Props = $props();
+    const { event, eventPlayers, players, search }: Props = $props();
+
+    let formRef: Form;
+    let debounceTimer: ReturnType<typeof setTimeout>;
+
+    function handleInput() {
+        clearTimeout(debounceTimer);
+        debounceTimer = setTimeout(() => formRef.submit(), 300);
+    }
+
+    function addPlayer(playerId: number) {
+        router.post(
+            store(event.id),
+            { player_id: playerId },
+            {
+                reset: ["players"],
+                only: ["players", "eventPlayers"],
+                preserveScroll: true,
+            },
+        );
+    }
+
+    function removePlayer(playerId: number) {
+        router.delete(destroy([event.id, playerId]), {
+            reset: ["players"],
+            only: ["players", "eventPlayers"],
+            preserveScroll: true,
+        });
+    }
 </script>
 
 <svelte:head>
@@ -30,31 +62,59 @@
 <div class="page">
     <h2>Enrolled players</h2>
     <div class="players">
-        {#each eventPlayers as player (player.id)}
-            <div class="player" transition:slide={{ duration: 150 }}>
+        {#each eventPlayers as player (`enrolled-${player.id}`)}
+            <div class="player" transition:fade={{ duration: 150 }}>
                 <p>{player.name}</p>
                 <Button
-                    preserveScroll
                     variant="destructive"
-                    href={destroy([event.id, player.id])}>Remove</Button
+                    onclick={() => removePlayer(player.id)}>Remove</Button
                 >
             </div>
         {/each}
+
+        {#if eventPlayers.length === 0}
+            <p>No players enrolled yet.</p>
+        {/if}
     </div>
 
     <h2>Not enrolled players</h2>
-    <InfiniteScroll data="events">
-        <div class="players">
-            {#each players.data as player (player.id)}
-                <div class="player" transition:slide={{ duration: 150 }}>
-                    <p>{player.name}</p>
-                    <Button
-                        preserveScroll
-                        data={{ player_id: player.id }}
-                        href={store(event.id)}>Add</Button
-                    >
-                </div>
-            {/each}
+
+    <Form
+        class="mb-4"
+        bind:this={formRef}
+        options={{
+            preserveState: true,
+            preserveScroll: true,
+            replace: true,
+            reset: ["players", "search"],
+        }}
+    >
+        <Field>
+            <Input
+                oninput={handleInput}
+                type="text"
+                name="search"
+                id="search"
+                value={search}
+                placeholder="Search by name..."
+            />
+        </Field>
+    </Form>
+
+    <InfiniteScroll data="players" as="div" class="players">
+        {#each players.data as player (`not-enrolled-${player.id}`)}
+            <div class="player" transition:fade={{ duration: 150 }}>
+                <p>{player.name}</p>
+                <Button onclick={() => addPlayer(player.id)}>Add</Button>
+            </div>
+        {/each}
+
+        {#if players.data.length === 0}
+            <p>No players found.</p>
+        {/if}
+
+        <div slot="loading" class="loading">
+            <Spinner class="size-6" />
         </div>
     </InfiniteScroll>
 </div>
@@ -81,5 +141,10 @@
     .players {
         display: grid;
         margin-bottom: 5rem;
+    }
+
+    .loading {
+        display: grid;
+        justify-items: center;
     }
 </style>

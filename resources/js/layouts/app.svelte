@@ -145,7 +145,7 @@
 <style>
     .layout {
         display: grid;
-        height: 100dvh;
+        min-height: 100dvh;
         grid-template-rows: auto 1fr auto;
     }
 
@@ -158,6 +158,9 @@
         align-items: center;
         background-color: var(--top-nav-background);
         view-transition-name: header;
+        position: sticky;
+        top: 0;
+        z-index: 10;
     }
 
     .layout :global(header:has(.backButton)) {
@@ -178,7 +181,6 @@
         display: grid;
         grid-template-rows: 1fr auto;
         padding-inline: 1rem;
-        overflow-y: auto;
         padding-bottom: 1rem;
     }
 
@@ -199,6 +201,8 @@
         max-width: 600px;
         background-color: var(--bottom-nav-background);
         justify-content: space-around;
+        position: sticky;
+        bottom: 0;
 
         & :global(.navButton) {
             flex-direction: column;
