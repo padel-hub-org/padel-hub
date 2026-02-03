@@ -34,14 +34,6 @@ class EventGameController extends Controller
     }
 
     /**
-     * Show the form for creating a new resource.
-     */
-    public function create(): void
-    {
-        //
-    }
-
-    /**
      * Store a newly created resource in storage.
      */
     public function store(Event $event): RedirectResponse
@@ -74,14 +66,6 @@ class EventGameController extends Controller
         DB::commit();
 
         return back();
-    }
-
-    /**
-     * Display the specified resource.
-     */
-    public function show(Game $game): void
-    {
-        //
     }
 
     /**
