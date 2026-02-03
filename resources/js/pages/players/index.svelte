@@ -47,7 +47,11 @@
     <Form
         class="mb-4"
         bind:this={formRef}
-        options={{ preserveState: true, replace: true }}
+        options={{
+            preserveState: true,
+            replace: true,
+            reset: ["players", "search"],
+        }}
     >
         <Field>
             <Input
@@ -61,16 +65,14 @@
         </Field>
     </Form>
 
-    <InfiniteScroll data="players" only={["players"]}>
-        <ul class="players">
-            {#each players.data as player (player.id)}
-                <PlayerCard {player} />
-            {/each}
+    <InfiniteScroll data="players" as="ul" class="players">
+        {#each players.data as player (player.id)}
+            <PlayerCard {player} />
+        {/each}
 
-            {#if players.data.length === 0}
-                <p>No players found.</p>
-            {/if}
-        </ul>
+        {#if players.data.length === 0}
+            <p>No players found.</p>
+        {/if}
 
         <div slot="loading" class="loading">
             <Spinner class="size-6" />
@@ -86,7 +88,7 @@
         margin-bottom: 1rem;
     }
 
-    .players {
+    .page :global(.players) {
         display: grid;
         gap: 1rem;
     }

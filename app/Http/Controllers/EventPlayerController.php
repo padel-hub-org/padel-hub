@@ -15,18 +15,29 @@ class EventPlayerController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index(Event $event): Response
+    public function index(Request $request, Event $event): Response
     {
+        $validated = $request->validate([
+            'search' => ['nullable', 'string', 'max:255'],
+        ]);
+
+        $query = Player::query();
+
+        if (! empty($validated['search'])) {
+            $query->where('name', 'ilike', '%'.$validated['search'].'%');
+        }
+
         return Inertia::render('events/players/index', [
             'title' => 'Players',
             'backUrl' => route('events.settings.index', ['event' => $event->id]),
             'event' => $event,
             'eventPlayers' => $event->players()->orderBy('name')->get(),
             'players' => Inertia::scroll(
-                fn () => Player::query()->whereDoesntHave('events', function (Builder $builder) use ($event) {
+                fn () => $query->whereDoesntHave('events', function (Builder $builder) use ($event) {
                     $builder->where('events.id', $event->id);
-                })->orderBy('name')->paginate()
+                })->orderBy('name')->paginate(50)
             ),
+            'search' => $validated['search'] ?? null,
         ]);
     }
 

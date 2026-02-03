@@ -5,7 +5,6 @@
     import { destroy, show } from "@/routes/players";
     import type { Player } from "@/types/Player";
     import { Form, type InertiaFormProps } from "@inertiajs/svelte";
-    import { slide } from "svelte/transition";
 
     interface Props {
         player: Player;
@@ -13,7 +12,7 @@
     let { player }: Props = $props();
 </script>
 
-<li class="player" transition:slide={{ duration: 150 }}>
+<li class="player">
     <p>{player.name}</p>
     <Button
         class="cursor-pointer"
@@ -52,7 +51,7 @@
             </AlertDialog.Header>
             <Form
                 action={destroy(player)}
-                options={{ preserveScroll: true }}
+                options={{ preserveScroll: true, reset: ["players"] }}
                 disableWhileProcessing
             >
                 {#snippet children({ processing }: InertiaFormProps<{}>)}

@@ -28,7 +28,7 @@ class PlayerController extends Controller
         }
 
         return Inertia::render('players/index', [
-            'players' => Inertia::scroll(fn () => $query->orderBy('name')->paginate()),
+            'players' => Inertia::scroll(fn () => $query->orderBy('name')->paginate(50)),
             'search' => $validated['search'] ?? '',
         ]);
     }
