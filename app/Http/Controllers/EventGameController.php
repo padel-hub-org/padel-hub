@@ -50,8 +50,6 @@ class EventGameController extends Controller
 
         $playersCount = $roundService->getAvailablePlayersCount();
 
-        sleep(2);
-
         if ($playersCount < 4) {
             Inertia::flash('toast', ['type' => 'error', 'message' => 'Not enough players to generate round.']);
 
