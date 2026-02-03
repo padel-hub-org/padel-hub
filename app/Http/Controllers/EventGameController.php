@@ -56,6 +56,12 @@ class EventGameController extends Controller
             return back();
         }
 
+        if ($roundService->hasUnregisteredResults()) {
+            Inertia::flash('toast', ['type' => 'error', 'message' => 'There are unregistered results. Please register all results before generating a new round.']);
+
+            return back();
+        }
+
         DB::beginTransaction();
 
         try {

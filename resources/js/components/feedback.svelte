@@ -24,6 +24,8 @@
     let currentToast: Toast | null = $state(null);
     let lastUrl = $state($page.url);
 
+    let timeout: ReturnType<typeof setTimeout> | null = null;
+
     $effect(() => {
         // Clear toast on navigation
         if ($page.url !== lastUrl) {
@@ -31,10 +33,16 @@
             lastUrl = $page.url;
         }
 
-        // Set new toast if present
-        if ($page.flash?.toast) {
-            currentToast = $page.flash.toast;
+        if (!$page.flash?.toast) {
+            return;
         }
+
+        currentToast = $page.flash.toast;
+        if (timeout) clearTimeout(timeout);
+
+        timeout = setTimeout(() => {
+            currentToast = null;
+        }, 8 * 1000);
     });
 </script>
 

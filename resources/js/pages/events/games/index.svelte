@@ -10,6 +10,7 @@
     import type { Game } from "@/types/Game";
     import { Button } from "@/lib/components/ui/button";
     import { store } from "@/routes/events/games";
+    import { Form, type InertiaFormProps } from "@inertiajs/svelte";
 
     interface GamesByRound {
         [key: string]: Game[];
@@ -43,11 +44,15 @@
         {/each}
     </div>
 
-    <Button href={store(event.id)} viewTransition>
-        <iconify-icon icon="mdi:plus" width="1.5rem" height="1.5rem"
-        ></iconify-icon>
-        New round
-    </Button>
+    <Form action={store(event.id)} options={{ preserveScroll: true }}>
+        {#snippet children({ processing }: InertiaFormProps<{}>)}
+            <Button type="submit" disabled={processing}>
+                <iconify-icon icon="mdi:plus" width="1.5rem" height="1.5rem"
+                ></iconify-icon>
+                New round
+            </Button>
+        {/snippet}
+    </Form>
 </div>
 
 <style>

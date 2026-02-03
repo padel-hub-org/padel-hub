@@ -42,6 +42,15 @@ class RoundService
         return $this->playersCount;
     }
 
+    public function hasUnregisteredResults(): bool
+    {
+        $unregisteredResultsCount = $this->event->games()
+            ->whereRelation('gamePlayers', 'result', null)
+            ->count();
+
+        return $unregisteredResultsCount > 0;
+    }
+
     public function generateNewRound(): void
     {
         $players = $this->getPlayingPlayers();

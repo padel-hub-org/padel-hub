@@ -44,6 +44,10 @@ class RatingService
             $sumOfPersonalPr = 0;
 
             foreach ($gamePlayers as $gamePlayer) {
+                if (! $gamePlayer->result) {
+                    continue;
+                }
+
                 $opponents = $gamePlayer->game->gamePlayers
                     ->where('player_id', '!=', $gamePlayer->player_id)
                     ->where('player_id', '!=', $gamePlayer->partner_id);
