@@ -24,7 +24,7 @@ Route::middleware('auth')->group(function () {
     Route::name('events.players.disabled')->put('/events/{event}/players/{player}/disabled', [EventController::class, 'setDisabled']);
     Route::resource('events.players', EventPlayerController::class);
     Route::resource('events.settings', EventSettingController::class)->only('index');
-    Route::resource('events.games', EventGameController::class);
+    Route::resource('events.games', EventGameController::class)->only('index', 'store', 'update');
     Route::resource('events.leaderboard', EventLeaderboardController::class)->only('index');
 
     Route::name('logout')->post('/logout', [AuthController::class, 'logout']);
