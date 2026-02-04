@@ -53,6 +53,17 @@
         }
     };
 
+    const isEventEnded = event.ended_at !== null;
+
+    const endDate = dayjs(event.ended_at).calendar(null, {
+        sameDay: "[Today]", // The same day ( Today at 2:30 AM )
+        nextDay: "[Tomorrow]", // The next day ( Tomorrow at 2:30 AM )
+        nextWeek: "dddd", // The next week ( Sunday at 2:30 AM )
+        lastDay: "[Yesterday]", // The day before ( Yesterday at 2:30 AM )
+        lastWeek: "dddd", // Last week ( Last Monday at 2:30 AM )
+        sameElse: "DD/MM/YYYY", // Everything else ( 7/10/2011 )
+    });
+
     // Keep currentTab in sync with tab
     $effect(() => {
         if (currentTab !== tab) {
@@ -64,7 +75,24 @@
 <div class="event-layout">
     <header>
         <h1>{title}</h1>
-        <p class="event-date">{dayjs(event.starts_at).calendar()}</p>
+        <div class="start">
+            <iconify-icon
+                icon="material-symbols:calendar-clock"
+                width="1.5rem"
+                height="1.5rem"
+            ></iconify-icon>
+            <p class="event-date">{dayjs(event.starts_at).calendar()}</p>
+        </div>
+        {#if isEventEnded}
+            <div class="end">
+                <iconify-icon
+                    icon="material-symbols:event-available-rounded"
+                    width="1.5rem"
+                    height="1.5rem"
+                ></iconify-icon>
+                <p class="event-date">Ended {endDate}</p>
+            </div>
+        {/if}
     </header>
 
     <Tabs.Root bind:value={currentTab} onValueChange={onChangeTab}>
@@ -110,16 +138,34 @@
 
 <style>
     header {
+        display: grid;
         margin-bottom: 2rem;
+        grid-template-columns: 1fr auto;
+        grid-template-areas:
+            "header ."
+            "start end";
     }
 
     h1 {
+        grid-area: header;
         font-size: var(--font-size-heading-1);
         font-weight: bold;
     }
 
     .event-date {
         font-size: var(--font-size-large);
+    }
+
+    .start {
+        grid-area: start;
+        display: flex;
+        gap: 0.5rem;
+    }
+
+    .end {
+        grid-area: end;
+        display: flex;
+        gap: 0.5rem;
     }
 
     .tab-list {

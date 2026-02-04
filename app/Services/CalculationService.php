@@ -6,7 +6,9 @@ use App\Enums\Result;
 
 class CalculationService
 {
-    const int RATING_DIFFERENCE = 300;
+    const int RATING_DIFFERENCE_SCALE = 300;
+
+    const int LEARNING_RATE = 10;
 
     const float INDIVIDUAL_CONTRIBUTION_WEIGHT = 0.5;
 
@@ -16,9 +18,11 @@ class CalculationService
 
     private float $teamScoreResult;
 
-    private float $teamPr;
+    private float $avgOpponentRating;
 
-    private float $individualOffset;
+    private float $avgTeamRating;
+
+    private float $playerRating;
 
     public function withResult(Result $result): self
     {
@@ -38,21 +42,46 @@ class CalculationService
 
     public function withAvgOpponentRating(int $opponentRating): self
     {
-        $this->teamPr = $opponentRating + self::RATING_DIFFERENCE * $this->teamScoreResult;
+        $this->avgOpponentRating = $opponentRating;
 
         return $this;
     }
 
+    private function getTeamPr(): float
+    {
+        return $this->avgOpponentRating + self::RATING_DIFFERENCE_SCALE * $this->teamScoreResult;
+    }
+
     public function withRatings(int $playerRating, int $partnerRating): self
     {
-        $teamAvg = ($playerRating + $partnerRating) / 2;
-        $this->individualOffset = $playerRating - $teamAvg;
+        $this->avgTeamRating = ($playerRating + $partnerRating) / 2;
+        $this->playerRating = $playerRating;
 
         return $this;
     }
 
     public function getPersonalPr(): float
     {
-        return $this->teamPr + self::INDIVIDUAL_CONTRIBUTION_WEIGHT * $this->individualOffset;
+        $teamPr = $this->getTeamPr();
+        $individualOffset = $this->playerRating - $this->avgTeamRating;
+
+        return $teamPr + self::INDIVIDUAL_CONTRIBUTION_WEIGHT * $individualOffset;
+    }
+
+    public function getPlayerRating(): int
+    {
+        $scaledRatingDifference = ($this->avgOpponentRating - $this->avgTeamRating) / self::RATING_DIFFERENCE_SCALE;
+
+        $expectedWinProbability = 1 / (1 + pow(10, $scaledRatingDifference));
+
+        $teamScoreResult = ($this->teamScoreResult + 1) / 2;
+
+        $ratingChange = self::LEARNING_RATE * ($teamScoreResult - $expectedWinProbability);
+
+        if ($ratingChange > 0) {
+            return (int) floor($this->playerRating + $ratingChange);
+        } else {
+            return (int) ceil($this->playerRating + $ratingChange);
+        }
     }
 }

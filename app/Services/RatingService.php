@@ -7,6 +7,7 @@ use App\Models\EventPlayer;
 use App\Models\Player;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Relations\Relation;
+use Illuminate\Support\Facades\DB;
 
 class RatingService
 {
@@ -79,5 +80,56 @@ class RatingService
                 'event_rating' => $playerPr,
             ]);
         }
+    }
+
+    public function calculatePlayerRatings(): void
+    {
+        $playerRatings = $this->event->players()
+            ->pluck('rating', 'players.id')
+            ->toArray();
+
+        $games = $this->event->games()->with('gamePlayers')->get();
+
+        foreach ($games as $game) {
+            $gamePlayers = $game->gamePlayers;
+
+            $gamePlayerRatings = $playerRatings;
+
+            foreach ($gamePlayers as $gamePlayer) {
+                if (! $gamePlayer->result) {
+                    continue;
+                }
+
+                $opponents = $game->gamePlayers
+                    ->where('player_id', '!=', $gamePlayer->player_id)
+                    ->where('player_id', '!=', $gamePlayer->partner_id);
+
+                $opponentPoints = $opponents->first()?->points;
+
+                $opponentPlayerIds = $opponents->pluck('player_id');
+                $avgOpponentRating = (int) round(
+                    $opponentPlayerIds->map(fn ($id) => $gamePlayerRatings[$id] ?? 0)
+                        ->avg()
+                );
+
+                $calculator = new CalculationService;
+
+                $calculator
+                    ->withResult($gamePlayer->result)
+                    ->withPoints($gamePlayer->points, $opponentPoints)
+                    ->withAvgOpponentRating($avgOpponentRating)
+                    ->withRatings($gamePlayerRatings[$gamePlayer->player_id], $gamePlayerRatings[$gamePlayer->partner_id]);
+
+                $playerRatings[$gamePlayer->player_id] = $calculator->getPlayerRating();
+            }
+        }
+
+        DB::transaction(
+            function () use ($playerRatings) {
+                foreach ($playerRatings as $playerId => $rating) {
+                    Player::query()->where('id', $playerId)->update(['rating' => $rating]);
+                }
+            }
+        );
     }
 }

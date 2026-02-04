@@ -9,21 +9,44 @@
     }
 
     const { event }: Props = $props();
+
+    const endDate = dayjs(event.ended_at).calendar(null, {
+        sameDay: "[Today]", // The same day ( Today at 2:30 AM )
+        nextDay: "[Tomorrow]", // The next day ( Tomorrow at 2:30 AM )
+        nextWeek: "dddd", // The next week ( Sunday at 2:30 AM )
+        lastDay: "[Yesterday]", // The day before ( Yesterday at 2:30 AM )
+        lastWeek: "dddd", // Last week ( Last Monday at 2:30 AM )
+        sameElse: "DD/MM/YYYY", // Everything else ( 7/10/2011 )
+    });
 </script>
 
 <Link href={show(event)} viewTransition>
     <article class="event">
-        <h2>{dayjs(event.starts_at).calendar()}</h2>
+        <div class="start">
+            <iconify-icon
+                icon="material-symbols:calendar-clock"
+                width="1.5rem"
+                height="1.5rem"
+            ></iconify-icon>
+            <h2>{dayjs(event.starts_at).calendar()}</h2>
+        </div>
 
         <p class="courts">{event.court_count} courts</p>
         <p class="players">{event.players_count} players</p>
 
         {#if event.ended_at !== null}
-            <p class="ended">
-                Ended at {dayjs(event.ended_at).format("LT")}
-            </p>
+            <div class="end">
+                <iconify-icon
+                    icon="material-symbols:event-available-rounded"
+                    width="1.5rem"
+                    height="1.5rem"
+                ></iconify-icon>
+                <p>
+                    Ended {endDate}
+                </p>
+            </div>
         {:else if dayjs(event.starts_at).isBefore(dayjs())}
-            <div class="ended live">
+            <div class="end live">
                 <div class="live-dot"></div>
                 <p>Live</p>
             </div>
@@ -36,7 +59,7 @@
         display: grid;
         grid-template-columns: 1fr auto;
         grid-template-areas:
-            "title ended"
+            "title end"
             "courts players";
         gap: 1rem;
         background-color: var(--card);
@@ -45,7 +68,6 @@
     }
 
     h2 {
-        grid-area: title;
         font-size: var(--font-size-large);
         font-weight: bold;
     }
@@ -59,16 +81,19 @@
         justify-self: end;
     }
 
-    .ended {
-        grid-area: ended;
+    .end {
+        grid-area: end;
         align-self: self-start;
         justify-self: end;
-    }
-
-    .ended.live {
         display: flex;
         gap: 0.75rem;
         align-items: center;
+    }
+
+    .start {
+        grid-area: title;
+        display: flex;
+        gap: 0.75rem;
     }
 
     .live-dot {
