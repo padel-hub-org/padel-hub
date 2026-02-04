@@ -30,52 +30,54 @@
     <title>Games | Padel Hub</title>
 </svelte:head>
 <div class="page">
-    <div class="rounds">
-        <Button
-            variant="outline"
-            disabled={round <= 1}
-            replace
-            href={index(event, {
-                query: {
-                    round: round - 1,
-                },
-            })}
-            viewTransition
-        >
-            <iconify-icon
-                icon="material-symbols:chevron-left-rounded"
-                width="1.5rem"
-                height="1.5rem"
-            ></iconify-icon>
-        </Button>
+    {#if games.length > 0}
+        <div class="rounds">
+            <Button
+                variant="outline"
+                disabled={round <= 1}
+                replace
+                href={index(event, {
+                    query: {
+                        round: round - 1,
+                    },
+                })}
+                viewTransition
+            >
+                <iconify-icon
+                    icon="material-symbols:chevron-left-rounded"
+                    width="1.5rem"
+                    height="1.5rem"
+                ></iconify-icon>
+            </Button>
 
-        <h3>
-            <iconify-icon
-                icon="material-symbols:padel"
-                width="1.5rem"
-                height="1.5rem"
-            ></iconify-icon>
-            Round {round}
-        </h3>
+            <h3>
+                <iconify-icon
+                    icon="material-symbols:padel"
+                    width="1.5rem"
+                    height="1.5rem"
+                ></iconify-icon>
+                Round {round}
+            </h3>
 
-        <Button
-            variant="outline"
-            disabled={round >= maxRound}
-            replace
-            href={index(event, {
-                query: {
-                    round: round + 1,
-                },
-            })}
-            viewTransition
-        >
-            <iconify-icon
-                icon="material-symbols:chevron-right-rounded"
-                width="1.5rem"
-                height="1.5rem"
-            ></iconify-icon>
-        </Button>
-    </div>
+            <Button
+                variant="outline"
+                disabled={round >= maxRound}
+                replace
+                href={index(event, {
+                    query: {
+                        round: round + 1,
+                    },
+                })}
+                viewTransition
+            >
+                <iconify-icon
+                    icon="material-symbols:chevron-right-rounded"
+                    width="1.5rem"
+                    height="1.5rem"
+                ></iconify-icon>
+            </Button>
+        </div>
+    {/if}
 
     <div class="games">
         {#if games.length === 0}
