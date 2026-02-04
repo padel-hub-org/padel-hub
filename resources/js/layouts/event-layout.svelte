@@ -28,21 +28,21 @@
     };
 
     const tab = $derived.by(() => {
-        switch ($page.url) {
-            case tabRoutes.settings:
-                return "settings";
-            case tabRoutes.games:
-                return "games";
-            case tabRoutes.leaderboard:
-                return "leaderboard";
-            default:
-                return "settings";
+        if ($page.url.startsWith(tabRoutes.settings)) {
+            return "settings";
+        } else if ($page.url.startsWith(tabRoutes.games)) {
+            return "games";
+        } else if ($page.url.startsWith(tabRoutes.leaderboard)) {
+            return "leaderboard";
+        } else {
+            return "settings";
         }
     });
 
     let currentTab = $state("settings");
 
     const onChangeTab = (value: string) => {
+        console.log("Changing tab to", value);
         // A hack to avoid Tabs.Root updating currentTab before we navigate
         //   which would break view transitions
         currentTab = tab;
@@ -124,6 +124,7 @@
                 >
             </Tabs.List>
         </div>
+
         <Tabs.Content value="settings">
             {@render children()}
         </Tabs.Content>
@@ -137,6 +138,10 @@
 </div>
 
 <style>
+    .event-layout {
+        margin-bottom: 4rem;
+    }
+
     header {
         display: grid;
         margin-bottom: 2rem;
@@ -144,6 +149,7 @@
         grid-template-areas:
             "header ."
             "start end";
+        view-transition-name: event-header;
     }
 
     h1 {
@@ -174,6 +180,7 @@
         right: 0;
         left: 0;
         bottom: 4.75rem;
+        z-index: 5;
         justify-content: center;
         view-transition-name: tab-root;
         view-transition-class: slide-up;

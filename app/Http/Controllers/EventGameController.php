@@ -9,6 +9,7 @@ use App\Models\Game;
 use App\Services\RatingService;
 use App\Services\RoundService;
 use Illuminate\Http\RedirectResponse;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Inertia\Inertia;
 use Inertia\Response;
@@ -18,18 +19,33 @@ class EventGameController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index(Event $event): Response
+    public function index(Request $request, Event $event): Response
     {
+        $data = $request->validate([
+            'round' => ['nullable', 'integer', 'min:1'],
+        ]);
+
+        $round = (int) ($data['round'] ?? -1);
+
+        $maxRound = (int) ($event->games()->max('round') ?? 1);
+
+        if ($round === -1) {
+            $isEventEnded = $event->ended_at !== null;
+            $round = $isEventEnded ? 1 : $maxRound;
+        }
+
         return Inertia::render('events/games/index', [
             'title' => 'Games',
             'backUrl' => route('events.index'),
-            'gamesByRound' => $event->games()
+            'games' => $event->games()
+                ->where('round', $round)
                 ->with('players')
                 ->orderByDesc('round')
                 ->orderByDesc('court')
-                ->get()
-                ->groupBy('round'),
+                ->get(),
             'event' => $event,
+            'round' => $round,
+            'maxRound' => $maxRound,
         ]);
     }
 
@@ -62,7 +78,7 @@ class EventGameController extends Controller
         DB::beginTransaction();
 
         try {
-            $roundService->generateNewRound();
+            $round = $roundService->generateNewRound();
         } catch (\Exception $e) {
             DB::rollBack();
             throw $e;
@@ -70,7 +86,7 @@ class EventGameController extends Controller
 
         DB::commit();
 
-        return back();
+        return redirect()->route('events.games.index', ['event' => $event->id, 'round' => $round]);
     }
 
     /**

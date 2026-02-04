@@ -68,16 +68,10 @@
         {/if}
     </header>
 
-    <div class="content">
-        <main>
-            <Feedback />
-            {@render children()}
-        </main>
-
-        <footer>
-            <p>Version 0.2</p>
-        </footer>
-    </div>
+    <main class="content">
+        <Feedback />
+        {@render children()}
+    </main>
 
     <nav class="nav">
         <Button
@@ -178,17 +172,8 @@
     }
 
     .content {
-        display: grid;
-        grid-template-rows: 1fr auto;
         padding-inline: 1rem;
         padding-bottom: 1rem;
-    }
-
-    footer {
-        font-size: var(--font-size-small);
-        color: var(--muted-foreground);
-        margin-top: 3rem;
-        align-self: end;
     }
 
     .nav {

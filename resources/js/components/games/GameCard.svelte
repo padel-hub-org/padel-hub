@@ -39,24 +39,55 @@
             (player) => player.id !== player1Id && player.id !== partnerId,
         );
     });
+
+    const isGamePlayed = $derived.by(() => {
+        return (
+            team1[0]?.pivot.points !== null && team2[0]?.pivot.points !== null
+        );
+    });
 </script>
 
 <div class="game" transition:slide={{ duration: 150 }}>
     <Card.Root onclick={() => (dialogOpen = true)}>
-        <Card.Content>
+        <Card.Content class="game-card-content">
             <div class="game-content">
                 {#each team1 as player, i (player.id)}
-                    <p class={["team0", `player${i}`]}>{player.name}</p>
+                    <p class={["player", "team0", `player${i}`]}>
+                        <iconify-icon
+                            class="player-icon"
+                            icon="material-symbols:person-rounded"
+                            width="1.5rem"
+                            height="1.5rem"
+                        ></iconify-icon>
+                        {player.name}
+                    </p>
                 {/each}
 
                 <div class="score">
-                    <p>{team1[0]?.pivot.points}</p>
-                    <p>-</p>
-                    <p>{team2[0]?.pivot.points}</p>
+                    {#if isGamePlayed}
+                        <p>{team1[0]?.pivot.points}</p>
+                        <p>-</p>
+                        <p>{team2[0]?.pivot.points}</p>
+                    {:else}
+                        <iconify-icon
+                            class="court-icon"
+                            icon="ph:court-basketball-thin"
+                            width="4rem"
+                            height="4rem"
+                        ></iconify-icon>
+                    {/if}
                 </div>
 
                 {#each team2 as player, i (player.id)}
-                    <p class={["team1", `player${i}`]}>{player.name}</p>
+                    <p class={["player", "team1", `player${i}`]}>
+                        {player.name}
+                        <iconify-icon
+                            class="player-icon"
+                            icon="material-symbols:person-rounded"
+                            width="1.5rem"
+                            height="1.5rem"
+                        ></iconify-icon>
+                    </p>
                 {/each}
             </div>
         </Card.Content>
@@ -76,6 +107,10 @@
         margin-bottom: 1rem;
     }
 
+    .game :global(.game-card-content) {
+        padding-inline: 1rem;
+    }
+
     .game-content {
         display: grid;
         width: 100%;
@@ -88,7 +123,21 @@
         border-radius: var(--radius);
     }
 
+    .court-icon {
+        color: var(--muted-foreground);
+    }
+
+    .team1 .player-icon {
+        color: oklch(from var(--primary) 0.8 c h);
+    }
+
+    .team0 .player-icon {
+        color: var(--secondary);
+    }
+
     .team0 {
+        display: flex;
+        gap: 0.25rem;
         overflow: hidden;
         width: 100%;
         justify-self: start;
@@ -103,8 +152,9 @@
     }
 
     .team1 {
-        justify-self: end;
-        text-align: end;
+        display: flex;
+        justify-content: end;
+        gap: 0.25rem;
         overflow: hidden;
         width: 100%;
     }
