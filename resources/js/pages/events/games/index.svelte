@@ -11,6 +11,7 @@
     import { Button } from "@/lib/components/ui/button";
     import { store } from "@/routes/events/games";
     import { Form, type InertiaFormProps } from "@inertiajs/svelte";
+    import { endEvent } from "@/actions/App/Http/Controllers/EventController";
 
     interface GamesByRound {
         [key: string]: Game[];
@@ -23,6 +24,8 @@
     }
 
     const { gamesByRound, event }: Props = $props();
+
+    const isEventEnded = event.ended_at !== null;
 </script>
 
 <svelte:head>
@@ -44,18 +47,49 @@
         {/each}
     </div>
 
-    <Form action={store(event.id)} options={{ preserveScroll: true }}>
-        {#snippet children({ processing }: InertiaFormProps<{}>)}
-            <Button type="submit" disabled={processing}>
-                <iconify-icon icon="mdi:plus" width="1.5rem" height="1.5rem"
-                ></iconify-icon>
-                New round
-            </Button>
-        {/snippet}
-    </Form>
+    {#if !isEventEnded}
+        <div class="actions">
+            <Form
+                action={endEvent(event.id)}
+                options={{ preserveScroll: true }}
+            >
+                {#snippet children({ processing }: InertiaFormProps<{}>)}
+                    <Button
+                        type="submit"
+                        disabled={processing}
+                        variant="outline"
+                    >
+                        <iconify-icon
+                            icon="material-symbols:send-rounded"
+                            width="1.5rem"
+                            height="1.5rem"
+                        ></iconify-icon>
+                        End event
+                    </Button>
+                {/snippet}
+            </Form>
+
+            <Form action={store(event.id)} options={{ preserveScroll: true }}>
+                {#snippet children({ processing }: InertiaFormProps<{}>)}
+                    <Button type="submit" disabled={processing}>
+                        <iconify-icon
+                            icon="mdi:plus"
+                            width="1.5rem"
+                            height="1.5rem"
+                        ></iconify-icon>
+                        New round
+                    </Button>
+                {/snippet}
+            </Form>
+        </div>
+    {/if}
 </div>
 
 <style>
+    .actions {
+        display: grid;
+        grid-template-columns: 1fr auto;
+    }
     .games {
         display: grid;
         margin-bottom: 2rem;

@@ -6,6 +6,7 @@ use App\Http\Requests\StoreEventRequest;
 use App\Http\Requests\UpdateEventRequest;
 use App\Models\Event;
 use App\Models\Player;
+use App\Services\RatingService;
 use Carbon\Carbon;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
@@ -108,5 +109,25 @@ class EventController extends Controller
         Inertia::flash('toast', ['type' => 'success', 'message' => 'Event deleted successfully.']);
 
         return redirect()->route('events.index');
+    }
+
+    /**
+     * End event
+     */
+    public function endEvent(Event $event): RedirectResponse
+    {
+
+        if ($event->ended_at !== null) {
+            Inertia::flash('toast', ['type' => 'error', 'message' => 'Event has ended.']);
+
+            return back();
+        }
+
+        RatingService::event($event)->calculatePlayerRatings();
+
+        $event->ended_at = now();
+        $event->save();
+
+        return redirect()->route('events.leaderboard.index', $event);
     }
 }

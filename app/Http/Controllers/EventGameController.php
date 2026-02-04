@@ -38,6 +38,11 @@ class EventGameController extends Controller
      */
     public function store(Event $event): RedirectResponse
     {
+        if ($event->ended_at !== null) {
+            Inertia::flash('toast', ['type' => 'error', 'message' => 'Event has ended.']);
+
+            return back();
+        }
         $roundService = RoundService::event($event);
 
         $playersCount = $roundService->getAvailablePlayersCount();
@@ -73,6 +78,12 @@ class EventGameController extends Controller
      */
     public function update(UpdateGameRequest $request, Event $event, Game $game): RedirectResponse
     {
+        if ($event->ended_at !== null) {
+            Inertia::flash('toast', ['type' => 'error', 'message' => 'Event has ended.']);
+
+            return back();
+        }
+
         $data = $request->validated();
 
         $selectedPlayers = $data['players'];
