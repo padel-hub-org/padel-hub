@@ -51,7 +51,7 @@ class RoundService
         return $unregisteredResultsCount > 0;
     }
 
-    public function generateNewRound(): void
+    public function generateNewRound(): int
     {
         $players = $this->getPlayingPlayers();
 
@@ -119,6 +119,8 @@ class RoundService
                 ],
             ]);
         }
+
+        return $this->round;
     }
 
     /**

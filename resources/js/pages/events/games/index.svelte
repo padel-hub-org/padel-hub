@@ -9,21 +9,19 @@
     import type { Event } from "@/types/Event";
     import type { Game } from "@/types/Game";
     import { Button } from "@/lib/components/ui/button";
-    import { store } from "@/routes/events/games";
+    import { index, store } from "@/routes/events/games";
     import { Form, type InertiaFormProps } from "@inertiajs/svelte";
     import { endEvent } from "@/actions/App/Http/Controllers/EventController";
 
-    interface GamesByRound {
-        [key: string]: Game[];
-    }
-
     interface Props {
-        gamesByRound: GamesByRound;
+        games: Game[];
         event: Event;
         title: string;
+        round: number;
+        maxRound: number;
     }
 
-    const { gamesByRound, event }: Props = $props();
+    const { games, event, round, maxRound }: Props = $props();
 
     const isEventEnded = event.ended_at !== null;
 </script>
@@ -32,18 +30,60 @@
     <title>Games | Padel Hub</title>
 </svelte:head>
 <div class="page">
+    <div class="rounds">
+        <Button
+            variant="outline"
+            disabled={round <= 1}
+            replace
+            href={index(event, {
+                query: {
+                    round: round - 1,
+                },
+            })}
+            viewTransition
+        >
+            <iconify-icon
+                icon="material-symbols:chevron-left-rounded"
+                width="1.5rem"
+                height="1.5rem"
+            ></iconify-icon>
+        </Button>
+
+        <h3>
+            <iconify-icon
+                icon="material-symbols:padel"
+                width="1.5rem"
+                height="1.5rem"
+            ></iconify-icon>
+            Round {round}
+        </h3>
+
+        <Button
+            variant="outline"
+            disabled={round >= maxRound}
+            replace
+            href={index(event, {
+                query: {
+                    round: round + 1,
+                },
+            })}
+            viewTransition
+        >
+            <iconify-icon
+                icon="material-symbols:chevron-right-rounded"
+                width="1.5rem"
+                height="1.5rem"
+            ></iconify-icon>
+        </Button>
+    </div>
+
     <div class="games">
-        {#if Object.keys(gamesByRound).length === 0}
+        {#if games.length === 0}
             <p>No games yet</p>
         {/if}
 
-        {#each Object.entries(gamesByRound) as [round, games]}
-            <div class="round">
-                <h3>Round {parseInt(round)}</h3>
-                {#each games as game (game.id)}
-                    <GameCard {game} {event} />
-                {/each}
-            </div>
+        {#each games as game (game.id)}
+            <GameCard {game} {event} />
         {/each}
     </div>
 
@@ -71,7 +111,12 @@
 
             <Form action={store(event.id)} options={{ preserveScroll: true }}>
                 {#snippet children({ processing }: InertiaFormProps<{}>)}
-                    <Button type="submit" disabled={processing}>
+                    <Button
+                        type="submit"
+                        disabled={processing}
+                        viewTransition
+                        replace
+                    >
                         <iconify-icon
                             icon="mdi:plus"
                             width="1.5rem"
@@ -86,23 +131,30 @@
 </div>
 
 <style>
+    .rounds {
+        display: grid;
+        grid-template-columns: auto auto auto;
+        justify-content: space-between;
+
+        margin-bottom: 1.5rem;
+        view-transition-name: games-rounds;
+    }
+
     .actions {
         display: grid;
         grid-template-columns: 1fr auto;
+        view-transition-name: games-actions;
     }
+
     .games {
         display: grid;
         margin-bottom: 2rem;
     }
 
     h3 {
-        text-transform: uppercase;
-        font-weight: 500;
-        line-height: 2.667;
-        letter-spacing: 0.1667;
-    }
-
-    .round {
-        margin-bottom: 2rem;
+        display: flex;
+        gap: 0.5rem;
+        align-items: center;
+        font-weight: bold;
     }
 </style>
