@@ -103,10 +103,6 @@
 </div>
 
 <style>
-    .game {
-        margin-bottom: 1rem;
-    }
-
     .game :global(.game-card-content) {
         padding-inline: 1rem;
     }
@@ -129,10 +125,12 @@
 
     .team1 .player-icon {
         color: oklch(from var(--primary) 0.8 c h);
+        align-self: center;
     }
 
     .team0 .player-icon {
         color: var(--secondary);
+        align-self: center;
     }
 
     .team0 {
@@ -141,6 +139,7 @@
         overflow: hidden;
         width: 100%;
         justify-self: start;
+        align-self: center;
     }
 
     .team0.player0 {
@@ -157,6 +156,8 @@
         gap: 0.25rem;
         overflow: hidden;
         width: 100%;
+        text-align: right;
+        align-items: center;
     }
 
     .team1.player0 {

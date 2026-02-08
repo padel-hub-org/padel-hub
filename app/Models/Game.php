@@ -63,7 +63,8 @@ class Game extends Model
      */
     public function gamePlayers(): HasMany
     {
-        return $this->hasMany(GamePlayer::class);
+        return $this->hasMany(GamePlayer::class)
+            ->orderBy('previous_event_rating', 'desc');
     }
 
     /**
@@ -74,6 +75,7 @@ class Game extends Model
         return $this->belongsToMany(Player::class)
             ->using(GamePlayer::class)
             ->withTrashed()
+            ->orderByPivot('previous_event_rating', 'desc')
             ->withPivot('previous_player_rating', 'previous_event_rating', 'points', 'partner_id', 'result');
     }
 }

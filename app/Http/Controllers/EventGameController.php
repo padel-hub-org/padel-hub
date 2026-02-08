@@ -40,8 +40,13 @@ class EventGameController extends Controller
             'games' => $event->games()
                 ->where('round', $round)
                 ->with('players')
-                ->orderByDesc('round')
-                ->orderByDesc('court')
+                ->orderBy('court')
+                ->get(),
+            'playersSittingOut' => $event->players()
+                ->whereDoesntHave('games', function ($query) use ($event, $round) {
+                    $query->where('event_id', $event->id)->where('round', $round);
+                })
+                ->orderBy('name')
                 ->get(),
             'event' => $event,
             'round' => $round,
