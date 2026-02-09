@@ -21,11 +21,11 @@
     }
     let { children, event, title }: Props = $props();
 
-    const tabRoutes: TabRoutes = {
+    const tabRoutes: TabRoutes = $derived.by(() => ({
         settings: settings.index(event).url,
         games: games.index(event).url,
         leaderboard: leaderboard.index(event).url,
-    };
+    }));
 
     const tab = $derived.by(() => {
         if ($page.url.startsWith(tabRoutes.settings)) {
@@ -53,16 +53,18 @@
         }
     };
 
-    const isEventEnded = event.ended_at !== null;
+    const isEventEnded = $derived(event.ended_at !== null);
 
-    const endDate = dayjs(event.ended_at).calendar(null, {
-        sameDay: "[Today]", // The same day ( Today at 2:30 AM )
-        nextDay: "[Tomorrow]", // The next day ( Tomorrow at 2:30 AM )
-        nextWeek: "dddd", // The next week ( Sunday at 2:30 AM )
-        lastDay: "[Yesterday]", // The day before ( Yesterday at 2:30 AM )
-        lastWeek: "dddd", // Last week ( Last Monday at 2:30 AM )
-        sameElse: "DD/MM/YYYY", // Everything else ( 7/10/2011 )
-    });
+    const endDate = $derived.by(() =>
+        dayjs(event.ended_at).calendar(null, {
+            sameDay: "[Today]", // The same day ( Today at 2:30 AM )
+            nextDay: "[Tomorrow]", // The next day ( Tomorrow at 2:30 AM )
+            nextWeek: "dddd", // The next week ( Sunday at 2:30 AM )
+            lastDay: "[Yesterday]", // The day before ( Yesterday at 2:30 AM )
+            lastWeek: "dddd", // Last week ( Last Monday at 2:30 AM )
+            sameElse: "DD/MM/YYYY", // Everything else ( 7/10/2011 )
+        }),
+    );
 
     // Keep currentTab in sync with tab
     $effect(() => {

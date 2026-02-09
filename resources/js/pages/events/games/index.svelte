@@ -12,18 +12,21 @@
     import { index, store } from "@/routes/events/games";
     import { Form, type InertiaFormProps } from "@inertiajs/svelte";
     import { endEvent } from "@/actions/App/Http/Controllers/EventController";
+    import type { Player } from "@/types/Player";
 
     interface Props {
         games: Game[];
+        playersSittingOut: Player[];
         event: Event;
         title: string;
         round: number;
         maxRound: number;
     }
 
-    const { games, event, round, maxRound }: Props = $props();
+    const { games, playersSittingOut, event, round, maxRound }: Props =
+        $props();
 
-    const isEventEnded = event.ended_at !== null;
+    const isEventEnded = $derived(event.ended_at !== null);
 </script>
 
 <svelte:head>
@@ -32,23 +35,25 @@
 <div class="page">
     {#if games.length > 0}
         <div class="rounds">
-            <Button
-                variant="outline"
-                disabled={round <= 1}
-                replace
-                href={index(event, {
-                    query: {
-                        round: round - 1,
-                    },
-                })}
-                viewTransition
-            >
-                <iconify-icon
-                    icon="material-symbols:chevron-left-rounded"
-                    width="1.5rem"
-                    height="1.5rem"
-                ></iconify-icon>
-            </Button>
+            {#key round}
+                <Button
+                    variant="outline"
+                    disabled={round <= 1}
+                    replace
+                    href={index(event, {
+                        query: {
+                            round: round - 1,
+                        },
+                    })}
+                    viewTransition
+                >
+                    <iconify-icon
+                        icon="material-symbols:chevron-left-rounded"
+                        width="1.5rem"
+                        height="1.5rem"
+                    ></iconify-icon>
+                </Button>
+            {/key}
 
             <h3>
                 <iconify-icon
@@ -59,23 +64,25 @@
                 Round {round}
             </h3>
 
-            <Button
-                variant="outline"
-                disabled={round >= maxRound}
-                replace
-                href={index(event, {
-                    query: {
-                        round: round + 1,
-                    },
-                })}
-                viewTransition
-            >
-                <iconify-icon
-                    icon="material-symbols:chevron-right-rounded"
-                    width="1.5rem"
-                    height="1.5rem"
-                ></iconify-icon>
-            </Button>
+            {#key round}
+                <Button
+                    variant="outline"
+                    disabled={round >= maxRound}
+                    replace
+                    href={index(event, {
+                        query: {
+                            round: round + 1,
+                        },
+                    })}
+                    viewTransition
+                >
+                    <iconify-icon
+                        icon="material-symbols:chevron-right-rounded"
+                        width="1.5rem"
+                        height="1.5rem"
+                    ></iconify-icon>
+                </Button>
+            {/key}
         </div>
     {/if}
 
@@ -88,6 +95,23 @@
             <GameCard {game} {event} />
         {/each}
     </div>
+
+    {#if playersSittingOut.length > 0 && games.length > 0}
+        <div class="sitting-out">
+            <iconify-icon
+                class="icon"
+                icon="fa6-solid:hourglass-half"
+                width="1.5rem"
+                height="1.5rem"
+            ></iconify-icon>
+
+            <div class="players">
+                {#each playersSittingOut as player (player.id)}
+                    <p>{player.name}</p>
+                {/each}
+            </div>
+        </div>
+    {/if}
 
     {#if !isEventEnded}
         <div class="actions">
@@ -150,7 +174,36 @@
 
     .games {
         display: grid;
+        gap: 1rem;
         margin-bottom: 2rem;
+    }
+
+    .page:has(.sitting-out) .games {
+        margin-bottom: 1rem;
+    }
+
+    .sitting-out {
+        display: grid;
+        grid-template-columns: auto 1fr;
+        gap: 0.5rem;
+        align-items: center;
+        padding-inline: 1rem;
+        margin-bottom: 2rem;
+        color: var(--muted-foreground);
+
+        & .icon {
+            align-self: center;
+        }
+
+        & .players {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.5rem;
+        }
+    }
+
+    .players p:not(:last-child)::after {
+        content: ",";
     }
 
     h3 {

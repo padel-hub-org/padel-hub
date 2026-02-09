@@ -62,6 +62,16 @@ class EventPlayerController extends Controller
      */
     public function destroy(Event $event, Player $player): RedirectResponse
     {
+        $hasGames = $event->games()->whereHas('players', function (Builder $query) use ($player) {
+            $query->where('players.id', $player->id);
+        })->exists();
+
+        if ($hasGames) {
+            Inertia::flash('toast', ['type' => 'error', 'message' => 'Cannot remove player with games in this event.']);
+
+            return back();
+        }
+
         $event->players()->detach($player);
 
         return back();

@@ -152,8 +152,10 @@
         align-items: center;
         background-color: var(--top-nav-background);
         view-transition-name: header;
-        position: sticky;
+        position: fixed;
         top: 0;
+        left: 0;
+        right: 0;
         z-index: 10;
     }
 
@@ -172,6 +174,8 @@
     }
 
     .content {
+        margin-block-start: 4rem;
+        margin-block-end: 8rem;
         padding-inline: 1rem;
         padding-bottom: 1rem;
     }
@@ -186,9 +190,11 @@
         max-width: 600px;
         background-color: var(--bottom-nav-background);
         justify-content: space-around;
-        position: sticky;
+        position: fixed;
         bottom: 0;
-
+        left: 0;
+        right: 0;
+        z-index: 10;
         & :global(.navButton) {
             flex-direction: column;
             gap: 0.25rem;
