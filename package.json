@@ -34,6 +34,7 @@
         "@inertiajs/svelte": "^2.2.8",
         "dayjs": "^1.11.19",
         "iconify-icon": "^3.0.2",
+        "lucide-svelte": "^0.563.0",
         "svelte": "^5.41.0",
         "typescript": "^5.9.3"
     }
