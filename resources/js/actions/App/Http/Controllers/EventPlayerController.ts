@@ -375,7 +375,7 @@ update.patch = (args: { event: string | number, player: string | number } | [eve
 * @see app/Http/Controllers/EventPlayerController.php:63
 * @route '/events/{event}/players/{player}'
 */
-export const destroy = (args: { event: number | { id: number }, player: number | { id: number } } | [event: number | { id: number }, player: number | { id: number } ], options?: RouteQueryOptions): RouteDefinition<'delete'> => ({
+export const destroy = (args: { event: number | { id: number }, player: string | number } | [event: number | { id: number }, player: string | number ], options?: RouteQueryOptions): RouteDefinition<'delete'> => ({
     url: destroy.url(args, options),
     method: 'delete',
 })
@@ -390,7 +390,7 @@ destroy.definition = {
 * @see app/Http/Controllers/EventPlayerController.php:63
 * @route '/events/{event}/players/{player}'
 */
-destroy.url = (args: { event: number | { id: number }, player: number | { id: number } } | [event: number | { id: number }, player: number | { id: number } ], options?: RouteQueryOptions) => {
+destroy.url = (args: { event: number | { id: number }, player: string | number } | [event: number | { id: number }, player: string | number ], options?: RouteQueryOptions) => {
     if (Array.isArray(args)) {
         args = {
             event: args[0],
@@ -404,9 +404,7 @@ destroy.url = (args: { event: number | { id: number }, player: number | { id: nu
         event: typeof args.event === 'object'
         ? args.event.id
         : args.event,
-        player: typeof args.player === 'object'
-        ? args.player.id
-        : args.player,
+        player: args.player,
     }
 
     return destroy.definition.url
@@ -420,7 +418,7 @@ destroy.url = (args: { event: number | { id: number }, player: number | { id: nu
 * @see app/Http/Controllers/EventPlayerController.php:63
 * @route '/events/{event}/players/{player}'
 */
-destroy.delete = (args: { event: number | { id: number }, player: number | { id: number } } | [event: number | { id: number }, player: number | { id: number } ], options?: RouteQueryOptions): RouteDefinition<'delete'> => ({
+destroy.delete = (args: { event: number | { id: number }, player: string | number } | [event: number | { id: number }, player: string | number ], options?: RouteQueryOptions): RouteDefinition<'delete'> => ({
     url: destroy.url(args, options),
     method: 'delete',
 })

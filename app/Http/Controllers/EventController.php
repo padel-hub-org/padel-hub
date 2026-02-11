@@ -5,7 +5,6 @@ namespace App\Http\Controllers;
 use App\Http\Requests\StoreEventRequest;
 use App\Http\Requests\UpdateEventRequest;
 use App\Models\Event;
-use App\Models\Player;
 use App\Services\RatingService;
 use Carbon\Carbon;
 use Illuminate\Http\RedirectResponse;
@@ -68,10 +67,12 @@ class EventController extends Controller
     /**
      * Set disabled_at on an EventPlayer resource.
      */
-    public function setDisabled(Event $event, Player $player, Request $request): RedirectResponse
+    public function setDisabled(Event $event, int $playerId, Request $request): RedirectResponse
     {
+        $player = \App\Models\Player::withTrashed()->findOrFail($playerId);
+
         $validated = $request->validate([
-            'should_disable' => ['required', 'boolean'],
+            'should_disable' => 'required|boolean',
         ]);
 
         $event->players()->updateExistingPivot($player->id, [

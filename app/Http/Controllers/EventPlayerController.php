@@ -60,10 +60,12 @@ class EventPlayerController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(Event $event, Player $player): RedirectResponse
+    public function destroy(Event $event, int $playerId): RedirectResponse
     {
-        $hasGames = $event->games()->whereHas('players', function (Builder $query) use ($player) {
-            $query->where('players.id', $player->id);
+        $player = \App\Models\Player::withTrashed()->findOrFail($playerId);
+
+        $hasGames = $event->games()->whereHas('players', function (Builder $query) use ($playerId) {
+            $query->where('players.id', $playerId);
         })->exists();
 
         if ($hasGames) {

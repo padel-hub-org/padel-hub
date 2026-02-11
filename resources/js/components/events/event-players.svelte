@@ -1,6 +1,8 @@
 <script lang="ts">
+    import { router } from "@inertiajs/svelte";
     import Button from "@/lib/components/ui/button/button.svelte";
     import { disabled } from "@/routes/events/players";
+    import { Checkbox } from "$lib/components/ui/checkbox";
     import { index as eventPlayers } from "@/routes/events/players";
     import type { Event } from "@/types/Event";
 
@@ -22,24 +24,21 @@
     {#each players as player}
         <div class="player">
             <p>{player.name}</p>
-            {#if player.pivot.disabled_at !== null}
-                <Button
-                    preserveScroll
-                    data={{ should_disable: false }}
-                    href={disabled([event, player])}
-                >
-                    Enable
-                </Button>
-            {:else}
-                <Button
-                    preserveScroll
-                    data={{ should_disable: true }}
-                    href={disabled([event, player])}
-                    variant="destructive"
-                >
-                    Disable
-                </Button>
-            {/if}
+            <Checkbox
+                checked={player.pivot.disabled_at === null}
+                class="cursor-pointer"
+                onCheckedChange={(checked) => {
+                    router.put(
+                        disabled([event, player.id]),
+                        {
+                            should_disable: !checked,
+                        },
+                        {
+                            preserveScroll: true,
+                        },
+                    );
+                }}
+            />
         </div>
     {/each}
 
