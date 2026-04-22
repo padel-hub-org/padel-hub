@@ -151,7 +151,7 @@ class RoundService
     }
 
     /**
-     * @return \Illuminate\Database\Eloquent\Collection<int, \App\Models\Player>
+     * @return Collection<int, Player>
      */
     private function getPlayingPlayers(): Collection
     {
@@ -165,7 +165,7 @@ class RoundService
     }
 
     /**
-     * @return \Illuminate\Database\Eloquent\Collection<int, Player>
+     * @return Collection<int, Player>
      */
     private function getPlayersPausedThisRound(): Collection
     {
