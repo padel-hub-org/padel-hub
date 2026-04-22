@@ -2,24 +2,27 @@
 
 namespace App\Models;
 
+use Database\Factories\GameFactory;
+use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Support\Carbon;
 
 /**
  * @property int $id
  * @property int $event_id
  * @property int $court
  * @property int $round
- * @property \Illuminate\Support\Carbon|null $created_at
- * @property \Illuminate\Support\Carbon|null $updated_at
- * @property-read \App\Models\Event|null $event
- * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\Models\GamePlayer> $gamePlayers
+ * @property Carbon|null $created_at
+ * @property Carbon|null $updated_at
+ * @property-read Event|null $event
+ * @property-read Collection<int, GamePlayer> $gamePlayers
  * @property-read int|null $game_players_count
- * @property-read \App\Models\GamePlayer|null $pivot
- * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\Models\Player> $players
+ * @property-read GamePlayer|null $pivot
+ * @property-read Collection<int, Player> $players
  * @property-read int|null $players_count
  *
  * @method static \Database\Factories\GameFactory factory($count = null, $state = [])
@@ -37,7 +40,7 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
  */
 class Game extends Model
 {
-    /** @use HasFactory<\Database\Factories\GameFactory> */
+    /** @use HasFactory<GameFactory> */
     use HasFactory;
 
     /**
@@ -59,7 +62,7 @@ class Game extends Model
     }
 
     /**
-     * @return \Illuminate\Database\Eloquent\Relations\HasMany<GamePlayer, $this>
+     * @return HasMany<GamePlayer, $this>
      */
     public function gamePlayers(): HasMany
     {

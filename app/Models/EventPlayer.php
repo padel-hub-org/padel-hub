@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\Pivot;
+use Illuminate\Support\Carbon;
 
 /**
  * @property int $id
@@ -11,11 +12,11 @@ use Illuminate\Database\Eloquent\Relations\Pivot;
  * @property int $player_id
  * @property int $event_rating
  * @property string|null $disabled_at
- * @property \Illuminate\Support\Carbon|null $created_at
- * @property \Illuminate\Support\Carbon|null $updated_at
+ * @property Carbon|null $created_at
+ * @property Carbon|null $updated_at
  * @property int $start_rating
- * @property-read \App\Models\Event|null $event
- * @property-read \App\Models\Player|null $player
+ * @property-read Event|null $event
+ * @property-read Player|null $player
  *
  * @method static \Illuminate\Database\Eloquent\Builder<static>|EventPlayer newModelQuery()
  * @method static \Illuminate\Database\Eloquent\Builder<static>|EventPlayer newQuery()

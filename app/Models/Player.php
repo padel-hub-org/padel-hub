@@ -2,28 +2,32 @@
 
 namespace App\Models;
 
+use Database\Factories\PlayerFactory;
+use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use Illuminate\Support\Carbon;
 
 /**
  * @property int $id
  * @property string $name
  * @property int|null $user_id
  * @property int $rating
- * @property \Illuminate\Support\Carbon|null $created_at
- * @property \Illuminate\Support\Carbon|null $updated_at
- * @property \Illuminate\Support\Carbon|null $deleted_at
- * @property-read \App\Models\GamePlayer|\App\Models\EventPlayer|null $pivot
- * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\Models\Event> $events
+ * @property Carbon|null $created_at
+ * @property Carbon|null $updated_at
+ * @property Carbon|null $deleted_at
+ * @property-read GamePlayer|EventPlayer|null $pivot
+ * @property-read Collection<int, Event> $events
  * @property-read int|null $events_count
- * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\Models\GamePlayer> $gamePlayers
+ * @property-read Collection<int, GamePlayer> $gamePlayers
  * @property-read int|null $game_players_count
- * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\Models\Game> $games
+ * @property-read Collection<int, Game> $games
  * @property-read int|null $games_count
- * @property-read \App\Models\User|null $user
+ * @property-read User|null $user
  *
  * @method static \Database\Factories\PlayerFactory factory($count = null, $state = [])
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Player newModelQuery()
@@ -44,7 +48,7 @@ use Illuminate\Database\Eloquent\SoftDeletes;
  */
 class Player extends Model
 {
-    /** @use HasFactory<\Database\Factories\PlayerFactory> */
+    /** @use HasFactory<PlayerFactory> */
     use HasFactory;
 
     use SoftDeletes;
@@ -77,7 +81,7 @@ class Player extends Model
     }
 
     /**
-     * @return \Illuminate\Database\Eloquent\Relations\HasMany<GamePlayer, $this>
+     * @return HasMany<GamePlayer, $this>
      */
     public function gamePlayers()
     {

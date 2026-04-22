@@ -2,23 +2,26 @@
 
 namespace App\Models;
 
+use Database\Factories\EventFactory;
+use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Support\Carbon;
 
 /**
  * @property int $id
- * @property \Illuminate\Support\Carbon $starts_at
+ * @property Carbon $starts_at
  * @property int $court_count
  * @property int $game_points
- * @property \Illuminate\Support\Carbon|null $ended_at
- * @property \Illuminate\Support\Carbon|null $created_at
- * @property \Illuminate\Support\Carbon|null $updated_at
- * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\Models\Game> $games
+ * @property Carbon|null $ended_at
+ * @property Carbon|null $created_at
+ * @property Carbon|null $updated_at
+ * @property-read Collection<int, Game> $games
  * @property-read int|null $games_count
- * @property-read \App\Models\EventPlayer|null $pivot
- * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\Models\Player> $players
+ * @property-read EventPlayer|null $pivot
+ * @property-read Collection<int, Player> $players
  * @property-read int|null $players_count
  *
  * @method static \Database\Factories\EventFactory factory($count = null, $state = [])
@@ -37,7 +40,7 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
  */
 class Event extends Model
 {
-    /** @use HasFactory<\Database\Factories\EventFactory> */
+    /** @use HasFactory<EventFactory> */
     use HasFactory;
 
     protected $fillable = [
