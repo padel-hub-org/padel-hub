@@ -33,13 +33,13 @@
 
 <div class="layout">
     <header class="shadow-xs">
-        {#if $page.props.backUrl}
+        {#if page.props.backUrl}
             <Button
                 class="backButton"
                 variant="ghost"
                 size="icon"
                 onclick={() =>
-                    router.visit($page.props.backUrl, {
+                    router.visit(page.props.backUrl, {
                         replace: true,
                         viewTransition: true,
                     })}
@@ -55,7 +55,7 @@
 
         <p class="brand">Padel Hub</p>
 
-        {#if $page.props.user}
+        {#if page.props.user}
             <Button variant="ghost" size="icon" href={logout()} viewTransition>
                 <iconify-icon icon="mdi:logout" width="1.5rem" height="1.5rem"
                 ></iconify-icon>
@@ -76,7 +76,7 @@
     <nav class="nav">
         <Button
             class={{
-                active: $page.url === home().url,
+                active: page.url === home().url,
                 navButton: true,
             }}
             variant="bottomNav"
@@ -85,7 +85,7 @@
             viewTransition
         >
             <iconify-icon
-                icon={$page.url === home().url
+                icon={page.url === home().url
                     ? "material-symbols:home-rounded"
                     : "material-symbols:home-outline-rounded"}
                 width="1.5rem"
@@ -96,7 +96,7 @@
 
         <Button
             class={{
-                active: $page.url.startsWith(events().url),
+                active: page.url.startsWith(events().url),
                 navButton: true,
             }}
             variant="bottomNav"
@@ -105,7 +105,7 @@
             viewTransition
         >
             <iconify-icon
-                icon={$page.url.startsWith(events().url)
+                icon={page.url.startsWith(events().url)
                     ? "material-symbols:event-note-rounded"
                     : "material-symbols:event-note-outline"}
                 width="1.5rem"
@@ -116,7 +116,7 @@
 
         <Button
             class={{
-                active: $page.url.startsWith(players().url),
+                active: page.url.startsWith(players().url),
                 navButton: true,
             }}
             variant="bottomNav"
@@ -125,7 +125,7 @@
             viewTransition
         >
             <iconify-icon
-                icon={$page.url.startsWith(players().url)
+                icon={page.url.startsWith(players().url)
                     ? "material-symbols:group-rounded"
                     : "material-symbols:group-outline-rounded"}
                 width="1.5rem"

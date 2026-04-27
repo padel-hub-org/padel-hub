@@ -10,15 +10,15 @@
     "license": "MIT",
     "require": {
         "php": "^8.2",
-        "inertiajs/inertia-laravel": "^2.0.24",
-        "laravel/framework": "^12.57.0",
+        "inertiajs/inertia-laravel": "^3.0.6",
+        "laravel/framework": "^13.6.0",
         "laravel/nightwatch": "^1.26.1",
         "laravel/socialite": "^5.26.1",
-        "laravel/tinker": "^2.11.1",
+        "laravel/tinker": "^3.0.2",
         "laravel/wayfinder": "^0.1.16"
     },
     "require-dev": {
-        "barryvdh/laravel-debugbar": "^3.16.5",
+        "barryvdh/laravel-debugbar": "^4.2.8",
         "barryvdh/laravel-ide-helper": "^3.7.0",
         "fakerphp/faker": "^1.24.1",
         "larastan/larastan": "^3.9.6",

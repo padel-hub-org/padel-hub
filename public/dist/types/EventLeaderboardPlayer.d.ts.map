@@ -1,0 +1,1 @@
+{"version":3,"file":"EventLeaderboardPlayer.d.ts","sourceRoot":"","sources":["../../../resources/js/types/EventLeaderboardPlayer.ts"],"names":[],"mappings":"AAAA,OAAO,KAAK,EAAE,WAAW,EAAE,MAAM,eAAe,CAAC;AAEjD,MAAM,WAAW,sBAAuB,SAAQ,WAAW;IACvD,WAAW,EAAE,MAAM,CAAC;IACpB,SAAS,EAAE,MAAM,CAAC;IAClB,UAAU,EAAE,MAAM,CAAC;IACnB,UAAU,EAAE,MAAM,CAAC;CACtB"}

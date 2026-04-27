@@ -28,11 +28,11 @@
     }));
 
     const tab = $derived.by(() => {
-        if ($page.url.startsWith(tabRoutes.settings)) {
+        if (page.url.startsWith(tabRoutes.settings)) {
             return "settings";
-        } else if ($page.url.startsWith(tabRoutes.games)) {
+        } else if (page.url.startsWith(tabRoutes.games)) {
             return "games";
-        } else if ($page.url.startsWith(tabRoutes.leaderboard)) {
+        } else if (page.url.startsWith(tabRoutes.leaderboard)) {
             return "leaderboard";
         } else {
             return "settings";
