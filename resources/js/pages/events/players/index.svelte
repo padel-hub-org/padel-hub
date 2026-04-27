@@ -60,7 +60,7 @@
 </svelte:head>
 
 <div class="page">
-    <h2>Enrolled players</h2>
+    <h2>Enrolled players ({eventPlayers.length})</h2>
     <div class="players">
         {#each eventPlayers as player (`enrolled-${player.id}`)}
             <div class="player" transition:fade={{ duration: 150 }}>

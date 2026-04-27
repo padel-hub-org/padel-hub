@@ -14,7 +14,7 @@
 </script>
 
 <div class="header">
-    <h3>Players</h3>
+    <h3>Players ({players?.length})</h3>
     <Button href={eventPlayers(event.id)} viewTransition>Edit players</Button>
 </div>
 
