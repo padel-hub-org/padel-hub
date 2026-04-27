@@ -6,6 +6,7 @@
     import { Form, type InertiaFormProps } from "@inertiajs/svelte";
     import * as ButtonGroup from "@/lib/components/ui/button-group";
     import EventPointsEdit from "@/components/events/event-points-edit.svelte";
+    import dayjs from "dayjs";
 
     type FormFields = {
         court_count: number;
@@ -16,6 +17,8 @@
 
     let courtCount = 3;
     let gamePoints = 16;
+    let startAtDate = dayjs().format("YYYY-MM-DD");
+    let startAtTime = "17:30";
 
     function decrementCourtCount() {
         if (courtCount > 1) {
@@ -50,12 +53,13 @@
                     <Input
                         type="date"
                         name="starts_at_date"
+                        bind:value={startAtDate}
                         aria-invalid={!!errors.starts_at_date}
                     />
                     <Input
                         type="time"
                         name="starts_at_time"
-                        value="20:30"
+                        bind:value={startAtTime}
                         aria-invalid={!!errors.starts_at_time}
                     />
                 </div>
