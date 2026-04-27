@@ -1,7 +1,7 @@
 import { queryParams, type RouteQueryOptions, type RouteDefinition } from './../../../wayfinder'
 /**
-* @see \Fruitcake\LaravelDebugbar\Controllers\QueriesController::explain
-* @see vendor/barryvdh/laravel-debugbar/src/Controllers/QueriesController.php:17
+* @see \Barryvdh\Debugbar\Controllers\QueriesController::explain
+* @see vendor/barryvdh/laravel-debugbar/src/Controllers/QueriesController.php:14
 * @route '/_debugbar/queries/explain'
 */
 export const explain = (options?: RouteQueryOptions): RouteDefinition<'post'> => ({
@@ -15,8 +15,8 @@ explain.definition = {
 } satisfies RouteDefinition<["post"]>
 
 /**
-* @see \Fruitcake\LaravelDebugbar\Controllers\QueriesController::explain
-* @see vendor/barryvdh/laravel-debugbar/src/Controllers/QueriesController.php:17
+* @see \Barryvdh\Debugbar\Controllers\QueriesController::explain
+* @see vendor/barryvdh/laravel-debugbar/src/Controllers/QueriesController.php:14
 * @route '/_debugbar/queries/explain'
 */
 explain.url = (options?: RouteQueryOptions) => {
@@ -24,8 +24,8 @@ explain.url = (options?: RouteQueryOptions) => {
 }
 
 /**
-* @see \Fruitcake\LaravelDebugbar\Controllers\QueriesController::explain
-* @see vendor/barryvdh/laravel-debugbar/src/Controllers/QueriesController.php:17
+* @see \Barryvdh\Debugbar\Controllers\QueriesController::explain
+* @see vendor/barryvdh/laravel-debugbar/src/Controllers/QueriesController.php:14
 * @route '/_debugbar/queries/explain'
 */
 explain.post = (options?: RouteQueryOptions): RouteDefinition<'post'> => ({

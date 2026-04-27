@@ -1,4 +1,4 @@
-import { queryParams, type RouteQueryOptions, type RouteDefinition, applyUrlDefaults, validateParameters } from './../../../wayfinder'
+import { queryParams, type RouteQueryOptions, type RouteDefinition, applyUrlDefaults, validateParameters } from './../../../../wayfinder'
 /**
 * @see \Barryvdh\Debugbar\Controllers\CacheController::deleteMethod
 * @see vendor/barryvdh/laravel-debugbar/src/Controllers/CacheController.php:13
@@ -54,8 +54,6 @@ deleteMethod.delete = (args: { key: string | number, tags?: string | number } | 
     method: 'delete',
 })
 
-const cache = {
-    delete: Object.assign(deleteMethod, deleteMethod),
-}
+const CacheController = { deleteMethod, delete: deleteMethod }
 
-export default cache
+export default CacheController
