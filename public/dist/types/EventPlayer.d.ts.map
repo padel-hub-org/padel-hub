@@ -1,1 +1,0 @@
-{"version":3,"file":"EventPlayer.d.ts","sourceRoot":"","sources":["../../../resources/js/types/EventPlayer.ts"],"names":[],"mappings":"AAAA,OAAO,KAAK,EAAE,MAAM,EAAE,MAAM,UAAU,CAAC;AAEvC,MAAM,WAAW,WAAY,SAAQ,MAAM;IACvC,KAAK,EAAE;QACH,YAAY,EAAE,MAAM,CAAC;QACrB,WAAW,EAAE,MAAM,GAAG,IAAI,CAAC;KAC9B,CAAC;CACL"}
