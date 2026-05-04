@@ -1,7 +1,7 @@
 import Controllers from './Controllers'
 
-const Debugbar = {
+const LaravelDebugbar = {
     Controllers: Object.assign(Controllers, Controllers),
 }
 
-export default Debugbar
+export default LaravelDebugbar
