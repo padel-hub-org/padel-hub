@@ -2,17 +2,16 @@
     // Visit https://aka.ms/tsconfig to read more about this file
     "compilerOptions": {
         // File Layout
-        "baseUrl": ".",
-        // "rootDir": "./resources",
+        "rootDir": "./resources/js",
         "outDir": "./public/dist",
 
         // Environment Settings
         // See also https://aka.ms/tsconfig/module
         "module": "esnext",
-        "moduleResolution": "node",
+        "moduleResolution": "bundler",
         "target": "esnext",
         "paths": {
-            "@/*": ["resources/js/*"],
+            "@/*": ["./resources/js/*"],
             "$lib": ["./resources/js/lib"],
             "$lib/*": ["./resources/js/lib/*"]
         },

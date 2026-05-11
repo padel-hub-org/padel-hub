@@ -41,15 +41,15 @@
     export type ButtonSize = VariantProps<typeof buttonVariants>["size"];
 
     export type ButtonProps = WithElementRef<HTMLButtonAttributes> &
-        WithElementRef<LinkProps> & {
+        WithElementRef<ComponentProps<typeof Link>> & {
             variant?: ButtonVariant;
             size?: ButtonSize;
         };
 </script>
 
 <script lang="ts">
+    import type { ComponentProps } from "svelte";
     import { Link } from "@inertiajs/svelte";
-    import type { LinkProps } from "@inertiajs/svelte/dist/components/Link.svelte";
 
     let {
         class: className,

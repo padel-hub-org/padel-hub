@@ -1,7 +1,5 @@
 import { createInertiaApp } from "@inertiajs/svelte";
-import { mount } from "svelte";
 import "../css/app.css";
-import Layout from "./layouts/app.svelte";
 import "iconify-icon";
 import dayjs from "dayjs";
 import calendar from "dayjs/plugin/calendar";
@@ -9,6 +7,7 @@ import localizedFormat from "dayjs/plugin/localizedFormat";
 import updateLocale from "dayjs/plugin/updateLocale";
 import "dayjs/locale/nb";
 import "dayjs/locale/en-gb";
+import App from "./layouts/app.svelte";
 
 dayjs.extend(calendar);
 dayjs.extend(localizedFormat);
@@ -74,14 +73,5 @@ createInertiaApp({
         includeCSS: true,
         showSpinner: false,
     },
-    resolve: (name: string) => {
-        const pages = import.meta.glob("./pages/**/*.svelte", { eager: true });
-        let page: any = pages[`./pages/${name}.svelte`];
-        return { default: page.default, layout: page.layout || Layout };
-    },
-    setup({ el, App, props }: { el: Element; App: any; props: any }) {
-        if (!el) throw new Error("Inertia app target element not found");
-
-        mount(App, { target: el, props });
-    },
+    layout: () => App,
 });

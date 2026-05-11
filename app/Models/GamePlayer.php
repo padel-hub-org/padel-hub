@@ -16,10 +16,10 @@ use Illuminate\Database\Eloquent\Relations\Pivot;
  * @property int|null $points
  * @property Result|null $result
  * @property-read mixed $average_opponent_rating
- * @property-read \App\Models\Game|null $game
+ * @property-read Game|null $game
  * @property-read mixed $opponent_points
  * @property-read mixed $partner_rating
- * @property-read \App\Models\Player|null $player
+ * @property-read Player|null $player
  *
  * @method static \Illuminate\Database\Eloquent\Builder<static>|GamePlayer newModelQuery()
  * @method static \Illuminate\Database\Eloquent\Builder<static>|GamePlayer newQuery()

@@ -1,10 +1,9 @@
 import { queryParams, type RouteQueryOptions, type RouteDefinition, applyUrlDefaults } from './../../wayfinder'
-import assets from './assets'
 import cache from './cache'
 import queries from './queries'
 /**
-* @see \Barryvdh\Debugbar\Controllers\OpenHandlerController::openhandler
-* @see vendor/barryvdh/laravel-debugbar/src/Controllers/OpenHandlerController.php:43
+* @see \Fruitcake\LaravelDebugbar\Controllers\OpenHandlerController::openhandler
+* @see vendor/barryvdh/laravel-debugbar/src/Controllers/OpenHandlerController.php:18
 * @route '/_debugbar/open'
 */
 export const openhandler = (options?: RouteQueryOptions): RouteDefinition<'get'> => ({
@@ -18,8 +17,8 @@ openhandler.definition = {
 } satisfies RouteDefinition<["get","head"]>
 
 /**
-* @see \Barryvdh\Debugbar\Controllers\OpenHandlerController::openhandler
-* @see vendor/barryvdh/laravel-debugbar/src/Controllers/OpenHandlerController.php:43
+* @see \Fruitcake\LaravelDebugbar\Controllers\OpenHandlerController::openhandler
+* @see vendor/barryvdh/laravel-debugbar/src/Controllers/OpenHandlerController.php:18
 * @route '/_debugbar/open'
 */
 openhandler.url = (options?: RouteQueryOptions) => {
@@ -27,8 +26,8 @@ openhandler.url = (options?: RouteQueryOptions) => {
 }
 
 /**
-* @see \Barryvdh\Debugbar\Controllers\OpenHandlerController::openhandler
-* @see vendor/barryvdh/laravel-debugbar/src/Controllers/OpenHandlerController.php:43
+* @see \Fruitcake\LaravelDebugbar\Controllers\OpenHandlerController::openhandler
+* @see vendor/barryvdh/laravel-debugbar/src/Controllers/OpenHandlerController.php:18
 * @route '/_debugbar/open'
 */
 openhandler.get = (options?: RouteQueryOptions): RouteDefinition<'get'> => ({
@@ -37,8 +36,8 @@ openhandler.get = (options?: RouteQueryOptions): RouteDefinition<'get'> => ({
 })
 
 /**
-* @see \Barryvdh\Debugbar\Controllers\OpenHandlerController::openhandler
-* @see vendor/barryvdh/laravel-debugbar/src/Controllers/OpenHandlerController.php:43
+* @see \Fruitcake\LaravelDebugbar\Controllers\OpenHandlerController::openhandler
+* @see vendor/barryvdh/laravel-debugbar/src/Controllers/OpenHandlerController.php:18
 * @route '/_debugbar/open'
 */
 openhandler.head = (options?: RouteQueryOptions): RouteDefinition<'head'> => ({
@@ -47,8 +46,8 @@ openhandler.head = (options?: RouteQueryOptions): RouteDefinition<'head'> => ({
 })
 
 /**
-* @see \Barryvdh\Debugbar\Controllers\OpenHandlerController::clockwork
-* @see vendor/barryvdh/laravel-debugbar/src/Controllers/OpenHandlerController.php:77
+* @see \Fruitcake\LaravelDebugbar\Controllers\OpenHandlerController::clockwork
+* @see vendor/barryvdh/laravel-debugbar/src/Controllers/OpenHandlerController.php:49
 * @route '/_debugbar/clockwork/{id}'
 */
 export const clockwork = (args: { id: string | number } | [id: string | number ] | string | number, options?: RouteQueryOptions): RouteDefinition<'get'> => ({
@@ -62,8 +61,8 @@ clockwork.definition = {
 } satisfies RouteDefinition<["get","head"]>
 
 /**
-* @see \Barryvdh\Debugbar\Controllers\OpenHandlerController::clockwork
-* @see vendor/barryvdh/laravel-debugbar/src/Controllers/OpenHandlerController.php:77
+* @see \Fruitcake\LaravelDebugbar\Controllers\OpenHandlerController::clockwork
+* @see vendor/barryvdh/laravel-debugbar/src/Controllers/OpenHandlerController.php:49
 * @route '/_debugbar/clockwork/{id}'
 */
 clockwork.url = (args: { id: string | number } | [id: string | number ] | string | number, options?: RouteQueryOptions) => {
@@ -89,8 +88,8 @@ clockwork.url = (args: { id: string | number } | [id: string | number ] | string
 }
 
 /**
-* @see \Barryvdh\Debugbar\Controllers\OpenHandlerController::clockwork
-* @see vendor/barryvdh/laravel-debugbar/src/Controllers/OpenHandlerController.php:77
+* @see \Fruitcake\LaravelDebugbar\Controllers\OpenHandlerController::clockwork
+* @see vendor/barryvdh/laravel-debugbar/src/Controllers/OpenHandlerController.php:49
 * @route '/_debugbar/clockwork/{id}'
 */
 clockwork.get = (args: { id: string | number } | [id: string | number ] | string | number, options?: RouteQueryOptions): RouteDefinition<'get'> => ({
@@ -99,8 +98,8 @@ clockwork.get = (args: { id: string | number } | [id: string | number ] | string
 })
 
 /**
-* @see \Barryvdh\Debugbar\Controllers\OpenHandlerController::clockwork
-* @see vendor/barryvdh/laravel-debugbar/src/Controllers/OpenHandlerController.php:77
+* @see \Fruitcake\LaravelDebugbar\Controllers\OpenHandlerController::clockwork
+* @see vendor/barryvdh/laravel-debugbar/src/Controllers/OpenHandlerController.php:49
 * @route '/_debugbar/clockwork/{id}'
 */
 clockwork.head = (args: { id: string | number } | [id: string | number ] | string | number, options?: RouteQueryOptions): RouteDefinition<'head'> => ({
@@ -108,12 +107,56 @@ clockwork.head = (args: { id: string | number } | [id: string | number ] | strin
     method: 'head',
 })
 
+/**
+* @see \Fruitcake\LaravelDebugbar\Controllers\AssetController::assets
+* @see vendor/barryvdh/laravel-debugbar/src/Controllers/AssetController.php:16
+* @route '/_debugbar/assets'
+*/
+export const assets = (options?: RouteQueryOptions): RouteDefinition<'get'> => ({
+    url: assets.url(options),
+    method: 'get',
+})
+
+assets.definition = {
+    methods: ["get","head"],
+    url: '/_debugbar/assets',
+} satisfies RouteDefinition<["get","head"]>
+
+/**
+* @see \Fruitcake\LaravelDebugbar\Controllers\AssetController::assets
+* @see vendor/barryvdh/laravel-debugbar/src/Controllers/AssetController.php:16
+* @route '/_debugbar/assets'
+*/
+assets.url = (options?: RouteQueryOptions) => {
+    return assets.definition.url + queryParams(options)
+}
+
+/**
+* @see \Fruitcake\LaravelDebugbar\Controllers\AssetController::assets
+* @see vendor/barryvdh/laravel-debugbar/src/Controllers/AssetController.php:16
+* @route '/_debugbar/assets'
+*/
+assets.get = (options?: RouteQueryOptions): RouteDefinition<'get'> => ({
+    url: assets.url(options),
+    method: 'get',
+})
+
+/**
+* @see \Fruitcake\LaravelDebugbar\Controllers\AssetController::assets
+* @see vendor/barryvdh/laravel-debugbar/src/Controllers/AssetController.php:16
+* @route '/_debugbar/assets'
+*/
+assets.head = (options?: RouteQueryOptions): RouteDefinition<'head'> => ({
+    url: assets.url(options),
+    method: 'head',
+})
+
 const debugbar = {
     openhandler: Object.assign(openhandler, openhandler),
-    clockwork: Object.assign(clockwork, clockwork),
-    assets: Object.assign(assets, assets),
     cache: Object.assign(cache, cache),
     queries: Object.assign(queries, queries),
+    clockwork: Object.assign(clockwork, clockwork),
+    assets: Object.assign(assets, assets),
 }
 
 export default debugbar

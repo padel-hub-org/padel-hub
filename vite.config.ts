@@ -4,6 +4,7 @@ import { defineConfig } from "vite";
 import { wayfinder } from "@laravel/vite-plugin-wayfinder";
 import laravel from "laravel-vite-plugin";
 import { svelte } from "@sveltejs/vite-plugin-svelte";
+import inertia from "@inertiajs/vite";
 
 export default defineConfig({
     resolve: {
@@ -18,6 +19,9 @@ export default defineConfig({
             refresh: true,
         }),
         svelte(),
+        inertia({
+            ssr: false,
+        }),
         // Only run wayfinder during development, not in production builds
         ...(process.env.NODE_ENV !== "production" ? [wayfinder()] : []),
     ],
