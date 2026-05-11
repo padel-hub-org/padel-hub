@@ -71,7 +71,7 @@ class EventController extends Controller
     public function setDisabled(Event $event, Player $player, Request $request): RedirectResponse
     {
         $validated = $request->validate([
-            'should_disable' => 'required|boolean',
+            'should_disable' => ['required', 'boolean'],
         ]);
 
         $event->players()->updateExistingPivot($player->id, [
