@@ -1,17 +1,18 @@
-export type QueryParams = Record<
-    string,
-    | string
-    | number
-    | boolean
-    | string[]
-    | null
-    | undefined
-    | Record<string, string | number | boolean>
->;
+export type QueryParams = {
+    [key: string]:
+        | string
+        | number
+        | boolean
+        | (string | number)[]
+        | null
+        | undefined
+        | QueryParams;
+};
 
 type Method = "get" | "post" | "put" | "delete" | "patch" | "head" | "options";
+type UrlDefaults = Record<string, unknown>;
 
-let urlDefaults: Record<string, unknown> = {};
+let urlDefaults: () => UrlDefaults = () => ({});
 
 export type RouteDefinition<TMethod extends Method | Method[]> = {
     url: string;
@@ -27,6 +28,50 @@ export type RouteQueryOptions = {
     mergeQuery?: QueryParams;
 };
 
+const getValue = (value: string | number | boolean) => {
+    if (value === true) {
+        return "1";
+    }
+
+    if (value === false) {
+        return "0";
+    }
+
+    return value.toString();
+};
+
+const addNestedParams = (
+    obj: QueryParams,
+    prefix: string,
+    params: URLSearchParams,
+) => {
+    Object.entries(obj).forEach(([subKey, value]) => {
+        if (value === undefined) return;
+
+        const paramKey = `${prefix}[${subKey}]`;
+
+        if (Array.isArray(value)) {
+            value.forEach((v) => params.append(`${paramKey}[]`, getValue(v)));
+        } else if (value !== null && typeof value === "object") {
+            addNestedParams(value, paramKey, params);
+        } else if (["string", "number", "boolean"].includes(typeof value)) {
+            params.set(paramKey, getValue(value as string | number | boolean));
+        }
+    });
+};
+
+const clearParamFamily = (params: URLSearchParams, key: string) => {
+    const toDelete = new Set<string>();
+
+    params.forEach((_, paramKey) => {
+        if (paramKey === key || paramKey.startsWith(`${key}[`)) {
+            toDelete.add(paramKey);
+        }
+    });
+
+    toDelete.forEach((paramKey) => params.delete(paramKey));
+};
+
 export const queryParams = (options?: RouteQueryOptions) => {
     if (!options || (!options.query && !options.mergeQuery)) {
         return "";
@@ -35,18 +80,6 @@ export const queryParams = (options?: RouteQueryOptions) => {
     const query = options.query ?? options.mergeQuery;
     const includeExisting = options.mergeQuery !== undefined;
 
-    const getValue = (value: string | number | boolean) => {
-        if (value === true) {
-            return "1";
-        }
-
-        if (value === false) {
-            return "0";
-        }
-
-        return value.toString();
-    };
-
     const params = new URLSearchParams(
         includeExisting && typeof window !== "undefined"
             ? window.location.search
@@ -54,44 +87,24 @@ export const queryParams = (options?: RouteQueryOptions) => {
     );
 
     for (const key in query) {
-        if (query[key] === undefined || query[key] === null) {
-            params.delete(key);
+        const queryValue = query[key];
+
+        if (includeExisting) {
+            clearParamFamily(params, key);
+        }
+
+        if (queryValue === undefined || queryValue === null) {
             continue;
         }
 
-        if (Array.isArray(query[key])) {
-            if (params.has(`${key}[]`)) {
-                params.delete(`${key}[]`);
-            }
-
-            query[key].forEach((value) => {
+        if (Array.isArray(queryValue)) {
+            queryValue.forEach((value) => {
                 params.append(`${key}[]`, value.toString());
             });
-        } else if (typeof query[key] === "object") {
-            params.forEach((_, paramKey) => {
-                if (paramKey.startsWith(`${key}[`)) {
-                    params.delete(paramKey);
-                }
-            });
-
-            for (const subKey in query[key]) {
-                if (typeof query[key][subKey] === "undefined") {
-                    continue;
-                }
-
-                if (
-                    ["string", "number", "boolean"].includes(
-                        typeof query[key][subKey],
-                    )
-                ) {
-                    params.set(
-                        `${key}[${subKey}]`,
-                        getValue(query[key][subKey]),
-                    );
-                }
-            }
+        } else if (typeof queryValue === "object") {
+            addNestedParams(queryValue, key, params);
         } else {
-            params.set(key, getValue(query[key]));
+            params.set(key, getValue(queryValue));
         }
     }
 
@@ -100,28 +113,35 @@ export const queryParams = (options?: RouteQueryOptions) => {
     return str.length > 0 ? `?${str}` : "";
 };
 
-export const setUrlDefaults = (params: Record<string, unknown>) => {
-    urlDefaults = params;
+export const setUrlDefaults = (params: UrlDefaults | (() => UrlDefaults)) => {
+    urlDefaults = typeof params === "function" ? params : () => params;
 };
 
 export const addUrlDefault = (
     key: string,
     value: string | number | boolean,
 ) => {
-    urlDefaults[key] = value;
+    const previousDefaults = urlDefaults;
+
+    urlDefaults = () => ({
+        ...previousDefaults(),
+        [key]: value,
+    });
 };
 
-export const applyUrlDefaults = <T extends Record<string, unknown> | undefined>(
+export const applyUrlDefaults = <T extends UrlDefaults | undefined>(
     existing: T,
 ): T => {
-    const existingParams = { ...(existing ?? ({} as Record<string, unknown>)) };
+    const existingParams = { ...(existing ?? ({} as UrlDefaults)) };
+    const defaultParams = urlDefaults();
 
-    for (const key in urlDefaults) {
+    for (const key in defaultParams) {
         if (
             existingParams[key] === undefined &&
-            urlDefaults[key] !== undefined
+            defaultParams[key] !== undefined
         ) {
-            (existingParams as Record<string, unknown>)[key] = urlDefaults[key];
+            (existingParams as Record<string, unknown>)[key] =
+                defaultParams[key];
         }
     }
 
