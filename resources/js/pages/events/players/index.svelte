@@ -23,7 +23,6 @@
         players: Pagination<Player>;
         search: string;
     }
-
     const { event, eventPlayers, players, search }: Props = $props();
 
     let formRef: Form;
@@ -66,7 +65,7 @@
             <div class="player" transition:fade={{ duration: 150 }}>
                 <p>{player.name}</p>
                 <Button
-                    variant="destructive"
+                    variant={"destructive"}
                     onclick={() => removePlayer(player.id)}>Remove</Button
                 >
             </div>

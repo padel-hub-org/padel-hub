@@ -21,7 +21,6 @@
     };
 
     const savePoints = () => {
-        console.log({ editedPoints });
         router.patch(
             update(event),
             {
