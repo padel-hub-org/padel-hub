@@ -18,7 +18,8 @@ class PlayerController extends Controller
     public function index(Request $request): Response
     {
         $validated = $request->validate([
-            'search' => 'nullable|string|max:255',
+            'search' => ['nullable', 'string', 'max:255'],
+            'sort_by' => ['string'],
         ]);
 
         $query = Player::query();
@@ -27,9 +28,13 @@ class PlayerController extends Controller
             $query->where('name', 'ilike', '%'.$validated['search'].'%');
         }
 
+        $sortBy = $validated['sort_by'] ?? 'name';
+        $query->orderBy($sortBy, $sortBy === 'name' ? 'asc' : 'desc');
+
         return Inertia::render('players/index', [
-            'players' => Inertia::scroll(fn () => $query->orderBy('name')->paginate(50)),
+            'players' => Inertia::scroll(fn () => $query->paginate(50)),
             'search' => $validated['search'] ?? '',
+            'sortBy' => $validated['sort_by'] ?? 'name',
         ]);
     }
 
