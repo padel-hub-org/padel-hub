@@ -13,9 +13,19 @@
 </script>
 
 <li class="player">
-    <p>{player.name}</p>
+    <p class="name">{player.name}</p>
+    <p class="rating">
+        <iconify-icon
+            icon="material-symbols:kid-star"
+            class="rating-icon"
+            width="1.5rem"
+            height="1.5rem"
+            noobserver
+        ></iconify-icon>{player.rating}
+    </p>
+
     <Button
-        class="cursor-pointer"
+        class="cursor-pointer edit"
         href={show(player)}
         size="icon"
         variant="secondary"
@@ -26,16 +36,18 @@
             icon="material-symbols:person-edit-rounded"
             width="1.5rem"
             height="1.5rem"
+            noobserver
         ></iconify-icon>
     </Button>
 
     <AlertDialog.Root>
-        <AlertDialog.Trigger>
+        <AlertDialog.Trigger class="delete">
             <Button class="cursor-pointer" size="icon" variant="destructive">
                 <iconify-icon
                     icon="material-symbols:delete-rounded"
                     width="1.5rem"
                     height="1.5rem"
+                    noobserver
                 ></iconify-icon>
             </Button>
         </AlertDialog.Trigger>
@@ -81,10 +93,37 @@
     .player {
         display: grid;
         grid-template-columns: 1fr auto auto;
-        gap: 1rem;
+        grid-template-areas:
+            "name edit delete"
+            "rating edit delete";
+        gap: 0.5rem 1rem;
         align-items: center;
         background-color: var(--card);
         padding: 1rem;
         border-radius: var(--radius);
+    }
+
+    .name {
+        grid-area: name;
+        font-size: var(--font-size-large);
+    }
+
+    .rating {
+        grid-area: rating;
+        display: flex;
+        gap: 0.25rem;
+        align-items: center;
+    }
+
+    .rating-icon {
+        color: var(--color-secondary);
+    }
+
+    .player :global(.edit) {
+        grid-area: edit;
+    }
+
+    .player :global(.delete) {
+        grid-area: delete;
     }
 </style>
