@@ -6,7 +6,7 @@ use App\Enums\Result;
 
 class CalculationService
 {
-    const int RATING_DIFFERENCE_SCALE = 300;
+    const int RATING_DIFFERENCE_SCALE = 75;
 
     const int LEARNING_RATE = 10;
 
