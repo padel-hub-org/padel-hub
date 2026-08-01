@@ -5,7 +5,7 @@
     "scripts": {
         "build": "vite build",
         "dev": "vite",
-        "svelte-check": "svelte-check",
+        "svelte-check": "svelte-check --tsconfig ./tsconfig.json --config ./svelte.config.js",
         "pretty": "npx prettier . --write",
         "pretty-check": "npx prettier . --check"
     },
