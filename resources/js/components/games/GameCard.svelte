@@ -4,13 +4,16 @@
     import * as Card from "$lib/components/ui/card/index.js";
     import RegisterResultDialog from "./RegisterResultDialog.svelte";
     import type { Event } from "@/types/Event";
+    import type { GamePlayer } from "@/types/GamePlayer";
 
     interface Props {
         game: Game;
         event: Event;
+        getEventRatingChange: (playerId: number) => number;
+        debug: boolean;
     }
 
-    const { game, event }: Props = $props();
+    const { game, event, getEventRatingChange, debug }: Props = $props();
 
     let dialogOpen = $state(false);
 
@@ -45,6 +48,19 @@
             team1[0]?.pivot.points !== null && team2[0]?.pivot.points !== null
         );
     });
+
+    const getEventRatingString = (player: GamePlayer) => {
+        let ratingChange = getEventRatingChange(player.id);
+        let ratingChangeString = ratingChange.toString();
+
+        if (ratingChange > 0) {
+            ratingChangeString = `+${ratingChange}`;
+        }
+
+        const eventRating = player.pivot.previous_event_rating ?? 0;
+
+        return `${eventRating + ratingChange} (${ratingChangeString})`;
+    };
 </script>
 
 <div class="game" transition:slide={{ duration: 150 }}>
@@ -60,6 +76,11 @@
                             height="1.5rem"
                         ></iconify-icon>
                         {player.name}
+                        {#if debug}
+                            <span class="prev-rating">
+                                {getEventRatingString(player)}
+                            </span>
+                        {/if}
                     </p>
                 {/each}
 
@@ -81,12 +102,19 @@
                 {#each team2 as player, i (player.id)}
                     <p class={["player", "team1", `player${i}`]}>
                         {player.name}
+
                         <iconify-icon
                             class="player-icon"
                             icon="material-symbols:person-rounded"
                             width="1.5rem"
                             height="1.5rem"
                         ></iconify-icon>
+
+                        {#if debug}
+                            <span class="prev-rating">
+                                {getEventRatingString(player)}
+                            </span>
+                        {/if}
                     </p>
                 {/each}
             </div>
@@ -134,12 +162,17 @@
     }
 
     .team0 {
-        display: flex;
+        display: grid;
+        grid-template-columns: max-content auto;
         gap: 0.25rem;
         overflow: hidden;
         width: 100%;
         justify-self: start;
         align-self: center;
+
+        .prev-rating {
+            grid-column: 2;
+        }
     }
 
     .team0.player0 {
@@ -151,7 +184,8 @@
     }
 
     .team1 {
-        display: flex;
+        display: grid;
+        grid-template-columns: auto max-content;
         justify-content: end;
         gap: 0.25rem;
         overflow: hidden;
@@ -178,5 +212,9 @@
         align-self: center;
         gap: 0.5rem;
         font-size: var(--font-size-large);
+    }
+
+    .prev-rating {
+        color: #ccc;
     }
 </style>
