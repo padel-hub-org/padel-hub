@@ -16,6 +16,8 @@
 
     interface Props {
         games: Game[];
+        ratingDiffs: { player_id: number; performance_rating_change: number }[];
+        debug: boolean;
         playersSittingOut: Player[];
         event: Event;
         title: string;
@@ -23,10 +25,24 @@
         maxRound: number;
     }
 
-    const { games, playersSittingOut, event, round, maxRound }: Props =
-        $props();
+    const {
+        games,
+        ratingDiffs,
+        debug,
+        playersSittingOut,
+        event,
+        round,
+        maxRound,
+    }: Props = $props();
 
     const isEventEnded = $derived(event.ended_at !== null);
+
+    const getEventRatingChange = (playerId: number) => {
+        return (
+            ratingDiffs.find((item) => item.player_id === playerId)
+                ?.performance_rating_change ?? 0
+        );
+    };
 </script>
 
 <svelte:head>
@@ -43,6 +59,7 @@
                     href={index(event, {
                         query: {
                             round: round - 1,
+                            debug: debug ?? undefined,
                         },
                     })}
                     viewTransition
@@ -72,6 +89,7 @@
                     href={index(event, {
                         query: {
                             round: round + 1,
+                            debug: debug ?? undefined,
                         },
                     })}
                     viewTransition
@@ -92,7 +110,7 @@
         {/if}
 
         {#each games as game (game.id)}
-            <GameCard {game} {event} />
+            <GameCard {game} {event} {getEventRatingChange} {debug} />
         {/each}
     </div>
 

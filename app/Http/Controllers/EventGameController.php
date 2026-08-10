@@ -8,6 +8,7 @@ use App\Models\Event;
 use App\Models\Game;
 use App\Services\RatingService;
 use App\Services\RoundService;
+use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
@@ -23,9 +24,11 @@ class EventGameController extends Controller
     {
         $data = $request->validate([
             'round' => ['nullable', 'integer', 'min:1'],
+            'debug' => ['nullable', 'boolean'],
         ]);
 
         $round = (int) ($data['round'] ?? -1);
+        $debug = (bool) ($data['debug'] ?? false);
 
         $maxRound = (int) ($event->games()->max('round') ?? 1);
 
@@ -34,14 +37,32 @@ class EventGameController extends Controller
             $round = $isEventEnded ? 1 : $maxRound;
         }
 
+        /** @var Collection<int, Game> $games */
+        $games = $event->games()
+            ->where('round', $round)
+            ->with('players')
+            ->orderBy('court')
+            ->get();
+
+        $ratingDiffs = collect();
+
+        if ($debug) {
+            foreach ($games as $game) {
+                foreach ($game->gamePlayers as $gamePlayer) {
+                    $ratingDiffs->push([
+                        'player_id' => $gamePlayer->player_id,
+                        'performance_rating_change' => $gamePlayer->performance_rating_change,
+                    ]);
+                }
+            }
+        }
+
         return Inertia::render('events/games/index', [
             'title' => 'Games',
             'backUrl' => route('events.index'),
-            'games' => $event->games()
-                ->where('round', $round)
-                ->with('players')
-                ->orderBy('court')
-                ->get(),
+            'games' => $games,
+            'debug' => $debug,
+            'ratingDiffs' => $ratingDiffs,
             'playersSittingOut' => $event->players()
                 ->whereDoesntHave('games', function ($query) use ($event, $round) {
                     $query->where('event_id', $event->id)->where('round', $round);

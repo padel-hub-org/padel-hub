@@ -8,7 +8,8 @@ export enum Result {
 
 export interface GamePlayer extends Player {
     pivot: {
-        previous_rating: number | null;
+        previous_event_rating: number | null;
+        previous_player_rating: number | null;
         points: number | null;
         partner_id: number;
         result: Result | null;

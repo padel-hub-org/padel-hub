@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use App\Enums\Result;
+use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\Pivot;
 
@@ -33,6 +34,8 @@ use Illuminate\Database\Eloquent\Relations\Pivot;
  * @method static \Illuminate\Database\Eloquent\Builder<static>|GamePlayer wherePreviousPlayerRating($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|GamePlayer whereResult($value)
  *
+ * @property-read mixed $performance_rating_change
+ *
  * @mixin \Eloquent
  */
 class GamePlayer extends Pivot
@@ -58,5 +61,29 @@ class GamePlayer extends Pivot
     public function game(): BelongsTo
     {
         return $this->belongsTo(Game::class);
+    }
+
+    /**
+     * @return Attribute<int, null>
+     */
+    public function performanceRatingChange(): Attribute
+    {
+        return Attribute::get(function () {
+            $game = $this->game;
+
+            $round = $game->round;
+
+            $nextGamePlayer = GamePlayer::query()
+                ->where('player_id', $this->player_id)
+                ->whereHas('game', fn ($query) => $query->where('event_id', $game->event_id)->where('round', '>', $round))
+                ->orderBy(Game::query()->select('round')->whereColumn('games.id', 'game_player.game_id'))
+                ->first();
+
+            if (! $nextGamePlayer) {
+                return 0;
+            }
+
+            return $nextGamePlayer->previous_event_rating - $this->previous_event_rating;
+        });
     }
 }
