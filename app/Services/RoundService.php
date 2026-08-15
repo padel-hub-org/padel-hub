@@ -73,12 +73,12 @@ class RoundService
             // Ordered by most prefered combinations: (0,2) vs (1,3)
             $potentialGames = [
                 [
-                    'team1' => ['player1' => $courtPlayers[0], 'player2' => $courtPlayers[2]],
-                    'team2' => ['player1' => $courtPlayers[1], 'player2' => $courtPlayers[3]],
-                ],
-                [
                     'team1' => ['player1' => $courtPlayers[0], 'player2' => $courtPlayers[3]],
                     'team2' => ['player1' => $courtPlayers[1], 'player2' => $courtPlayers[2]],
+                ],
+                [
+                    'team1' => ['player1' => $courtPlayers[0], 'player2' => $courtPlayers[2]],
+                    'team2' => ['player1' => $courtPlayers[1], 'player2' => $courtPlayers[3]],
                 ],
                 [
                     'team1' => ['player1' => $courtPlayers[0], 'player2' => $courtPlayers[1]],
