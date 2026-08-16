@@ -17,7 +17,7 @@
     interface Props {
         games: Game[];
         ratingDiffs: { player_id: number; event_rating_change: number }[];
-        debug: boolean;
+        showRatings: boolean;
         playersSittingOut: Player[];
         event: Event;
         title: string;
@@ -28,7 +28,7 @@
     const {
         games,
         ratingDiffs,
-        debug,
+        showRatings,
         playersSittingOut,
         event,
         round,
@@ -57,9 +57,8 @@
                     disabled={round <= 1}
                     replace
                     href={index(event, {
-                        query: {
+                        mergeQuery: {
                             round: round - 1,
-                            debug: debug ?? undefined,
                         },
                     })}
                     viewTransition
@@ -87,9 +86,8 @@
                     disabled={round >= maxRound}
                     replace
                     href={index(event, {
-                        query: {
+                        mergeQuery: {
                             round: round + 1,
-                            debug: debug ?? undefined,
                         },
                     })}
                     viewTransition
@@ -110,7 +108,7 @@
         {/if}
 
         {#each games as game (game.id)}
-            <GameCard {game} {event} {getEventRatingChange} {debug} />
+            <GameCard {game} {event} {getEventRatingChange} {showRatings} />
         {/each}
     </div>
 

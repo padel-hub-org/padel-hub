@@ -24,11 +24,11 @@ class EventGameController extends Controller
     {
         $data = $request->validate([
             'round' => ['nullable', 'integer', 'min:1'],
-            'debug' => ['nullable', 'boolean'],
+            'showRatings' => ['nullable', 'boolean'],
         ]);
 
         $round = (int) ($data['round'] ?? -1);
-        $debug = (bool) ($data['debug'] ?? true);
+        $showRatings = (bool) ($data['showRatings'] ?? false);
 
         $maxRound = (int) ($event->games()->max('round') ?? 1);
 
@@ -46,7 +46,7 @@ class EventGameController extends Controller
 
         $ratingDiffs = collect();
 
-        if ($debug) {
+        if ($showRatings) {
             foreach ($games as $game) {
                 foreach ($game->gamePlayers as $gamePlayer) {
                     $ratingDiffs->push([
@@ -61,7 +61,7 @@ class EventGameController extends Controller
             'title' => 'Games',
             'backUrl' => route('events.index'),
             'games' => $games,
-            'debug' => $debug,
+            'showRatings' => $showRatings,
             'ratingDiffs' => $ratingDiffs,
             'playersSittingOut' => $event->players()
                 ->whereDoesntHave('games', function ($query) use ($event, $round) {
