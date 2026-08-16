@@ -7,11 +7,11 @@ use App\Enums\Result;
 
 class CalculationService
 {
-    public const int RATING_DIFFERENCE_SCALE = 75;
+    const int RATING_DIFFERENCE_SCALE = 75;
 
     public const int PLAYER_RATING_LEARNING_RATE = 10;
 
-    const int EVENT_RATING_LEARNING_RATE = 50;
+    public const int EVENT_RATING_LEARNING_RATE = 50;
 
     const float OUTCOME_WEIGHT = 0.5;
 

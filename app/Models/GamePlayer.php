@@ -35,7 +35,6 @@ use Illuminate\Database\Eloquent\Relations\Pivot;
  * @method static \Illuminate\Database\Eloquent\Builder<static>|GamePlayer whereResult($value)
  *
  * @property-read mixed $event_rating_change
- * @property-read mixed $event_rating_change
  *
  * @mixin \Eloquent
  */
