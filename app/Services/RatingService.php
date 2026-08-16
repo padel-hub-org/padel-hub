@@ -2,11 +2,10 @@
 
 namespace App\Services;
 
+use App\Enums\RatingType;
 use App\Models\Event;
 use App\Models\EventPlayer;
 use App\Models\Player;
-use Illuminate\Database\Eloquent\Collection;
-use Illuminate\Database\Eloquent\Relations\Relation;
 use Illuminate\Support\Facades\DB;
 
 class RatingService
@@ -21,65 +20,21 @@ class RatingService
         return new self($event);
     }
 
-    /**
-     * @param  Collection<int, Player>  $players
-     */
-    public function calculateEventRatings(Collection $players): void
+    public function calculateEventRatings(): void
     {
-        $players->load([
-            'gamePlayers' => function (Relation $query) {
-                $query->whereHas('game', fn ($q) => $q->where('event_id', $this->event->id))
-                    ->with('game.gamePlayers');
-            },
-        ]);
-
         $eventPlayerRatings = EventPlayer::query()
             ->where('event_id', $this->event->id)
             ->pluck('start_rating', 'player_id')
             ->toArray();
 
-        foreach ($players as $player) {
-            $gamePlayers = $player->gamePlayers;
-            $playerStartRating = $eventPlayerRatings[$player->id] ?? 0;
+        $eventPlayerRatings = $this->calculateRatings($eventPlayerRatings, RatingType::event);
 
-            $sumOfPersonalPr = 0;
-
-            foreach ($gamePlayers as $gamePlayer) {
-                if (! $gamePlayer->result) {
-                    continue;
-                }
-
-                $opponents = $gamePlayer->game->gamePlayers
-                    ->where('player_id', '!=', $gamePlayer->player_id)
-                    ->where('player_id', '!=', $gamePlayer->partner_id);
-
-                $opponentPoints = $opponents->first()?->points;
-
-                $opponentPlayerIds = $opponents->pluck('player_id');
-                $avgOpponentRating = (int) round(
-                    $opponentPlayerIds->map(fn ($id) => $eventPlayerRatings[$id] ?? 0)
-                        ->avg()
-                );
-
-                $partnerRating = $eventPlayerRatings[$gamePlayer->partner_id] ?? null;
-
-                $calculator = new CalculationService;
-
-                $calculator
-                    ->withResult($gamePlayer->result)
-                    ->withPoints($gamePlayer->points, $opponentPoints)
-                    ->withAvgOpponentRating($avgOpponentRating)
-                    ->withRatings($playerStartRating, $partnerRating);
-
-                $sumOfPersonalPr += $calculator->getPersonalPr();
-            }
-
-            $playerPr = (int) round($sumOfPersonalPr / $gamePlayers->count());
-
-            $this->event->players()->updateExistingPivot($player->id, [
-                'event_rating' => $playerPr,
+        foreach ($eventPlayerRatings as $playerId => $rating) {
+            $this->event->players()->updateExistingPivot($playerId, [
+                'event_rating' => $rating,
             ]);
         }
+
     }
 
     public function calculatePlayerRatings(): void
@@ -88,7 +43,24 @@ class RatingService
             ->pluck('rating', 'players.id')
             ->toArray();
 
-        $games = $this->event->games()->with('gamePlayers')->get();
+        $playerRatings = $this->calculateRatings($playerRatings, RatingType::player);
+
+        DB::transaction(
+            function () use ($playerRatings) {
+                foreach ($playerRatings as $playerId => $rating) {
+                    Player::query()->where('id', $playerId)->update(['rating' => $rating]);
+                }
+            }
+        );
+    }
+
+    /**
+     * @param  array<int, int>  $playerRatings
+     * @return array<int, int>
+     */
+    private function calculateRatings(array $playerRatings, RatingType $ratingType): array
+    {
+        $games = $this->event->games()->with('gamePlayers')->orderBy('round')->get();
 
         foreach ($games as $game) {
             $gamePlayers = $game->gamePlayers;
@@ -96,6 +68,12 @@ class RatingService
             $gamePlayerRatings = $playerRatings;
 
             foreach ($gamePlayers as $gamePlayer) {
+                if ($ratingType === RatingType::event) {
+                    $game->players()->updateExistingPivot($gamePlayer->player_id, [
+                        'previous_event_rating' => $gamePlayerRatings[$gamePlayer->player_id],
+                    ]);
+                }
+
                 if (! $gamePlayer->result) {
                     continue;
                 }
@@ -118,18 +96,14 @@ class RatingService
                     ->withResult($gamePlayer->result)
                     ->withPoints($gamePlayer->points, $opponentPoints)
                     ->withAvgOpponentRating($avgOpponentRating)
-                    ->withRatings($gamePlayerRatings[$gamePlayer->player_id], $gamePlayerRatings[$gamePlayer->partner_id]);
+                    ->withRatings($gamePlayerRatings[$gamePlayer->player_id] ?? 0, $gamePlayerRatings[$gamePlayer->partner_id] ?? 0);
 
-                $playerRatings[$gamePlayer->player_id] = $calculator->getPlayerRating();
+                $ratingChange = $calculator->getRatingChange($ratingType);
+
+                $playerRatings[$gamePlayer->player_id] += $ratingChange;
             }
         }
 
-        DB::transaction(
-            function () use ($playerRatings) {
-                foreach ($playerRatings as $playerId => $rating) {
-                    Player::query()->where('id', $playerId)->update(['rating' => $rating]);
-                }
-            }
-        );
+        return $playerRatings;
     }
 }

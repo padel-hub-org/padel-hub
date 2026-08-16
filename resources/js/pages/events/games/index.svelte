@@ -16,7 +16,7 @@
 
     interface Props {
         games: Game[];
-        ratingDiffs: { player_id: number; performance_rating_change: number }[];
+        ratingDiffs: { player_id: number; event_rating_change: number }[];
         debug: boolean;
         playersSittingOut: Player[];
         event: Event;
@@ -40,7 +40,7 @@
     const getEventRatingChange = (playerId: number) => {
         return (
             ratingDiffs.find((item) => item.player_id === playerId)
-                ?.performance_rating_change ?? 0
+                ?.event_rating_change ?? 0
         );
     };
 </script>

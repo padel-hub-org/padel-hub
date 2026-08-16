@@ -59,7 +59,11 @@
 
         const eventRating = player.pivot.previous_event_rating ?? 0;
 
-        return `${eventRating + ratingChange} (${ratingChangeString})`;
+        if (!team1[0]?.pivot.points) {
+            return eventRating.toString();
+        }
+
+        return `${eventRating} (${ratingChangeString})`;
     };
 </script>
 

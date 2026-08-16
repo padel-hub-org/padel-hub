@@ -28,7 +28,7 @@ class EventGameController extends Controller
         ]);
 
         $round = (int) ($data['round'] ?? -1);
-        $debug = (bool) ($data['debug'] ?? false);
+        $debug = (bool) ($data['debug'] ?? true);
 
         $maxRound = (int) ($event->games()->max('round') ?? 1);
 
@@ -51,7 +51,7 @@ class EventGameController extends Controller
                 foreach ($game->gamePlayers as $gamePlayer) {
                     $ratingDiffs->push([
                         'player_id' => $gamePlayer->player_id,
-                        'performance_rating_change' => $gamePlayer->performance_rating_change,
+                        'event_rating_change' => $gamePlayer->event_rating_change,
                     ]);
                 }
             }
@@ -154,9 +154,7 @@ class EventGameController extends Controller
             $game->players()->updateExistingPivot($player->id, ['points' => $otherPoints, 'result' => $otherResult]);
         }
 
-        // TODO: try to optimize this so we do not fetch players again
-        $players = $event->players()->whereRelation('games', 'games.id', $game->id)->get();
-        RatingService::event($event)->calculateEventRatings($players);
+        RatingService::event($event)->calculateEventRatings();
 
         return back();
     }
