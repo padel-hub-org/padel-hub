@@ -73,6 +73,10 @@ class EventPlayerController extends Controller
         }
 
         $event->players()->detach($player);
+        $event->players()
+            ->newPivotStatement()
+            ->where('event_id', $event->id)
+            ->update(['start_rating' => 0]);
 
         return back();
     }
