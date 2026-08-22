@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Enums\Result;
 use App\Models\Event;
+use App\Services\RatingService;
 use App\Services\RoundService;
 use Illuminate\Database\Eloquent\Builder;
 use Inertia\Inertia;
@@ -19,6 +20,7 @@ class EventLeaderboardController extends Controller
         if ($event->players()->wherePivot('start_rating', 0)->exists()) {
             $roundService = new RoundService($event);
             $roundService->updateInitialRatings();
+            RatingService::event($event)->calculateEventRatings();
         }
 
         $players = $event->players()

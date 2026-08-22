@@ -47,6 +47,7 @@ class EventGameController extends Controller
         $ratingDiffs = collect();
 
         if ($showRatings) {
+            $games->load('gamePlayers');
             foreach ($games as $game) {
                 foreach ($game->gamePlayers as $gamePlayer) {
                     $ratingDiffs->push([

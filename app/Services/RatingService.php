@@ -72,7 +72,7 @@ class RatingService
             foreach ($gamePlayers as $gamePlayer) {
                 if ($ratingType === RatingType::event) {
                     $game->players()->updateExistingPivot($gamePlayer->player_id, [
-                        'previous_event_rating' => $gameRatings[$gamePlayer->player_id],
+                        'previous_event_rating' => $gameRatings[$gamePlayer->player_id] ?? 0,
                     ]);
                 }
 

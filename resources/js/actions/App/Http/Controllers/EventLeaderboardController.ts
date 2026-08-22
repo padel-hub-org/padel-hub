@@ -1,7 +1,7 @@
 import { queryParams, type RouteQueryOptions, type RouteDefinition, applyUrlDefaults } from './../../../../wayfinder'
 /**
 * @see \App\Http\Controllers\EventLeaderboardController::index
-* @see app/Http/Controllers/EventLeaderboardController.php:17
+* @see app/Http/Controllers/EventLeaderboardController.php:18
 * @route '/events/{event}/leaderboard'
 */
 export const index = (args: { event: number | { id: number } } | [event: number | { id: number } ] | number | { id: number }, options?: RouteQueryOptions): RouteDefinition<'get'> => ({
@@ -16,7 +16,7 @@ index.definition = {
 
 /**
 * @see \App\Http\Controllers\EventLeaderboardController::index
-* @see app/Http/Controllers/EventLeaderboardController.php:17
+* @see app/Http/Controllers/EventLeaderboardController.php:18
 * @route '/events/{event}/leaderboard'
 */
 index.url = (args: { event: number | { id: number } } | [event: number | { id: number } ] | number | { id: number }, options?: RouteQueryOptions) => {
@@ -49,7 +49,7 @@ index.url = (args: { event: number | { id: number } } | [event: number | { id: n
 
 /**
 * @see \App\Http\Controllers\EventLeaderboardController::index
-* @see app/Http/Controllers/EventLeaderboardController.php:17
+* @see app/Http/Controllers/EventLeaderboardController.php:18
 * @route '/events/{event}/leaderboard'
 */
 index.get = (args: { event: number | { id: number } } | [event: number | { id: number } ] | number | { id: number }, options?: RouteQueryOptions): RouteDefinition<'get'> => ({
@@ -59,7 +59,7 @@ index.get = (args: { event: number | { id: number } } | [event: number | { id: n
 
 /**
 * @see \App\Http\Controllers\EventLeaderboardController::index
-* @see app/Http/Controllers/EventLeaderboardController.php:17
+* @see app/Http/Controllers/EventLeaderboardController.php:18
 * @route '/events/{event}/leaderboard'
 */
 index.head = (args: { event: number | { id: number } } | [event: number | { id: number } ] | number | { id: number }, options?: RouteQueryOptions): RouteDefinition<'head'> => ({

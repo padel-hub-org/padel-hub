@@ -58,6 +58,7 @@ class RoundService
 
         if ($this->event->players()->wherePivot('start_rating', 0)->exists()) {
             $this->updateInitialRatings();
+            RatingService::event($this->event)->calculateEventRatings();
         }
 
         for ($i = 0; $i < $this->courtCount; $i++) {
@@ -192,7 +193,7 @@ class RoundService
 
     public function updateInitialRatings(): void
     {
-        $currentRating = 1500 - ($this->playersCount / 2) * 5;
+        $currentRating = 1500 - (round($this->playersCount / 2)) * 5;
 
         /** @var Collection<int, EventPlayer> $players */
         $players = $this->event->players()->orderBy('rating')->get();
