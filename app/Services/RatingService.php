@@ -7,6 +7,7 @@ use App\Models\Event;
 use App\Models\EventPlayer;
 use App\Models\Game;
 use App\Models\Player;
+use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Support\Facades\DB;
 
 class RatingService
@@ -21,7 +22,32 @@ class RatingService
         return new self($event);
     }
 
-    public function calculateEventRatings(): void
+    public function ensureInitialRatings(): self
+    {
+        if (! $this->event->players()->wherePivot('start_rating', 0)->exists()) {
+            return $this;
+        }
+
+        $currentRating = 1500 - (round($this->event->players()->count() / 2)) * 5;
+
+        /** @var Collection<int, EventPlayer> $players */
+        $players = $this->event->players()->orderBy('rating')->get();
+
+        foreach ($players as $player) {
+            $this->event->players()->updateExistingPivot($player->id, [
+                'start_rating' => $currentRating,
+                'event_rating' => $currentRating,
+            ]);
+
+            $currentRating += 5;
+        }
+
+        $this->calculateEventRatings();
+
+        return $this;
+    }
+
+    public function calculateEventRatings(): self
     {
         $eventPlayerRatings = EventPlayer::query()
             ->where('event_id', $this->event->id)
@@ -36,9 +62,10 @@ class RatingService
             ]);
         }
 
+        return $this;
     }
 
-    public function calculatePlayerRatings(): void
+    public function calculatePlayerRatings(): self
     {
         $playerRatings = $this->event->players()
             ->pluck('rating', 'players.id')
@@ -53,6 +80,8 @@ class RatingService
                 }
             }
         );
+
+        return $this;
     }
 
     /**
