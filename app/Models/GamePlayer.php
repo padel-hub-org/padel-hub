@@ -34,7 +34,7 @@ use Illuminate\Database\Eloquent\Relations\Pivot;
  * @method static \Illuminate\Database\Eloquent\Builder<static>|GamePlayer wherePreviousPlayerRating($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|GamePlayer whereResult($value)
  *
- * @property-read mixed $performance_rating_change
+ * @property-read mixed $event_rating_change
  *
  * @mixin \Eloquent
  */
@@ -66,7 +66,7 @@ class GamePlayer extends Pivot
     /**
      * @return Attribute<int, null>
      */
-    public function performanceRatingChange(): Attribute
+    public function eventRatingChange(): Attribute
     {
         return Attribute::get(function () {
             $game = $this->game;
@@ -80,7 +80,7 @@ class GamePlayer extends Pivot
                 ->first();
 
             if (! $nextGamePlayer) {
-                return 0;
+                return $game->event->players()->where('player_id', $this->player_id)->sole()->pivot->event_rating - $this->previous_event_rating;
             }
 
             return $nextGamePlayer->previous_event_rating - $this->previous_event_rating;

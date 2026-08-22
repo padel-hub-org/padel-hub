@@ -24,11 +24,11 @@ class EventGameController extends Controller
     {
         $data = $request->validate([
             'round' => ['nullable', 'integer', 'min:1'],
-            'debug' => ['nullable', 'boolean'],
+            'showRatings' => ['nullable', 'boolean'],
         ]);
 
         $round = (int) ($data['round'] ?? -1);
-        $debug = (bool) ($data['debug'] ?? false);
+        $showRatings = (bool) ($data['showRatings'] ?? false);
 
         $maxRound = (int) ($event->games()->max('round') ?? 1);
 
@@ -46,12 +46,13 @@ class EventGameController extends Controller
 
         $ratingDiffs = collect();
 
-        if ($debug) {
+        if ($showRatings) {
+            $games->load('gamePlayers');
             foreach ($games as $game) {
                 foreach ($game->gamePlayers as $gamePlayer) {
                     $ratingDiffs->push([
                         'player_id' => $gamePlayer->player_id,
-                        'performance_rating_change' => $gamePlayer->performance_rating_change,
+                        'event_rating_change' => $gamePlayer->event_rating_change,
                     ]);
                 }
             }
@@ -61,7 +62,7 @@ class EventGameController extends Controller
             'title' => 'Games',
             'backUrl' => route('events.index'),
             'games' => $games,
-            'debug' => $debug,
+            'showRatings' => $showRatings,
             'ratingDiffs' => $ratingDiffs,
             'playersSittingOut' => $event->players()
                 ->whereDoesntHave('games', function ($query) use ($event, $round) {
@@ -154,9 +155,7 @@ class EventGameController extends Controller
             $game->players()->updateExistingPivot($player->id, ['points' => $otherPoints, 'result' => $otherResult]);
         }
 
-        // TODO: try to optimize this so we do not fetch players again
-        $players = $event->players()->whereRelation('games', 'games.id', $game->id)->get();
-        RatingService::event($event)->calculateEventRatings($players);
+        RatingService::event($event)->calculateEventRatings();
 
         return back();
     }
