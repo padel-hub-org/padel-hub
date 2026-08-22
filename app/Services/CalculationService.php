@@ -9,9 +9,9 @@ class CalculationService
 {
     const int RATING_DIFFERENCE_SCALE = 75;
 
-    public const int PLAYER_RATING_LEARNING_RATE = 10;
+    const int PLAYER_RATING_LEARNING_RATE = 10;
 
-    public const int EVENT_RATING_LEARNING_RATE = 50;
+    const int EVENT_RATING_LEARNING_RATE = 20;
 
     const float OUTCOME_WEIGHT = 0.5;
 
@@ -39,7 +39,7 @@ class CalculationService
         return $this;
     }
 
-    public function withAvgOpponentRating(int $opponentRating): self
+    public function withAvgOpponentRating(float $opponentRating): self
     {
         $this->avgOpponentRating = $opponentRating;
 
@@ -61,7 +61,13 @@ class CalculationService
 
         $teamScoreResult = ($this->teamScoreResult + 1) / 2;
 
-        $ratingChange = $type->getLearningRate() * ($teamScoreResult - $expectedWinProbability);
+        $learningRate = self::PLAYER_RATING_LEARNING_RATE;
+
+        if ($type === RatingType::event) {
+            $learningRate = self::EVENT_RATING_LEARNING_RATE;
+        }
+
+        $ratingChange = $learningRate * ($teamScoreResult - $expectedWinProbability);
 
         if ($ratingChange > 0) {
             return (int) floor($ratingChange);

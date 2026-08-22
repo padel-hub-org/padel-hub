@@ -5,6 +5,7 @@ namespace App\Services;
 use App\Enums\RatingType;
 use App\Models\Event;
 use App\Models\EventPlayer;
+use App\Models\Game;
 use App\Models\Player;
 use Illuminate\Support\Facades\DB;
 
@@ -55,22 +56,23 @@ class RatingService
     }
 
     /**
-     * @param  array<int, int>  $playerRatings
+     * @param  array<int, int>  $ratings
      * @return array<int, int>
      */
-    private function calculateRatings(array $playerRatings, RatingType $ratingType): array
+    private function calculateRatings(array $ratings, RatingType $ratingType): array
     {
         $games = $this->event->games()->with('gamePlayers')->orderBy('round')->get();
 
+        /** @var Game $game */
         foreach ($games as $game) {
             $gamePlayers = $game->gamePlayers;
 
-            $gamePlayerRatings = $playerRatings;
+            $gameRatings = $ratings;
 
             foreach ($gamePlayers as $gamePlayer) {
                 if ($ratingType === RatingType::event) {
                     $game->players()->updateExistingPivot($gamePlayer->player_id, [
-                        'previous_event_rating' => $gamePlayerRatings[$gamePlayer->player_id],
+                        'previous_event_rating' => $gameRatings[$gamePlayer->player_id],
                     ]);
                 }
 
@@ -85,10 +87,7 @@ class RatingService
                 $opponentPoints = $opponents->first()?->points;
 
                 $opponentPlayerIds = $opponents->pluck('player_id');
-                $avgOpponentRating = (int) round(
-                    $opponentPlayerIds->map(fn ($id) => $gamePlayerRatings[$id] ?? 0)
-                        ->avg()
-                );
+                $avgOpponentRating = $opponentPlayerIds->map(fn ($id) => $gameRatings[$id] ?? 0)->avg();
 
                 $calculator = new CalculationService;
 
@@ -96,14 +95,14 @@ class RatingService
                     ->withResult($gamePlayer->result)
                     ->withPoints($gamePlayer->points, $opponentPoints)
                     ->withAvgOpponentRating($avgOpponentRating)
-                    ->withRatings($gamePlayerRatings[$gamePlayer->player_id] ?? 0, $gamePlayerRatings[$gamePlayer->partner_id] ?? 0);
+                    ->withRatings($gameRatings[$gamePlayer->player_id] ?? 0, $gameRatings[$gamePlayer->partner_id] ?? 0);
 
                 $ratingChange = $calculator->getRatingChange($ratingType);
 
-                $playerRatings[$gamePlayer->player_id] += $ratingChange;
+                $ratings[$gamePlayer->player_id] += $ratingChange;
             }
         }
 
-        return $playerRatings;
+        return $ratings;
     }
 }

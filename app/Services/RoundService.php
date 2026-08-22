@@ -3,6 +3,7 @@
 namespace App\Services;
 
 use App\Models\Event;
+use App\Models\EventPlayer;
 use App\Models\GamePlayer;
 use App\Models\Player;
 use Illuminate\Database\Eloquent\Builder;
@@ -54,6 +55,10 @@ class RoundService
     public function generateNewRound(): int
     {
         $players = $this->getPlayingPlayers();
+
+        if ($this->event->players()->wherePivot('start_rating', 0)->exists()) {
+            $this->updateInitialRatings();
+        }
 
         for ($i = 0; $i < $this->courtCount; $i++) {
             $courtPlayers = $players->splice(0, 4);
@@ -183,5 +188,22 @@ class RoundService
             ->inRandomOrder()
             ->limit($pausePlayersCount)
             ->get();
+    }
+
+    public function updateInitialRatings(): void
+    {
+        $currentRating = 1500 - ($this->playersCount / 2) * 5;
+
+        /** @var Collection<int, EventPlayer> $players */
+        $players = $this->event->players()->orderBy('rating')->get();
+
+        foreach ($players as $player) {
+            $this->event->players()->updateExistingPivot($player->id, [
+                'start_rating' => $currentRating,
+                'event_rating' => $currentRating,
+            ]);
+
+            $currentRating += 5;
+        }
     }
 }

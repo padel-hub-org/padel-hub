@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Enums\Result;
 use App\Models\Event;
+use App\Services\RoundService;
 use Illuminate\Database\Eloquent\Builder;
 use Inertia\Inertia;
 use Inertia\Response;
@@ -15,6 +16,11 @@ class EventLeaderboardController extends Controller
      */
     public function index(Event $event): Response
     {
+        if ($event->players()->wherePivot('start_rating', 0)->exists()) {
+            $roundService = new RoundService($event);
+            $roundService->updateInitialRatings();
+        }
+
         $players = $event->players()
             ->withCount([
                 'games' => function (Builder $query) use ($event) {

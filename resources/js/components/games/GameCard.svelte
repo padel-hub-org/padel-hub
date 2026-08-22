@@ -59,7 +59,7 @@
 
         const eventRating = player.pivot.previous_event_rating ?? 0;
 
-        if (!team1[0]?.pivot.points) {
+        if (team1[0]?.pivot.points === null) {
             return eventRating.toString();
         }
 
