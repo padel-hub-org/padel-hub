@@ -10,10 +10,10 @@
         game: Game;
         event: Event;
         getEventRatingChange: (playerId: number) => number;
-        debug: boolean;
+        showRatings: boolean;
     }
 
-    const { game, event, getEventRatingChange, debug }: Props = $props();
+    const { game, event, getEventRatingChange, showRatings }: Props = $props();
 
     let dialogOpen = $state(false);
 
@@ -59,7 +59,11 @@
 
         const eventRating = player.pivot.previous_event_rating ?? 0;
 
-        return `${eventRating + ratingChange} (${ratingChangeString})`;
+        if (team1[0]?.pivot.points === null) {
+            return eventRating.toString();
+        }
+
+        return `${eventRating} (${ratingChangeString})`;
     };
 </script>
 
@@ -76,7 +80,7 @@
                             height="1.5rem"
                         ></iconify-icon>
                         {player.name}
-                        {#if debug}
+                        {#if showRatings}
                             <span class="prev-rating">
                                 {getEventRatingString(player)}
                             </span>
@@ -110,7 +114,7 @@
                             height="1.5rem"
                         ></iconify-icon>
 
-                        {#if debug}
+                        {#if showRatings}
                             <span class="prev-rating">
                                 {getEventRatingString(player)}
                             </span>

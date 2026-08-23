@@ -55,6 +55,8 @@ class RoundService
     {
         $players = $this->getPlayingPlayers();
 
+        RatingService::event($this->event)->ensureInitialRatings();
+
         for ($i = 0; $i < $this->courtCount; $i++) {
             $courtPlayers = $players->splice(0, 4);
 

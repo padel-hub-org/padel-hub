@@ -8,10 +8,13 @@
     import type { Snippet } from "svelte";
     import leaderboard from "@/routes/events/leaderboard";
     import dayjs from "dayjs";
+    import Checkbox from "@/lib/components/ui/checkbox/checkbox.svelte";
+    import Label from "@/lib/components/ui/label/label.svelte";
 
     export interface Props {
         event: Event;
         title: string;
+        showRatings?: boolean;
         children: Snippet;
     }
     interface TabRoutes {
@@ -19,7 +22,7 @@
         games: string;
         leaderboard: string;
     }
-    let { children, event, title }: Props = $props();
+    let { children, event, title, showRatings }: Props = $props();
 
     const tabRoutes: TabRoutes = $derived.by(() => ({
         settings: settings.index(event).url,
@@ -77,6 +80,25 @@
 <div class="event-layout">
     <header>
         <h1>{title}</h1>
+        {#if tab === "games"}
+            <div class="show-ratings">
+                <Checkbox
+                    id="show-ratings"
+                    onCheckedChange={(value) => {
+                        router.visit(page.url, {
+                            data: {
+                                showRatings: value ? 1 : 0,
+                            },
+                            preserveState: false,
+                            replace: true,
+                            viewTransition: true,
+                        });
+                    }}
+                    checked={showRatings ? true : false}
+                ></Checkbox>
+                <Label for="show-ratings">Show ratings</Label>
+            </div>
+        {/if}
         <div class="start">
             <iconify-icon
                 icon="material-symbols:calendar-clock"
@@ -149,7 +171,7 @@
         margin-bottom: 2rem;
         grid-template-columns: 1fr auto;
         grid-template-areas:
-            "header ."
+            "header show-ratings"
             "start end";
         view-transition-name: event-header;
     }
@@ -158,6 +180,14 @@
         grid-area: header;
         font-size: var(--font-size-heading-1);
         font-weight: bold;
+    }
+
+    .show-ratings {
+        grid-area: show-ratings;
+        display: flex;
+        gap: 0.5rem;
+        align-items: center;
+        justify-self: end;
     }
 
     .event-date {
