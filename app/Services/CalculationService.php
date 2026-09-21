@@ -11,7 +11,7 @@ class CalculationService
 
     const int PLAYER_RATING_LEARNING_RATE = 10;
 
-    const int EVENT_RATING_LEARNING_RATE = 20;
+    const int EVENT_RATING_LEARNING_RATE = 30;
 
     const float OUTCOME_WEIGHT = 0.5;
 
