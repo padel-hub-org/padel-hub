@@ -7,6 +7,7 @@ use App\Models\GamePlayer;
 use App\Models\Player;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Collection;
+use Illuminate\Support\Collection as SupportCollection;
 use Illuminate\Support\Facades\DB;
 
 class RoundService
@@ -53,14 +54,14 @@ class RoundService
 
     public function generateNewRound(): int
     {
-        $players = $this->getPlayingPlayers();
-
         RatingService::event($this->event)->ensureInitialRatings();
+
+        $players = $this->getPlayingPlayers();
 
         for ($i = 0; $i < $this->courtCount; $i++) {
             $courtPlayers = $players->splice(0, 4);
 
-            /** @var \Illuminate\Support\Collection<int, \Illuminate\Support\Collection<int, int>> $history */
+            /** @var SupportCollection<int, SupportCollection<int, int>> $history */
             $history = GamePlayer::query()
                 ->join('games', 'game_player.game_id', '=', 'games.id')
                 ->where('games.event_id', $this->event->id)
@@ -127,10 +128,10 @@ class RoundService
 
     /**
      * @param  array<int, array{team1: array{player1: Player, player2: Player}, team2: array{player1: Player, player2: Player}}>  $potentialGames
-     * @param  \Illuminate\Support\Collection<int, \Illuminate\Support\Collection<int, int>>  $history
+     * @param  SupportCollection<int, SupportCollection<int, int>>  $history
      * @return array{team1: array{player1: Player, player2: Player}, team2: array{player1: Player, player2: Player}}
      */
-    private function findBestTeams(array $potentialGames, \Illuminate\Support\Collection $history): array
+    private function findBestTeams(array $potentialGames, SupportCollection $history): array
     {
         $bestGame = null;
         $lowestScore = PHP_INT_MAX;
@@ -160,30 +161,85 @@ class RoundService
         $pausePlayers = $this->getPlayersPausedThisRound();
 
         return $this->event->players()
-            ->wherePivot('disabled_at', null)
-            ->whereNotIn('players.id', $pausePlayers->pluck('id'))
+            ->whereNotIn('players.id', $pausePlayers)
             ->orderByPivot('event_rating', 'desc')
             ->get();
     }
 
     /**
-     * @return Collection<int, Player>
+     * @return SupportCollection<int, int>
      */
-    private function getPlayersPausedThisRound(): Collection
+    private function getPlayersPausedThisRound(): SupportCollection
     {
         $capacity = $this->courtCount * 4;
         $pausePlayersCount = $this->playersCount - $capacity;
 
-        return $this->event->players()
-            ->wherePivot('disabled_at', null)
+        $pauseCandidateIds = $this->event->players()
+            ->pluck('player_id');
+
+        if ($this->round > 1) {
+            $pauseCandidateIds = $this->event->games()
+                ->where('round', $this->round - 1)
+                ->with('gamePlayers')
+                ->get()
+                ->pluck('gamePlayers')
+                ->flatten()
+                ->pluck('player_id');
+        }
+
+        /** @var Collection<int, Player> $pauseCandidates */
+        $pauseCandidates = $this->event->players()
+            ->WhereIn('player_id', $pauseCandidateIds)
+            ->withPivot('event_rating')
             ->withCount([
                 'games' => function (Builder $query) {
                     $query->where('games.event_id', $this->event->id);
                 },
             ])
             ->orderByDesc('games_count')
-            ->inRandomOrder()
-            ->limit($pausePlayersCount)
+            ->orderByDesc('event_rating')
             ->get();
+
+        $groupedByGames = $pauseCandidates->groupBy('games_count');
+
+        /** @var SupportCollection<int, int> $selectedPlayers */
+        $selectedPlayers = collect();
+
+        foreach ($groupedByGames as $players) {
+            $morePauseCount = $pausePlayersCount - $selectedPlayers->count();
+
+            if ($morePauseCount <= 0) {
+                break;
+            }
+
+            if ($players->count() <= $morePauseCount) {
+                $selectedPlayers = $selectedPlayers->concat($players->pluck('id'));
+
+                continue;
+            }
+
+            $playersPerGroup = (int) floor($players->count() / $morePauseCount);
+            $remainingPlayers = $players->count() % $morePauseCount;
+
+            $group = 0;
+            $groupEnd = -1;
+
+            while ($group < $morePauseCount) {
+                $groupStart = $groupEnd + 1;
+                $groupEnd = $groupStart + $playersPerGroup - 1;
+
+                if ($remainingPlayers > 0) {
+                    $groupEnd++;
+                    $remainingPlayers--;
+                }
+
+                $playerIndex = rand($groupStart, $groupEnd);
+                $selectedPlayers->add($players[$playerIndex]->id);
+
+                $group++;
+            }
+        }
+
+        return $selectedPlayers;
     }
 }
