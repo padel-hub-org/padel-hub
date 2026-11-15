@@ -3,7 +3,6 @@
 namespace App\Services;
 
 use App\Models\Event;
-use App\Models\EventPlayer;
 use App\Models\GamePlayer;
 use App\Models\Player;
 use Illuminate\Database\Eloquent\Builder;
@@ -62,7 +61,7 @@ class RoundService
         for ($i = 0; $i < $this->courtCount; $i++) {
             $courtPlayers = $players->splice(0, 4);
 
-            /** @var \Illuminate\Support\Collection<int, \Illuminate\Support\Collection<int, int>> $history */
+            /** @var SupportCollection<int, SupportCollection<int, int>> $history */
             $history = GamePlayer::query()
                 ->join('games', 'game_player.game_id', '=', 'games.id')
                 ->where('games.event_id', $this->event->id)
@@ -72,7 +71,7 @@ class RoundService
                 ->groupBy('game_player.player_id', 'game_player.partner_id')
                 ->get()
                 ->groupBy('player_id')
-                ->map(fn($items) => $items->pluck('count', 'partner_id'));
+                ->map(fn ($items) => $items->pluck('count', 'partner_id'));
 
             // Ordered by most prefered combinations: (0,2) vs (1,3)
             $potentialGames = [
@@ -129,10 +128,10 @@ class RoundService
 
     /**
      * @param  array<int, array{team1: array{player1: Player, player2: Player}, team2: array{player1: Player, player2: Player}}>  $potentialGames
-     * @param  \Illuminate\Support\Collection<int, \Illuminate\Support\Collection<int, int>>  $history
+     * @param  SupportCollection<int, SupportCollection<int, int>>  $history
      * @return array{team1: array{player1: Player, player2: Player}, team2: array{player1: Player, player2: Player}}
      */
-    private function findBestTeams(array $potentialGames, \Illuminate\Support\Collection $history): array
+    private function findBestTeams(array $potentialGames, SupportCollection $history): array
     {
         $bestGame = null;
         $lowestScore = PHP_INT_MAX;
@@ -176,7 +175,7 @@ class RoundService
         $pausePlayersCount = $this->playersCount - $capacity;
 
         $pauseCandidateIds = $this->event->players()
-            ->pluck("player_id");
+            ->pluck('player_id');
 
         if ($this->round > 1) {
             $pauseCandidateIds = $this->event->games()
@@ -185,23 +184,23 @@ class RoundService
                 ->get()
                 ->pluck('gamePlayers')
                 ->flatten()
-                ->pluck("player_id");
+                ->pluck('player_id');
         }
 
         /** @var Collection<int, Player> $pauseCandidates */
         $pauseCandidates = $this->event->players()
             ->WhereIn('player_id', $pauseCandidateIds)
-            ->withPivot("event_rating")
+            ->withPivot('event_rating')
             ->withCount([
                 'games' => function (Builder $query) {
                     $query->where('games.event_id', $this->event->id);
                 },
             ])
-            ->orderByDesc("games_count")
+            ->orderByDesc('games_count')
             ->orderByDesc('event_rating')
             ->get();
 
-        $groupedByGames = $pauseCandidates->groupBy("games_count");
+        $groupedByGames = $pauseCandidates->groupBy('games_count');
 
         /** @var SupportCollection<int, int> $selectedPlayers */
         $selectedPlayers = collect();
@@ -212,9 +211,10 @@ class RoundService
             if ($morePauseCount <= 0) {
                 break;
             }
- 
+
             if ($players->count() <= $morePauseCount) {
-                $selectedPlayers = $selectedPlayers->concat($players->pluck("id"));
+                $selectedPlayers = $selectedPlayers->concat($players->pluck('id'));
+
                 continue;
             }
 
@@ -231,8 +231,8 @@ class RoundService
                 if ($remainingPlayers > 0) {
                     $groupEnd++;
                     $remainingPlayers--;
-                };
-                
+                }
+
                 $playerIndex = rand($groupStart, $groupEnd);
                 $selectedPlayers->add($players[$playerIndex]->id);
 
