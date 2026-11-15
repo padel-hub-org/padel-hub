@@ -3,10 +3,12 @@
 namespace App\Services;
 
 use App\Models\Event;
+use App\Models\EventPlayer;
 use App\Models\GamePlayer;
 use App\Models\Player;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Collection;
+use Illuminate\Support\Collection as SupportCollection;
 use Illuminate\Support\Facades\DB;
 
 class RoundService
@@ -53,9 +55,9 @@ class RoundService
 
     public function generateNewRound(): int
     {
-        $players = $this->getPlayingPlayers();
-
         RatingService::event($this->event)->ensureInitialRatings();
+
+        $players = $this->getPlayingPlayers();
 
         for ($i = 0; $i < $this->courtCount; $i++) {
             $courtPlayers = $players->splice(0, 4);
@@ -70,7 +72,7 @@ class RoundService
                 ->groupBy('game_player.player_id', 'game_player.partner_id')
                 ->get()
                 ->groupBy('player_id')
-                ->map(fn ($items) => $items->pluck('count', 'partner_id'));
+                ->map(fn($items) => $items->pluck('count', 'partner_id'));
 
             // Ordered by most prefered combinations: (0,2) vs (1,3)
             $potentialGames = [
@@ -160,30 +162,84 @@ class RoundService
         $pausePlayers = $this->getPlayersPausedThisRound();
 
         return $this->event->players()
-            ->wherePivot('disabled_at', null)
-            ->whereNotIn('players.id', $pausePlayers->pluck('id'))
+            ->whereNotIn('players.id', $pausePlayers)
             ->orderByPivot('event_rating', 'desc')
             ->get();
     }
 
     /**
-     * @return Collection<int, Player>
+     * @return SupportCollection<int, int>
      */
-    private function getPlayersPausedThisRound(): Collection
+    private function getPlayersPausedThisRound(): SupportCollection
     {
         $capacity = $this->courtCount * 4;
         $pausePlayersCount = $this->playersCount - $capacity;
 
-        return $this->event->players()
-            ->wherePivot('disabled_at', null)
+        $pauseCandidateIds = $this->event->players()
+            ->pluck("player_id");
+
+        if ($this->round > 1) {
+            $pauseCandidateIds = $this->event->games()
+                ->where('round', $this->round - 1)
+                ->with('gamePlayers')
+                ->get()
+                ->pluck('gamePlayers')
+                ->flatten()
+                ->pluck("player_id");
+        }
+
+        /** @var Collection<int, Player> $pauseCandidates */
+        $pauseCandidates = $this->event->players()
+            ->WhereIn('player_id', $pauseCandidateIds)
+            ->withPivot("event_rating")
             ->withCount([
                 'games' => function (Builder $query) {
                     $query->where('games.event_id', $this->event->id);
                 },
             ])
-            ->orderByDesc('games_count')
-            ->inRandomOrder()
-            ->limit($pausePlayersCount)
+            ->orderByDesc("games_count")
+            ->orderByDesc('event_rating')
             ->get();
+
+        $groupedByGames = $pauseCandidates->groupBy("games_count");
+
+        /** @var SupportCollection<int, int> $selectedPlayers */
+        $selectedPlayers = collect();
+
+        foreach ($groupedByGames as $players) {
+            $morePauseCount = $pausePlayersCount - $selectedPlayers->count();
+
+            if ($morePauseCount <= 0) {
+                break;
+            }
+ 
+            if ($players->count() <= $morePauseCount) {
+                $selectedPlayers = $selectedPlayers->concat($players->pluck("id"));
+                continue;
+            }
+
+            $playersPerGroup = (int) floor($players->count() / $morePauseCount);
+            $remainingPlayers = $players->count() % $morePauseCount;
+
+            $group = 0;
+            $groupEnd = -1;
+
+            while ($group < $morePauseCount) {
+                $groupStart = $groupEnd + 1;
+                $groupEnd = $groupStart + $playersPerGroup - 1;
+
+                if ($remainingPlayers > 0) {
+                    $groupEnd++;
+                    $remainingPlayers--;
+                };
+                
+                $playerIndex = rand($groupStart, $groupEnd);
+                $selectedPlayers->add($players[$playerIndex]->id);
+
+                $group++;
+            }
+        }
+
+        return $selectedPlayers;
     }
 }
