@@ -31,11 +31,11 @@
         "vite": "^8.3.8"
     },
     "dependencies": {
-        "@inertiajs/svelte": "^3.1.1",
-        "@inertiajs/vite": "^3.1.1",
-        "dayjs": "^1.11.20",
+        "@inertiajs/svelte": "^3.11.0",
+        "@inertiajs/vite": "^3.11.0",
+        "dayjs": "^1.11.23",
         "lucide-svelte": "^1.0.1",
-        "iconify-icon": "^3.0.2",
+        "iconify-icon": "^3.0.5",
         "svelte": "^5.59.1",
         "typescript": "^6.0.3"
     }
