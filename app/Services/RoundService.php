@@ -197,7 +197,7 @@ class RoundService
                 },
             ])
             ->orderByDesc('games_count')
-            ->orderByDesc('event_rating')
+            ->orderBy('event_rating')
             ->get();
 
         $groupedByGames = $pauseCandidates->groupBy('games_count');
@@ -218,25 +218,25 @@ class RoundService
                 continue;
             }
 
-            $playersPerGroup = (int) floor($players->count() / $morePauseCount);
-            $remainingPlayers = $players->count() % $morePauseCount;
+            $playersPerBracket = (int) floor($players->count() / $morePauseCount);
+            $bracketOutliers = $players->count() % $morePauseCount;
 
-            $group = 0;
-            $groupEnd = -1;
+            $bracketIterationCount = 0;
+            $bracketEnd = -1;
 
-            while ($group < $morePauseCount) {
-                $groupStart = $groupEnd + 1;
-                $groupEnd = $groupStart + $playersPerGroup - 1;
+            while ($bracketIterationCount < $morePauseCount) {
+                $bracketStart = $bracketEnd + 1;
+                $bracketEnd = $bracketStart + $playersPerBracket - 1;
 
-                if ($remainingPlayers > 0) {
-                    $groupEnd++;
-                    $remainingPlayers--;
+                if ($bracketOutliers > 0) {
+                    $bracketEnd++;
+                    $bracketOutliers--;
                 }
 
-                $playerIndex = rand($groupStart, $groupEnd);
+                $playerIndex = rand($bracketStart, $bracketEnd);
                 $selectedPlayers->add($players[$playerIndex]->id);
 
-                $group++;
+                $bracketIterationCount++;
             }
         }
 
