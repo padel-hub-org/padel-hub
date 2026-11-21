@@ -29,7 +29,7 @@ class UpdateGameRequest extends FormRequest
         $game = $this->route('game');
 
         return [
-            'pointsA' => ['required', 'integer', 'min:0', 'max:'.($game->event->game_points ?? 100)],
+            'pointsA' => ['required', 'integer', 'min:'.((int) $this->input('pointsB') === 0 ? 1 : 0), 'max:'.($game->event->game_points ?? 100)],
             'pointsB' => ['required', 'integer', 'min:0', 'max:'.($game->event->game_points ?? 100)],
             'playersA' => ['required', 'array', 'min:2', 'max:2'],
             'playersB' => ['required', 'array', 'min:2', 'max:2'],
