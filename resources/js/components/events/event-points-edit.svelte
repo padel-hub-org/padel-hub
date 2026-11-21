@@ -5,7 +5,7 @@
     import { Input } from "@/lib/components/ui/input";
 
     interface Props {
-        gamePoints: number;
+        gamePoints: number | null;
         error?: string | undefined;
     }
 
@@ -29,6 +29,10 @@
             >
             <Button variant="outline" onclick={() => (gamePoints = 21)}
                 >21</Button
+            >
+
+            <Button variant="outline" onclick={() => (gamePoints = null)}
+                >NA</Button
             >
         </ButtonGroup.Root>
     </div>

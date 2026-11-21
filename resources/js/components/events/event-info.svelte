@@ -63,7 +63,7 @@
                 Save
             </Button>
         {:else}
-            <p>{event.game_points} points per game</p>
+            <p>{event.game_points ?? "NA"} points per game</p>
             <Button
                 variant="outline"
                 class="event-info-button"

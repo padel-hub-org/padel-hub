@@ -28,9 +28,12 @@ class UpdateGameRequest extends FormRequest
         $game = $this->route('game');
 
         return [
-            'points' => ['required', 'integer', 'min:0', "max:{$game->event->game_points}"],
-            'players' => ['required', 'array', 'min:2', 'max:2'],
-            'players.*' => ['integer', Rule::exists('game_player', 'player_id')->where('game_id', $game->id)],
+            'pointsA' => ['required', 'integer', 'min:'.((int) $this->input('pointsB') === 0 ? 1 : 0), 'max:'.($game->event->game_points ?? 100)],
+            'pointsB' => ['required', 'integer', 'min:0', 'max:'.($game->event->game_points ?? 100)],
+            'playersA' => ['required', 'array', 'min:2', 'max:2'],
+            'playersB' => ['required', 'array', 'min:2', 'max:2'],
+            'playersA.*' => ['required', 'integer', Rule::exists('game_player', 'player_id')->where('game_id', $game->id)],
+            'playersB.*' => ['required', 'integer', Rule::exists('game_player', 'player_id')->where('game_id', $game->id)],
         ];
     }
 }

@@ -14,7 +14,7 @@ use Illuminate\Support\Carbon;
  * @property int $id
  * @property Carbon $starts_at
  * @property int $court_count
- * @property int $game_points
+ * @property int|null $game_points
  * @property Carbon|null $ended_at
  * @property Carbon|null $created_at
  * @property Carbon|null $updated_at

@@ -27,7 +27,7 @@ class StoreEventRequest extends FormRequest
             'starts_at_date' => ['required', 'date'],
             'starts_at_time' => ['required', 'string'],
             'court_count' => ['required', 'integer', 'min:1', 'max:64'],
-            'game_points' => ['required', 'integer', 'min:1', 'max:255'],
+            'game_points' => ['nullable', 'integer', 'min:1', 'max:255'],
         ];
     }
 }
