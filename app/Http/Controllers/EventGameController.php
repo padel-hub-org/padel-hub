@@ -129,30 +129,29 @@ class EventGameController extends Controller
 
         $data = $request->validated();
 
-        $selectedPlayers = $data['players'];
-        $selectedPoints = $data['points'];
-        $otherPoints = $game->event->game_points - $selectedPoints;
+        $playersA = $data['playersA'];
+        $playersB = $data['playersB'];
+        $pointsA = $data['pointsA'];
+        $pointsB = $data['pointsB'];
 
-        $selectedResult = match ($selectedPoints <=> $otherPoints) {
+        $resultA = match ($pointsA <=> $pointsB) {
             1 => Result::Win,
             0 => Result::Tie,
             -1 => Result::Loss,
         };
 
-        $otherResult = match ($selectedResult) {
+        $resultB = match ($resultA) {
             Result::Win => Result::Loss,
             Result::Loss => Result::Win,
             Result::Tie => Result::Tie,
         };
 
-        $otherPlayers = $game->players()->whereNotIn('player_id', $selectedPlayers)->get();
-
-        foreach ($selectedPlayers as $playerId) {
-            $game->players()->updateExistingPivot($playerId, ['points' => $selectedPoints, 'result' => $selectedResult]);
+        foreach ($playersA as $playerId) {
+            $game->players()->updateExistingPivot($playerId, ['points' => $pointsA, 'result' => $resultA]);
         }
 
-        foreach ($otherPlayers as $player) {
-            $game->players()->updateExistingPivot($player->id, ['points' => $otherPoints, 'result' => $otherResult]);
+        foreach ($playersB as $playerId) {
+            $game->players()->updateExistingPivot($playerId, ['points' => $pointsB, 'result' => $resultB]);
         }
 
         RatingService::event($event)->calculateEventRatings();

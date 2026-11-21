@@ -24,7 +24,7 @@ class UpdateEventRequest extends FormRequest
     {
         return [
             'court_count' => ['integer', 'min:1', 'max:64'],
-            'game_points' => ['integer', 'min:1', 'max:255'],
+            'game_points' => ['nullable', 'integer', 'min:1', 'max:255'],
         ];
     }
 }
