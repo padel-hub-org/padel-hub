@@ -29,6 +29,8 @@
     $effect(() => {
         if (isOpen) {
             selectedPointsA = null;
+            selectedPointsB = null;
+            selectedPoints = null;
         }
     });
 
