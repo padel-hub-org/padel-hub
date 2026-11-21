@@ -161,6 +161,7 @@ class RoundService
         $pausePlayers = $this->getPlayersPausedThisRound();
 
         return $this->event->players()
+            ->wherePivot('disabled_at', null)
             ->whereNotIn('players.id', $pausePlayers)
             ->orderByPivot('event_rating', 'desc')
             ->get();
@@ -189,6 +190,7 @@ class RoundService
 
         /** @var Collection<int, Player> $pauseCandidates */
         $pauseCandidates = $this->event->players()
+            ->wherePivot('disabled_at', null)
             ->WhereIn('player_id', $pauseCandidateIds)
             ->withPivot('event_rating')
             ->withCount([
