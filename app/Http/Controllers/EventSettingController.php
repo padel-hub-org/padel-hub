@@ -20,7 +20,7 @@ class EventSettingController extends Controller
                 'courts',
                 'players' => function ($query) {
                     $query->orderBy('name');
-                }
+                },
             ]),
         ]);
     }

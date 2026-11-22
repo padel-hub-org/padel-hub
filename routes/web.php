@@ -1,8 +1,8 @@
 <?php
 
 use App\Http\Controllers\AuthController;
-use App\Http\Controllers\EventController;
 use App\Http\Controllers\CourtController;
+use App\Http\Controllers\EventController;
 use App\Http\Controllers\EventGameController;
 use App\Http\Controllers\EventLeaderboardController;
 use App\Http\Controllers\EventPlayerController;

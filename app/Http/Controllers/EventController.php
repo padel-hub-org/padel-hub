@@ -4,8 +4,8 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\StoreEventRequest;
 use App\Http\Requests\UpdateEventRequest;
-use App\Models\Event;
 use App\Models\Court;
+use App\Models\Event;
 use App\Models\Player;
 use App\Services\RatingService;
 use Carbon\Carbon;
@@ -54,7 +54,7 @@ class EventController extends Controller
         ]);
 
         $courts = [];
-        for ($i=0; $i < $event->court_count; $i++) {
+        for ($i = 0; $i < $event->court_count; $i++) {
             $courts[] = new Court;
         }
         $event->courts()->saveMany($courts);

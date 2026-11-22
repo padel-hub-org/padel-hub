@@ -13,7 +13,6 @@
     import { Form, type InertiaFormProps } from "@inertiajs/svelte";
     import { endEvent } from "@/actions/App/Http/Controllers/EventController";
     import type { Player } from "@/types/Player";
-    import courts from "@/routes/courts";
 
     interface Props {
         games: Game[];

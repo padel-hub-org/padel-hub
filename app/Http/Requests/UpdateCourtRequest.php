@@ -23,7 +23,7 @@ class UpdateCourtRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'name' => ['nullable', 'string', 'max:2']
+            'name' => ['nullable', 'string', 'max:2'],
         ];
     }
 }

@@ -1,7 +1,7 @@
 import { queryParams, type RouteQueryOptions, type RouteDefinition, applyUrlDefaults } from './../../../../wayfinder'
 /**
 * @see \App\Http\Controllers\CourtController::update
-* @see app/Http/Controllers/CourtController.php:13
+* @see app/Http/Controllers/CourtController.php:14
 * @route '/courts/{court}'
 */
 export const update = (args: { court: number | { id: number } } | [court: number | { id: number } ] | number | { id: number }, options?: RouteQueryOptions): RouteDefinition<'put'> => ({
@@ -16,7 +16,7 @@ update.definition = {
 
 /**
 * @see \App\Http\Controllers\CourtController::update
-* @see app/Http/Controllers/CourtController.php:13
+* @see app/Http/Controllers/CourtController.php:14
 * @route '/courts/{court}'
 */
 update.url = (args: { court: number | { id: number } } | [court: number | { id: number } ] | number | { id: number }, options?: RouteQueryOptions) => {
@@ -49,7 +49,7 @@ update.url = (args: { court: number | { id: number } } | [court: number | { id: 
 
 /**
 * @see \App\Http\Controllers\CourtController::update
-* @see app/Http/Controllers/CourtController.php:13
+* @see app/Http/Controllers/CourtController.php:14
 * @route '/courts/{court}'
 */
 update.put = (args: { court: number | { id: number } } | [court: number | { id: number } ] | number | { id: number }, options?: RouteQueryOptions): RouteDefinition<'put'> => ({
@@ -59,7 +59,7 @@ update.put = (args: { court: number | { id: number } } | [court: number | { id: 
 
 /**
 * @see \App\Http\Controllers\CourtController::update
-* @see app/Http/Controllers/CourtController.php:13
+* @see app/Http/Controllers/CourtController.php:14
 * @route '/courts/{court}'
 */
 update.patch = (args: { court: number | { id: number } } | [court: number | { id: number } ] | number | { id: number }, options?: RouteQueryOptions): RouteDefinition<'patch'> => ({

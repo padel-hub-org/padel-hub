@@ -57,7 +57,6 @@ class Event extends Model
         return $this->hasMany(Game::class);
     }
 
-
     /**
      * @return HasMany<Court, $this>
      */
