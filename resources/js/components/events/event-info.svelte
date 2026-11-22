@@ -1,13 +1,20 @@
 <script lang="ts">
+    import { Field, Label } from "@/lib/components/ui/field";
+    import Input from "@/lib/components/ui/input/input.svelte";
     import { Button } from "@/lib/components/ui/button";
     import { update } from "@/routes/events";
+    import { update as updateCourt } from "@/routes/courts";
     import type { Event } from "@/types/Event";
-    import { router } from "@inertiajs/svelte";
+    import { Form, router, type InertiaFormProps } from "@inertiajs/svelte";
     import EventPointsEdit from "./event-points-edit.svelte";
 
     interface Props {
         event: Event;
     }
+
+    type FormFields = {
+        name: string | null;
+    };
 
     const { event }: Props = $props();
 
@@ -52,6 +59,26 @@
             <iconify-icon icon="mdi-plus"></iconify-icon>
             Add
         </Button>
+    </div>
+    <div>
+        {#each event.courts as court, index}
+            <Form action={updateCourt(court)}>
+                {#snippet children({ submit }: InertiaFormProps<FormFields>)}
+                    <div>
+                        <Field>
+                            <Label>Court {index + 1}</Label>
+
+                            <Input
+                                type="text"
+                                name="name"
+                                bind:value={court.name}
+                                onchange={() => submit()}
+                            />
+                        </Field>
+                    </div>
+                {/snippet}
+            </Form>
+        {/each}
     </div>
     <div class="event-points">
         {#if isEditingPoints}

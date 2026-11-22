@@ -57,6 +57,15 @@ class Event extends Model
         return $this->hasMany(Game::class);
     }
 
+
+    /**
+     * @return HasMany<Court, $this>
+     */
+    public function courts(): HasMany
+    {
+        return $this->hasMany(Court::class)->orderBy('id');
+    }
+
     /**
      * @return BelongsToMany<Player, $this, EventPlayer>
      */

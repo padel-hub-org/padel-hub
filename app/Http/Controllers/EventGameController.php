@@ -70,7 +70,7 @@ class EventGameController extends Controller
                 })
                 ->orderBy('name')
                 ->get(),
-            'event' => $event,
+            'event' => $event->load('courts'),
             'round' => $round,
             'maxRound' => $maxRound,
         ]);

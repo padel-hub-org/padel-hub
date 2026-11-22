@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\EventController;
+use App\Http\Controllers\CourtController;
 use App\Http\Controllers\EventGameController;
 use App\Http\Controllers\EventLeaderboardController;
 use App\Http\Controllers\EventPlayerController;
@@ -21,6 +22,7 @@ Route::middleware('guest')->group(function () {
 Route::middleware('auth')->group(function () {
     Route::resource('players', PlayerController::class);
     Route::resource('events', EventController::class);
+    Route::resource('courts', CourtController::class)->only('update');
     Route::name('events.players.disabled')->put('/events/{event}/players/{player}/disabled', [EventController::class, 'setDisabled'])->withTrashed();
     Route::name('events.endEvent')->put('/events/{event}/end', [EventController::class, 'endEvent']);
     Route::resource('events.players', EventPlayerController::class)->withTrashed(['destroy']);

@@ -1,5 +1,6 @@
 import type { EventPlayer } from "./EventPlayer";
 import type { Game } from "./Game";
+import type { Court } from "./Court";
 
 export interface Event {
     id: number;
@@ -14,4 +15,5 @@ export interface Event {
 
     games?: Game[];
     players?: EventPlayer[];
+    courts?: Court[];
 }

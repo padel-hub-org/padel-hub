@@ -13,6 +13,7 @@
     import { Form, type InertiaFormProps } from "@inertiajs/svelte";
     import { endEvent } from "@/actions/App/Http/Controllers/EventController";
     import type { Player } from "@/types/Player";
+    import courts from "@/routes/courts";
 
     interface Props {
         games: Game[];
@@ -107,8 +108,14 @@
             <p>No games yet</p>
         {/if}
 
-        {#each games as game (game.id)}
-            <GameCard {game} {event} {getEventRatingChange} {showRatings} />
+        {#each games as game, index (game.id)}
+            <GameCard
+                {game}
+                {event}
+                {getEventRatingChange}
+                {showRatings}
+                courtName={event?.courts?.[index]?.name ?? null}
+            />
         {/each}
     </div>
 
