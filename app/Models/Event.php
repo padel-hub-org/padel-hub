@@ -79,22 +79,6 @@ class Event extends Model
     }
 
     /**
-     * @return Attribute<int, int>
-     */
-    // protected function courtCount(): Attribute
-    // {
-    //     return Attribute::make(
-    //         get: function ($oldCourtCount) {
-    //             $courtCount = $this->courts()->count();
-    //             if ($courtCount === 0) {
-    //                 return $oldCourtCount;
-    //             }
-    //             return $courtCount;
-    //         }
-    //     );
-    // }
-
-    /**
      * Get the attributes that should be cast.
      *
      * @return array<string, string>
