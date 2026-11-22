@@ -16,10 +16,8 @@ use Illuminate\Database\Eloquent\Relations\Pivot;
  * @property int $previous_event_rating
  * @property int|null $points
  * @property Result|null $result
- * @property-read mixed $average_opponent_rating
+ * @property-read mixed $event_rating_change
  * @property-read Game|null $game
- * @property-read mixed $opponent_points
- * @property-read mixed $partner_rating
  * @property-read Player|null $player
  *
  * @method static \Illuminate\Database\Eloquent\Builder<static>|GamePlayer newModelQuery()
@@ -33,8 +31,6 @@ use Illuminate\Database\Eloquent\Relations\Pivot;
  * @method static \Illuminate\Database\Eloquent\Builder<static>|GamePlayer wherePreviousEventRating($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|GamePlayer wherePreviousPlayerRating($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|GamePlayer whereResult($value)
- *
- * @property-read mixed $event_rating_change
  *
  * @mixin \Eloquent
  */

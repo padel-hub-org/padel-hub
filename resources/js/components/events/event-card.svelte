@@ -33,7 +33,7 @@
             <h2>{dayjs(event.starts_at).calendar()}</h2>
         </div>
 
-        <p class="courts">{event.court_count} courts</p>
+        <p class="courts">{event.courts_count} courts</p>
         <p class="players">{event.players_count} players</p>
 
         {#if event.ended_at !== null}

@@ -3,7 +3,11 @@
     import Input from "@/lib/components/ui/input/input.svelte";
     import { Button } from "@/lib/components/ui/button";
     import { update } from "@/routes/events";
-    import { update as updateCourt } from "@/routes/courts";
+    import {
+        update as updateCourt,
+        store as storeCourt,
+        destroy as destroyCourt,
+    } from "@/routes/courts";
     import type { Event } from "@/types/Event";
     import { Form, router, type InertiaFormProps } from "@inertiajs/svelte";
     import EventPointsEdit from "./event-points-edit.svelte";
@@ -21,12 +25,6 @@
     let isEditingPoints = $state(false);
     let editedPoints = $state(event.game_points);
 
-    const changeCourts = (newCount: number) => {
-        router.patch(update(event), {
-            court_count: newCount,
-        });
-    };
-
     const savePoints = () => {
         router.patch(
             update(event),
@@ -42,19 +40,13 @@
 
 <div class="event-info">
     <div class="event-courts">
-        <p>{event.court_count} courts</p>
+        <p>{event.courts_count} courts</p>
         <Button
             variant="outline"
             class="event-info-button"
-            onclick={() => changeCourts(event.court_count - 1)}
-        >
-            <iconify-icon icon="mdi-minus"></iconify-icon>
-            Remove
-        </Button>
-        <Button
-            variant="outline"
-            class="event-info-button"
-            onclick={() => changeCourts(event.court_count + 1)}
+            onclick={() => {
+                router.post(storeCourt(), { event_id: event.id });
+            }}
         >
             <iconify-icon icon="mdi-plus"></iconify-icon>
             Add
@@ -64,7 +56,7 @@
         {#each event.courts as court, index}
             <Form action={updateCourt(court)}>
                 {#snippet children({ submit }: InertiaFormProps<FormFields>)}
-                    <div>
+                    <div class="court">
                         <Field>
                             <Label>Court {index + 1}</Label>
 
@@ -75,6 +67,18 @@
                                 onchange={() => submit()}
                             />
                         </Field>
+
+                        <div>
+                            <Button
+                                variant="outline"
+                                class="event-info-button"
+                                onclick={() =>
+                                    router.delete(destroyCourt(court))}
+                            >
+                                <iconify-icon icon="mdi-minus"></iconify-icon>
+                                Remove
+                            </Button>
+                        </div>
                     </div>
                 {/snippet}
             </Form>
@@ -120,7 +124,7 @@
 
     .event-courts {
         display: grid;
-        grid-template-columns: 1fr auto auto;
+        grid-template-columns: 1fr auto;
         gap: 1rem;
         align-items: center;
     }
@@ -134,5 +138,11 @@
 
     .event-points :global(.save-button) {
         align-self: end;
+    }
+
+    .court {
+        display: flex;
+        align-items: end;
+        gap: 0.5rem;
     }
 </style>

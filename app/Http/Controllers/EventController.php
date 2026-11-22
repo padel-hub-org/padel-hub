@@ -25,7 +25,7 @@ class EventController extends Controller
             'events' => Inertia::scroll(
                 fn () => Event::query()
                     ->latest('starts_at')
-                    ->withCount('players')
+                    ->withCount('players', 'courts')
                     ->paginate()
             ),
         ]);
@@ -48,17 +48,15 @@ class EventController extends Controller
         $startsAt = Carbon::parse("{$request->validated('starts_at_date')} {$request->validated('starts_at_time')}", $request->validated('timezone'))->setTimezone('UTC');
 
         $event = Event::query()->create([
-            'court_count' => $request->validated('court_count'),
             'game_points' => $request->validated('game_points'),
             'starts_at' => $startsAt,
         ]);
 
         $courts = [];
-        for ($i = 0; $i < $event->court_count; $i++) {
+        for ($i = 0; $i < $request->validated('court_count'); $i++) {
             $courts[] = new Court;
         }
         $event->courts()->saveMany($courts);
-        $event->load('courts');
 
         Inertia::flash('toast', ['type' => 'success', 'message' => 'Event created successfully.']);
 

@@ -16,7 +16,7 @@ class EventSettingController extends Controller
         return Inertia::render('events/settings/index', [
             'title' => 'Settings',
             'backUrl' => route('events.index'),
-            'event' => $event->load([
+            'event' => $event->loadCount('courts')->load([
                 'courts',
                 'players' => function ($query) {
                     $query->orderBy('name');

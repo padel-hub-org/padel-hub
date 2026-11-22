@@ -30,7 +30,7 @@ class RoundService
             ->wherePivot('disabled_at', null)
             ->count();
 
-        $this->courtCount = min($this->event->court_count, floor($this->playersCount / 4));
+        $this->courtCount = min($this->event->courts()->count(), floor($this->playersCount / 4));
     }
 
     public static function event(Event $event): self

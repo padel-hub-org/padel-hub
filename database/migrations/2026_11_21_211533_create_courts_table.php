@@ -1,5 +1,6 @@
 <?php
 
+use App\Models\Court;
 use App\Models\Event;
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
@@ -18,6 +19,14 @@ return new class extends Migration
             $table->foreignIdFor(Event::class);
             $table->timestamps();
         });
+
+        foreach (Event::all() as $event) {
+            $courts = [];
+            for ($i = 0; $i < $event->getAttribute('court_count'); $i++) {
+                $courts[] = new Court;
+            }
+            $event->courts()->saveMany($courts);
+        }
     }
 
     /**

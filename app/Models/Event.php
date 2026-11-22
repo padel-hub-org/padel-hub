@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use Database\Factories\EventFactory;
+use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
@@ -13,11 +14,12 @@ use Illuminate\Support\Carbon;
 /**
  * @property int $id
  * @property Carbon $starts_at
- * @property int $court_count
  * @property int|null $game_points
  * @property Carbon|null $ended_at
  * @property Carbon|null $created_at
  * @property Carbon|null $updated_at
+ * @property-read Collection<int, Court> $courts
+ * @property-read int|null $courts_count
  * @property-read Collection<int, Game> $games
  * @property-read int|null $games_count
  * @property-read EventPlayer|null $pivot
@@ -45,7 +47,6 @@ class Event extends Model
 
     protected $fillable = [
         'starts_at',
-        'court_count',
         'game_points',
     ];
 
@@ -76,6 +77,22 @@ class Event extends Model
             ->withTimestamps()
             ->withPivot('disabled_at', 'event_rating', 'start_rating');
     }
+
+    /**
+     * @return Attribute<int, int>
+     */
+    // protected function courtCount(): Attribute
+    // {
+    //     return Attribute::make(
+    //         get: function ($oldCourtCount) {
+    //             $courtCount = $this->courts()->count();
+    //             if ($courtCount === 0) {
+    //                 return $oldCourtCount;
+    //             }
+    //             return $courtCount;
+    //         }
+    //     );
+    // }
 
     /**
      * Get the attributes that should be cast.
