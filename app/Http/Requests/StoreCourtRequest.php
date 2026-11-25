@@ -23,7 +23,7 @@ class StoreCourtRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'event_id' => ['required', 'integer'],
+            'event_id' => ['required', 'integer', 'exists:events,id'],
         ];
     }
 }

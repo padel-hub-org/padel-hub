@@ -55,7 +55,15 @@
     <div>
         {#each event.courts as court, index}
             <Form action={updateCourt(court)}>
-                {#snippet children({ submit }: InertiaFormProps<FormFields>)}
+                {#snippet children({
+                    submit,
+                    errors,
+                }: InertiaFormProps<FormFields>)}
+                    {#if errors.name}
+                        <p class="text-destructive" role="alert">
+                            {errors.name}
+                        </p>
+                    {/if}
                     <div class="court">
                         <Field>
                             <Label>Court {index + 1}</Label>
@@ -65,6 +73,7 @@
                                 name="name"
                                 bind:value={court.name}
                                 onchange={() => submit()}
+                                autocomplete="off"
                             />
                         </Field>
 

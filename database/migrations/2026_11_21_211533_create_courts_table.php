@@ -16,7 +16,7 @@ return new class extends Migration
         Schema::create('courts', function (Blueprint $table) {
             $table->id();
             $table->string('name')->nullable();
-            $table->foreignIdFor(Event::class);
+            $table->foreignIdFor(Event::class)->index();
             $table->timestamps();
         });
 

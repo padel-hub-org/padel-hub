@@ -6,6 +6,7 @@ use App\Http\Requests\StoreCourtRequest;
 use App\Http\Requests\UpdateCourtRequest;
 use App\Models\Court;
 use Illuminate\Http\RedirectResponse;
+use Inertia\Inertia;
 
 class CourtController extends Controller
 {
@@ -34,6 +35,12 @@ class CourtController extends Controller
      */
     public function destroy(Court $court): RedirectResponse
     {
+        if (Court::query()->where('event_id', $court->event_id)->count() <= 1) {
+            Inertia::flash('toast', ['type' => 'warning', 'message' => 'Must at least have one court.']);
+
+            return back();
+        }
+
         $court->delete();
 
         return back();

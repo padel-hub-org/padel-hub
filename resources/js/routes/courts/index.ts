@@ -1,7 +1,7 @@
 import { queryParams, type RouteQueryOptions, type RouteDefinition, applyUrlDefaults } from './../../wayfinder'
 /**
 * @see \App\Http\Controllers\CourtController::store
-* @see app/Http/Controllers/CourtController.php:25
+* @see app/Http/Controllers/CourtController.php:26
 * @route '/courts'
 */
 export const store = (options?: RouteQueryOptions): RouteDefinition<'post'> => ({
@@ -16,7 +16,7 @@ store.definition = {
 
 /**
 * @see \App\Http\Controllers\CourtController::store
-* @see app/Http/Controllers/CourtController.php:25
+* @see app/Http/Controllers/CourtController.php:26
 * @route '/courts'
 */
 store.url = (options?: RouteQueryOptions) => {
@@ -25,7 +25,7 @@ store.url = (options?: RouteQueryOptions) => {
 
 /**
 * @see \App\Http\Controllers\CourtController::store
-* @see app/Http/Controllers/CourtController.php:25
+* @see app/Http/Controllers/CourtController.php:26
 * @route '/courts'
 */
 store.post = (options?: RouteQueryOptions): RouteDefinition<'post'> => ({
@@ -35,7 +35,7 @@ store.post = (options?: RouteQueryOptions): RouteDefinition<'post'> => ({
 
 /**
 * @see \App\Http\Controllers\CourtController::update
-* @see app/Http/Controllers/CourtController.php:15
+* @see app/Http/Controllers/CourtController.php:16
 * @route '/courts/{court}'
 */
 export const update = (args: { court: number | { id: number } } | [court: number | { id: number } ] | number | { id: number }, options?: RouteQueryOptions): RouteDefinition<'put'> => ({
@@ -50,7 +50,7 @@ update.definition = {
 
 /**
 * @see \App\Http\Controllers\CourtController::update
-* @see app/Http/Controllers/CourtController.php:15
+* @see app/Http/Controllers/CourtController.php:16
 * @route '/courts/{court}'
 */
 update.url = (args: { court: number | { id: number } } | [court: number | { id: number } ] | number | { id: number }, options?: RouteQueryOptions) => {
@@ -83,7 +83,7 @@ update.url = (args: { court: number | { id: number } } | [court: number | { id: 
 
 /**
 * @see \App\Http\Controllers\CourtController::update
-* @see app/Http/Controllers/CourtController.php:15
+* @see app/Http/Controllers/CourtController.php:16
 * @route '/courts/{court}'
 */
 update.put = (args: { court: number | { id: number } } | [court: number | { id: number } ] | number | { id: number }, options?: RouteQueryOptions): RouteDefinition<'put'> => ({
@@ -93,7 +93,7 @@ update.put = (args: { court: number | { id: number } } | [court: number | { id: 
 
 /**
 * @see \App\Http\Controllers\CourtController::update
-* @see app/Http/Controllers/CourtController.php:15
+* @see app/Http/Controllers/CourtController.php:16
 * @route '/courts/{court}'
 */
 update.patch = (args: { court: number | { id: number } } | [court: number | { id: number } ] | number | { id: number }, options?: RouteQueryOptions): RouteDefinition<'patch'> => ({
@@ -103,7 +103,7 @@ update.patch = (args: { court: number | { id: number } } | [court: number | { id
 
 /**
 * @see \App\Http\Controllers\CourtController::destroy
-* @see app/Http/Controllers/CourtController.php:35
+* @see app/Http/Controllers/CourtController.php:36
 * @route '/courts/{court}'
 */
 export const destroy = (args: { court: number | { id: number } } | [court: number | { id: number } ] | number | { id: number }, options?: RouteQueryOptions): RouteDefinition<'delete'> => ({
@@ -118,7 +118,7 @@ destroy.definition = {
 
 /**
 * @see \App\Http\Controllers\CourtController::destroy
-* @see app/Http/Controllers/CourtController.php:35
+* @see app/Http/Controllers/CourtController.php:36
 * @route '/courts/{court}'
 */
 destroy.url = (args: { court: number | { id: number } } | [court: number | { id: number } ] | number | { id: number }, options?: RouteQueryOptions) => {
@@ -151,7 +151,7 @@ destroy.url = (args: { court: number | { id: number } } | [court: number | { id:
 
 /**
 * @see \App\Http\Controllers\CourtController::destroy
-* @see app/Http/Controllers/CourtController.php:35
+* @see app/Http/Controllers/CourtController.php:36
 * @route '/courts/{court}'
 */
 destroy.delete = (args: { court: number | { id: number } } | [court: number | { id: number } ] | number | { id: number }, options?: RouteQueryOptions): RouteDefinition<'delete'> => ({
