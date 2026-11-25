@@ -1,10 +1,11 @@
 import type { EventPlayer } from "./EventPlayer";
 import type { Game } from "./Game";
+import type { Court } from "./Court";
 
 export interface Event {
     id: number;
     starts_at: string;
-    court_count: number;
+    courts_count: number;
     game_points: number;
     ended_at: string | null;
     created_at: string;
@@ -14,4 +15,5 @@ export interface Event {
 
     games?: Game[];
     players?: EventPlayer[];
+    courts?: Court[];
 }

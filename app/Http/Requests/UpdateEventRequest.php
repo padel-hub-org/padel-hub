@@ -23,7 +23,6 @@ class UpdateEventRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'court_count' => ['integer', 'min:1', 'max:64'],
             'game_points' => ['nullable', 'integer', 'min:1', 'max:255'],
         ];
     }

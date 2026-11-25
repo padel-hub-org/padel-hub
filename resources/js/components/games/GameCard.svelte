@@ -11,9 +11,11 @@
         event: Event;
         getEventRatingChange: (playerId: number) => number;
         showRatings: boolean;
+        courtName: string | null;
     }
 
-    const { game, event, getEventRatingChange, showRatings }: Props = $props();
+    const { game, event, getEventRatingChange, showRatings, courtName }: Props =
+        $props();
 
     let dialogOpen = $state(false);
 
@@ -93,6 +95,8 @@
                         <p>{team1[0]?.pivot.points}</p>
                         <p>-</p>
                         <p>{team2[0]?.pivot.points}</p>
+                    {:else if courtName}
+                        <p class="court-name">{courtName}</p>
                     {:else}
                         <iconify-icon
                             class="court-icon"
@@ -216,6 +220,12 @@
         align-self: center;
         gap: 0.5rem;
         font-size: var(--font-size-large);
+    }
+
+    .court-name {
+        display: grid;
+        justify-items: center;
+        font-size: 3rem;
     }
 
     .prev-rating {

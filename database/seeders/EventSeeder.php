@@ -3,6 +3,7 @@
 namespace Database\Seeders;
 
 use App\Enums\Result;
+use App\Models\Court;
 use App\Models\Event;
 use App\Models\Game;
 use App\Models\Player;
@@ -19,7 +20,15 @@ class EventSeeder extends Seeder
         $players = Player::factory()->count(25)->create();
 
         foreach ($events as $event) {
-            $playerCount = fake()->numberBetween($event->court_count * 4, 18);
+            $courtCount = fake()->numberBetween(1, 4);
+
+            $courts = [];
+            for ($i = 0; $i < $courtCount; $i++) {
+                $courts[] = new Court;
+            }
+            $event->courts()->saveMany($courts);
+
+            $playerCount = fake()->numberBetween($courtCount * 4, 18);
             $eventPlayers = $players->shuffle()->take($playerCount);
 
             foreach ($eventPlayers as $player) {
@@ -37,7 +46,7 @@ class EventSeeder extends Seeder
             for ($round = 0; $round < $rounds; $round++) {
                 $playersRandomOrder = $eventPlayers->shuffle();
 
-                for ($court = 0; $court < $event->court_count; $court++) {
+                for ($court = 0; $court < $courtCount; $court++) {
                     $gamePlayers = $playersRandomOrder->skip($court * 4)->take(4);
 
                     /** @var Game $game */

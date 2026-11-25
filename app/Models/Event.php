@@ -13,11 +13,12 @@ use Illuminate\Support\Carbon;
 /**
  * @property int $id
  * @property Carbon $starts_at
- * @property int $court_count
  * @property int|null $game_points
  * @property Carbon|null $ended_at
  * @property Carbon|null $created_at
  * @property Carbon|null $updated_at
+ * @property-read Collection<int, Court> $courts
+ * @property-read int|null $courts_count
  * @property-read Collection<int, Game> $games
  * @property-read int|null $games_count
  * @property-read EventPlayer|null $pivot
@@ -45,7 +46,6 @@ class Event extends Model
 
     protected $fillable = [
         'starts_at',
-        'court_count',
         'game_points',
     ];
 
@@ -55,6 +55,14 @@ class Event extends Model
     public function games(): HasMany
     {
         return $this->hasMany(Game::class);
+    }
+
+    /**
+     * @return HasMany<Court, $this>
+     */
+    public function courts(): HasMany
+    {
+        return $this->hasMany(Court::class)->orderBy('id');
     }
 
     /**

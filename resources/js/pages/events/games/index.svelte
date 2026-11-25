@@ -107,8 +107,14 @@
             <p>No games yet</p>
         {/if}
 
-        {#each games as game (game.id)}
-            <GameCard {game} {event} {getEventRatingChange} {showRatings} />
+        {#each games as game, index (game.id)}
+            <GameCard
+                {game}
+                {event}
+                {getEventRatingChange}
+                {showRatings}
+                courtName={event?.courts?.[index]?.name ?? null}
+            />
         {/each}
     </div>
 
