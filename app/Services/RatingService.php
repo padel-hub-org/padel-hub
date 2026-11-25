@@ -7,7 +7,6 @@ use App\Models\Event;
 use App\Models\EventPlayer;
 use App\Models\Game;
 use App\Models\Player;
-use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Support\Facades\DB;
 
 class RatingService
@@ -28,16 +27,16 @@ class RatingService
             return $this;
         }
 
-        $currentRating = 1500 - (round($this->event->players()->count() / 2)) * 5;
+        $playersGroupedByRating = $this->event->players()->orderBy('rating')->get()->groupBy('rating');
+        $currentRating = 1500 - (floor($playersGroupedByRating->count() / 2)) * 5;
 
-        /** @var Collection<int, EventPlayer> $players */
-        $players = $this->event->players()->orderBy('rating')->get();
-
-        foreach ($players as $player) {
-            $this->event->players()->updateExistingPivot($player->id, [
-                'start_rating' => $currentRating,
-                'event_rating' => $currentRating,
-            ]);
+        foreach ($playersGroupedByRating as $ratingGroup) {
+            foreach ($ratingGroup as $player) {
+                $this->event->players()->updateExistingPivot($player->id, [
+                    'start_rating' => $currentRating,
+                    'event_rating' => $currentRating,
+                ]);
+            }
 
             $currentRating += 5;
         }

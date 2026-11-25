@@ -164,6 +164,7 @@ class RoundService
             ->wherePivot('disabled_at', null)
             ->whereNotIn('players.id', $pausePlayers)
             ->orderByPivot('event_rating', 'desc')
+            ->inRandomOrder()
             ->get();
     }
 
